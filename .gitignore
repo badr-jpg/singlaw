@@ -1,0 +1,31 @@
+# python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# node
+node_modules/
+frontend/dist/
+
+# runtime data (seed archive stays checked in)
+data/qdrant/
+data/db/
+data/cache/
+data/models/
+data/uploads/
+data/*.log
+*.sqlite3
+*.sqlite3-*
+*.lock.d
+
+# generated
+eval/results.json
+
+# env
+.env
+
+# os
+.DS_Store

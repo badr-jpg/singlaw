@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+/*
+ * SG Law Assistant design system.
+ *
+ * One light theme, tuned for information-dense but calm legal reference UI:
+ *  - "ink"    deep navy — brand, interactive elements, body text at 950
+ *  - "paper"  warm neutral — surfaces, borders, secondary text
+ *  - "accent" restrained bronze — small highlights only (eyebrows, markers)
+ *  - semantic scales: positive / caution / danger / scope (user documents)
+ * Serif is reserved for provision & answer prose; sans for all chrome.
+ */
+@theme {
+  --font-serif: Charter, "Iowan Old Style", Georgia, Cambria, "Times New Roman", serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+
+  /* Ink — primary deep navy */
+  --color-ink-50: #f3f6fa;
+  --color-ink-100: #e6ecf4;
+  --color-ink-200: #c9d6e8;
+  --color-ink-300: #9fb4d2;
+  --color-ink-400: #6e8cb4;
+  --color-ink-500: #4d6e99;
+  --color-ink-600: #3b587f;
+  --color-ink-700: #314968;
+  --color-ink-800: #293c55;
+  --color-ink-900: #1d2c40;
+  --color-ink-950: #131e2e;
+
+  /* Paper — warm neutral surfaces and borders */
+  --color-paper-25: #fdfcfb;
+  --color-paper-50: #faf9f6;
+  --color-paper-100: #f4f2ec;
+  --color-paper-200: #e8e4da;
+  --color-paper-300: #d6d0c2;
+  --color-paper-400: #b3ac9b;
+  --color-paper-500: #8f8877;
+  --color-paper-600: #6f6a5c;
+  --color-paper-700: #57534a;
+  --color-paper-800: #423f38;
+  --color-paper-900: #2b2925;
+
+  /* Accent — restrained bronze, used sparingly */
+  --color-accent-50: #faf6ec;
+  --color-accent-100: #f3ecd8;
+  --color-accent-200: #e4d5ab;
+  --color-accent-300: #d0b979;
+  --color-accent-400: #b89b50;
+  --color-accent-500: #a08337;
+  --color-accent-600: #83682c;
+  --color-accent-700: #665023;
+  --color-accent-800: #4d3d1e;
+  --color-accent-900: #382c17;
+
+  /* Semantic: positive (in force / success) */
+  --color-positive-50: #ecfdf5;
+  --color-positive-100: #d1fae5;
+  --color-positive-200: #a7f3d0;
+  --color-positive-300: #6ee7b7;
+  --color-positive-400: #34d399;
+  --color-positive-500: #10b981;
+  --color-positive-600: #059669;
+  --color-positive-700: #047857;
+  --color-positive-800: #065f46;
+  --color-positive-900: #064e3b;
+
+  /* Semantic: caution (amended / low confidence / not-in-force) */
+  --color-caution-50: #fffbeb;
+  --color-caution-100: #fef3c7;
+  --color-caution-200: #fde68a;
+  --color-caution-300: #fcd34d;
+  --color-caution-400: #fbbf24;
+  --color-caution-500: #f59e0b;
+  --color-caution-600: #d97706;
+  --color-caution-700: #b45309;
+  --color-caution-800: #92400e;
+  --color-caution-900: #78350f;
+
+  /* Semantic: danger (repealed / overruled / errors) */
+  --color-danger-50: #fef2f2;
+  --color-danger-100: #fee2e2;
+  --color-danger-200: #fecaca;
+  --color-danger-300: #fca5a5;
+  --color-danger-400: #f87171;
+  --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626;
+  --color-danger-700: #b91c1c;
+  --color-danger-800: #991b1b;
+  --color-danger-900: #7f1d1d;
+
+  /* Semantic: scope (user documents — never legal authority) */
+  --color-scope-50: #f5f3ff;
+  --color-scope-100: #ede9fe;
+  --color-scope-200: #ddd6fe;
+  --color-scope-300: #c4b5fd;
+  --color-scope-400: #a78bfa;
+  --color-scope-500: #8b5cf6;
+  --color-scope-600: #7c3aed;
+  --color-scope-700: #6d28d9;
+  --color-scope-800: #5b21b6;
+  --color-scope-900: #4c1d95;
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgb(19 30 46 / 0.05), 0 1px 3px rgb(19 30 46 / 0.08);
+  --shadow-panel: 0 8px 24px rgb(19 30 46 / 0.14), 0 2px 6px rgb(19 30 46 / 0.08);
+  --shadow-pop: 0 4px 12px rgb(19 30 46 / 0.12), 0 1px 3px rgb(19 30 46 / 0.08);
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-paper-50);
+    color: var(--color-ink-950);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Visible, consistent focus everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--color-ink-500);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-ink-100);
+  }
+}
+
+@layer components {
+  /* Button recipes — one primary, one quiet, one dangerous-quiet. */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-md bg-ink-900 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-ink-700 disabled:pointer-events-none disabled:opacity-40;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-md border border-paper-300 bg-white px-4 py-2 text-sm font-semibold text-ink-800 transition-colors hover:border-ink-300 hover:bg-ink-50 disabled:pointer-events-none disabled:opacity-40;
+  }
+  .btn-danger-quiet {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-md border border-danger-300 bg-danger-50 px-4 py-2 text-sm font-semibold text-danger-800 transition-colors hover:bg-danger-100 disabled:pointer-events-none disabled:opacity-40;
+  }
+
+  /* Input recipe. */
+  .input-base {
+    @apply rounded-md border border-paper-300 bg-white px-2.5 py-1.5 text-sm text-ink-950 placeholder:text-paper-500;
+  }
+  .input-base:focus-visible {
+    outline: none;
+    border-color: var(--color-ink-500);
+    box-shadow: 0 0 0 3px var(--color-ink-100);
+  }
+
+  /* Metadata chip used across status rows / badges. */
+  .meta-chip {
+    @apply inline-flex items-center gap-1 rounded-sm border px-1.5 py-0.5 text-[11px] leading-4 font-medium whitespace-nowrap;
+  }
+}
+
+/* Blinking caret shown while an answer streams. */
+@keyframes sg-caret-blink {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0;
+  }
+}
+.streaming-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background-color: var(--color-ink-600);
+  animation: sg-caret-blink 1s steps(1) infinite;
+}

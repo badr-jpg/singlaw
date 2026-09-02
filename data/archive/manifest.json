@@ -1,0 +1,13 @@
+{
+  "note": "Dev seed corpus: abbreviated, adapted fixtures in SSO/judiciary format. NOT the real corpus — run the SSO sync (05:00–07:00 SGT) or point --seed-from-archive at a real pre-fetched archive with this same manifest layout.",
+  "documents": [
+    {"path": "acts/employment_act.html", "kind": "legislation", "source_url": "https://sso.agc.gov.sg/Act/EmA1968"},
+    {"path": "acts/pdpa_plain.html", "kind": "legislation", "source_url": "https://sso.agc.gov.sg/Act/PDPA2012"},
+    {"path": "acts/repealed_act.html", "kind": "legislation", "source_url": "https://sso.agc.gov.sg/Act/IA1921"},
+    {"path": "sl/employment_parttime_regs.html", "kind": "legislation", "doc_type": "subsidiary_legislation", "source_url": "https://sso.agc.gov.sg/SL/EmA1968-RG1"},
+    {"path": "judgments/judgment_sghc_2015.html", "kind": "judgment", "source_url": "https://www.judiciary.gov.sg/judgments/2015-sghc-112"},
+    {"path": "judgments/judgment_sghc_2018.html", "kind": "judgment", "source_url": "https://www.judiciary.gov.sg/judgments/2018-sghc-44"},
+    {"path": "judgments/judgment_sgca_2022.html", "kind": "judgment", "source_url": "https://www.judiciary.gov.sg/judgments/2022-sgca-60"},
+    {"path": "pd/supreme_court_pd_filing.html", "kind": "practice_direction", "title": "Supreme Court Practice Directions 2021 — Part 6: Originating Processes", "source_url": "https://epd2021-supremecourt.judiciary.gov.sg/part-6"}
+  ]
+}

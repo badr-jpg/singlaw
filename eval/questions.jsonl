@@ -1,0 +1,50 @@
+{"id": 1, "category": "provision_lookup", "question": "What does s 14 of the Employment Act 1968 say?", "expected_citations": ["Employment Act 1968, s 14"]}
+{"id": 2, "category": "provision_lookup", "question": "Show me section 13 of the Personal Data Protection Act 2012", "expected_citations": ["Personal Data Protection Act 2012, s 13"]}
+{"id": 3, "category": "provision_lookup", "question": "What is s 16 of the Personal Data Protection Act 2012 about?", "expected_citations": ["Personal Data Protection Act 2012, s 16"]}
+{"id": 4, "category": "provision_lookup", "question": "Employment Act 1968 section 2 definition of employee", "expected_citations": ["Employment Act 1968, s 2"]}
+{"id": 5, "category": "provision_lookup", "question": "What did the Court of Appeal decide in [2022] SGCA 60?", "expected_citations": ["[2022] SGCA 60"]}
+{"id": 6, "category": "provision_lookup", "question": "Summarise the holding in [2015] SGHC 112", "expected_citations": ["[2015] SGHC 112"]}
+{"id": 7, "category": "provision_lookup", "question": "What does regulation 4 of the Employment (Part-Time Employees) Regulations provide?", "expected_citations": ["Employment (Part-Time Employees) Regulations, s 4"]}
+{"id": 8, "category": "provision_lookup", "question": "What is the short title provision of the Employment Act 1968?", "expected_citations": ["Employment Act 1968, s 1"]}
+{"id": 9, "category": "provision_lookup", "question": "Cite the provision on withdrawal of consent under the PDPA", "expected_citations": ["Personal Data Protection Act 2012, s 16"]}
+{"id": 10, "category": "provision_lookup", "question": "What happened in Chua Beng Huat v Metro Retail Pte Ltd [2018] SGHC 44?", "expected_citations": ["[2018] SGHC 44"]}
+{"id": 11, "category": "lay_vocab", "question": "My boss fired me on the spot without any hearing — is that allowed?", "expected_citations": ["Employment Act 1968, s 14"]}
+{"id": 12, "category": "lay_vocab", "question": "Can my company sack me for misconduct without investigating first?", "expected_citations": ["Employment Act 1968, s 14"]}
+{"id": 13, "category": "lay_vocab", "question": "A shop signed me up for marketing emails without asking. Is that legal?", "expected_citations": ["Personal Data Protection Act 2012, s 13"]}
+{"id": 14, "category": "lay_vocab", "question": "How do I stop a company from using my personal information?", "expected_citations": ["Personal Data Protection Act 2012, s 16"]}
+{"id": 15, "category": "lay_vocab", "question": "I work 20 hours a week — do I still get annual leave?", "expected_citations": ["Employment (Part-Time Employees) Regulations, s 4"]}
+{"id": 16, "category": "lay_vocab", "question": "Does a part-timer get paid for public holidays?", "expected_citations": ["Employment (Part-Time Employees) Regulations, s 5"]}
+{"id": 17, "category": "lay_vocab", "question": "I was suspended without pay while my company investigates me. Can they do that?", "expected_citations": ["Employment Act 1968, s 14"]}
+{"id": 18, "category": "lay_vocab", "question": "My employer let me go with one month's pay instead of notice — can I sue?", "expected_citations": ["[2018] SGHC 44"]}
+{"id": 19, "category": "lay_vocab", "question": "Who counts as an employee under Singapore employment law?", "expected_citations": ["Employment Act 1968, s 2"]}
+{"id": 20, "category": "lay_vocab", "question": "What deadline do I have to file proof that I served court papers?", "expected_citations": ["Supreme Court Practice Directions 2021"]}
+{"id": 21, "category": "multi_hop", "question": "What are a part-time employee's leave rights, under both the Act and its regulations?", "expected_citations": ["Employment Act 1968", "Employment (Part-Time Employees) Regulations"]}
+{"id": 22, "category": "multi_hop", "question": "Must an employer hold an inquiry before dismissal for misconduct, and what has the Court of Appeal said about it?", "expected_citations": ["Employment Act 1968, s 14", "[2022] SGCA 60"]}
+{"id": 23, "category": "multi_hop", "question": "Is the older High Court authority that no inquiry is needed before dismissal still good law?", "expected_citations": ["[2015] SGHC 112", "[2022] SGCA 60"]}
+{"id": 24, "category": "multi_hop", "question": "How does termination with contractual notice differ from summary dismissal for misconduct in the case law?", "expected_citations": ["[2018] SGHC 44", "Employment Act 1968, s 14"]}
+{"id": 25, "category": "multi_hop", "question": "What consent rules apply when an organisation collects personal data, and can consent be taken back later?", "expected_citations": ["Personal Data Protection Act 2012, s 13", "Personal Data Protection Act 2012, s 16"]}
+{"id": 26, "category": "multi_hop", "question": "Which court decisions have considered s 14 of the Employment Act 1968?", "expected_citations": ["[2022] SGCA 60"]}
+{"id": 27, "category": "multi_hop", "question": "What procedural steps and timelines apply to serving an originating claim?", "expected_citations": ["Supreme Court Practice Directions 2021"]}
+{"id": 28, "category": "multi_hop", "question": "An employer suspended an employee on half pay pending inquiry then dismissed him — which provisions and cases govern each step?", "expected_citations": ["Employment Act 1968, s 14", "[2022] SGCA 60"]}
+{"id": 29, "category": "multi_hop", "question": "Compare the definition of employee in the Employment Act with the part-time employee definition in the Regulations", "expected_citations": ["Employment Act 1968, s 2", "Employment (Part-Time Employees) Regulations, s 2"]}
+{"id": 30, "category": "multi_hop", "question": "If a dismissed employee wants to claim wrongful dismissal, what statute applies and what did the Court of Appeal hold about due inquiry?", "expected_citations": ["Employment Act 1968, s 14", "[2022] SGCA 60"]}
+{"id": 31, "category": "temporal", "question": "What was the law on an innkeeper's liability for guests' goods in 2019?", "expected_citations": ["Innkeepers Act 1921"], "expect_repealed_included": true}
+{"id": 32, "category": "temporal", "question": "Was an innkeeper's liability capped before the Innkeepers Act was repealed?", "expected_citations": ["Innkeepers Act 1921, s 2"], "expect_repealed_included": true}
+{"id": 33, "category": "temporal", "question": "Is the Innkeepers Act 1921 still in force?", "expected_citations": ["Innkeepers Act 1921"], "expect_repealed_included": true}
+{"id": 34, "category": "temporal", "question": "As at 2016, did an employer need to hold an inquiry before dismissing for misconduct?", "expected_citations": ["Employment Act 1968, s 14"]}
+{"id": 35, "category": "temporal", "question": "What did the case law say in 2016 about formal inquiries before dismissal?", "expected_citations": ["[2015] SGHC 112"]}
+{"id": 36, "category": "temporal", "question": "When did the Personal Data Protection Act 2012 commence?", "expected_citations": ["Personal Data Protection Act 2012"]}
+{"id": 37, "category": "temporal", "question": "What repealed the Innkeepers Act 1921?", "expected_citations": ["Innkeepers Act 1921"], "expect_repealed_included": true}
+{"id": 38, "category": "temporal", "question": "Which is the current authority on due inquiry: the 2015 High Court case or the 2022 Court of Appeal case?", "expected_citations": ["[2022] SGCA 60"]}
+{"id": 39, "category": "temporal", "question": "Has the position in [2015] SGHC 112 been overruled?", "expected_citations": ["[2015] SGHC 112", "[2022] SGCA 60"]}
+{"id": 40, "category": "temporal", "question": "What was the law on hotel liability for stolen luggage back in 2010?", "expected_citations": ["Innkeepers Act 1921"], "expect_repealed_included": true}
+{"id": 41, "category": "out_of_scope", "question": "What is the minimum wage under Malaysian employment law?", "expect_refusal": true}
+{"id": 42, "category": "out_of_scope", "question": "Can you draft a letter of demand to my landlord for my deposit?", "expect_refusal": true}
+{"id": 43, "category": "out_of_scope", "question": "Write an affidavit I can file in court tomorrow", "expect_refusal": true}
+{"id": 44, "category": "out_of_scope", "question": "How do I appeal a UK parking fine?", "expect_refusal": true}
+{"id": 45, "category": "out_of_scope", "question": "What's a good recipe for chicken rice?", "expect_refusal": true}
+{"id": 46, "category": "out_of_scope", "question": "Which US visa should I apply for to work in California?", "expect_refusal": true}
+{"id": 47, "category": "out_of_scope", "question": "Draft a statement of claim against my employer for unfair dismissal", "expect_refusal": true}
+{"id": 48, "category": "out_of_scope", "question": "Tell me the winning numbers for next week's Toto", "expect_refusal": true}
+{"id": 49, "category": "out_of_scope", "question": "How is alimony calculated under Indian divorce law?", "expect_refusal": true}
+{"id": 50, "category": "out_of_scope", "question": "Prepare the defence I should file in the magistrate's court", "expect_refusal": true}
