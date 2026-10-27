@@ -11,7 +11,8 @@ router = APIRouter(tags=["chat"])
 async def chat(req: ChatRequest, request: Request) -> StreamingResponse:
     ctx = request.app.state.ctx
     return StreamingResponse(
-        chat_stream(ctx, req.message, req.conversation_id, req.doc_ids),
+        chat_stream(ctx, req.message, req.conversation_id, req.doc_ids,
+                    business_id=req.business_id, regenerate=req.regenerate),
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )

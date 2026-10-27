@@ -41,6 +41,14 @@ class Settings(BaseSettings):
     minimax_api_key: str = ""
     llm_base_url: str = "https://api.minimax.io/v1"
     llm_model: str = "MiniMax-M2.7"  # verified against /v1/models 2026-08-12
+    # analysis / rewriting / HyDE / document-context calls: a faster variant than the
+    # answer model (MiniMax lists -highspeed siblings in /v1/models). Falls back to llm_model.
+    llm_fast_model: str = "MiniMax-M2.7-highspeed"
+    # total wall-clock budget for the pre-retrieval LLM calls (analysis, rewrites,
+    # HyDE), measured from question arrival. Past it, analysis falls back to the
+    # instant heuristics and whatever enrichment has arrived is used; the late
+    # calls still finish in the background to warm the per-question cache.
+    llm_prestage_budget_seconds: float = 15.0
     llm_timeout_seconds: float = 120.0
 
     # --- SSO crawler ---
@@ -70,6 +78,16 @@ class Settings(BaseSettings):
 
     # --- storage ---
     user_id: str = "local"  # single local user in v1; schema is multi-user ready
+
+    # --- workspaces / editorial content ---
+    max_businesses: int = 0  # operator ceiling on workspaces; 0 = follow the active plan
+    content_dir: Path = ROOT / "data" / "content"  # suggestions.json / discoveries.json
+
+    # --- billing (optional; unset → /api/billing/checkout answers 503, UI offers waitlist) ---
+    stripe_secret_key: str = ""
+    stripe_price_ids: str = ""  # JSON: {"business:monthly": "price_…", "business:yearly": "price_…"}
+    stripe_webhook_secret: str = ""  # whsec_…; when set, /api/billing/webhook verifies signatures
+    public_base_url: str = "http://localhost:8000"  # Checkout success/cancel redirect origin
 
     @property
     def qdrant_path(self) -> Path:

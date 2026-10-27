@@ -6,15 +6,18 @@ A post-stream grounding validator flags any material the sources don't back.
 """
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import re
+import time
 from collections.abc import AsyncIterator
 from datetime import date
 
 from app.context import AppContext
+from app.db import new_id
 from app.llm import LLMUnavailable
-from app.retrieval import analyze_query, retrieve
+from app.retrieval import analyze_heuristic, analyze_query, retrieve, rewrite_and_hyde
 from app.schemas import (
     AGC_ATTRIBUTION,
     LEGAL_INFO_DISCLAIMER,
@@ -203,11 +206,14 @@ def sse(event: str, data: dict) -> str:
 
 async def chat_stream(
     ctx: AppContext, message: str, conversation_id: str | None,
-    doc_ids: list[str] | None,
+    doc_ids: list[str] | None, business_id: str | None = None,
+    regenerate: bool = False,
 ) -> AsyncIterator[str]:
     """The full /api/chat pipeline as an SSE stream."""
     try:
-        async for frame in _chat_stream_inner(ctx, message, conversation_id, doc_ids):
+        async for frame in _chat_stream_inner(
+                ctx, message, conversation_id, doc_ids,
+                business_id=business_id, regenerate=regenerate):
             yield frame
     except Exception:
         log.exception("chat stream failed")
@@ -215,24 +221,96 @@ async def chat_stream(
                                        "Your message was saved; please retry."})
 
 
+_DEFAULT_TITLE = "New conversation"  # db default; replaced by the first message
+
+
+def _title_for(message: str) -> str:
+    return (message[:57] + "…") if len(message) > 58 else message
+
+
 async def _chat_stream_inner(
     ctx: AppContext, message: str, conversation_id: str | None,
-    doc_ids: list[str] | None,
+    doc_ids: list[str] | None, business_id: str | None = None,
+    regenerate: bool = False,
 ) -> AsyncIterator[str]:
     db = ctx.db
-    if conversation_id is None or not await db.get_conversation(conversation_id):
-        conversation_id = await db.create_conversation(
-            title=(message[:57] + "…") if len(message) > 58 else message)
-    await db.add_message(conversation_id, "user", message)
+    business_id = business_id or None
+    explicit_doc_ids = list(doc_ids or [])  # the user's own attachments, pre business merge
 
-    analysis = await analyze_query(ctx, message)
+    # -- v2: business workspace → its documents + profile as factual context --
+    user_context = ""
+    if business_id:
+        business = await db.get_business(business_id)
+        if not business:
+            yield sse("error", {"message": f"Business {business_id} not found."})
+            return
+        biz_docs = await db.list_user_documents(ctx.settings.user_id,
+                                                business_id=business_id)
+        doc_ids = list(dict.fromkeys([*(doc_ids or []),
+                                      *(d["id"] for d in biz_docs)]))
+        user_context = (f"The user runs a business: {business['name']}. "
+                        f"{business['description']}").strip()
+
+    # -- v2: regenerate re-answers the last user turn; otherwise record a new one
+    if regenerate:
+        if not conversation_id or not await db.get_conversation(conversation_id):
+            yield sse("error", {"message": "regenerate requires an existing "
+                                           "conversation_id."})
+            return
+        await db.delete_last_assistant_message(conversation_id)
+        last_user = await db.last_user_message(conversation_id)
+        if not last_user:
+            yield sse("error", {"message": "Nothing to regenerate: the "
+                                           "conversation has no user message yet."})
+            return
+        message = last_user["content"]
+    else:
+        if not message.strip():
+            yield sse("error", {"message": "message is required."})
+            return
+        conv = await db.get_conversation(conversation_id) if conversation_id else None
+        if conv is None:
+            conversation_id = await db.create_conversation(title=_title_for(message))
+        elif not conv["messages"] and conv["title"] == _DEFAULT_TITLE:
+            # empty shell from POST /api/conversations: title it like a fresh one
+            await db.rename_conversation(conversation_id, _title_for(message))
+        attachments = []
+        for did in explicit_doc_ids:
+            row = await db.get_user_document(did)
+            if row:
+                attachments.append({"id": did, "filename": row["filename"]})
+        await db.add_message(conversation_id, "user", message,
+                             meta={"doc_ids": explicit_doc_ids, "attachments": attachments,
+                                   "business_id": business_id})
+
+    t_start = time.perf_counter()
+    timings: dict[str, float] = {}
+    # analysis and rewrite/HyDE are independent LLM calls — run them concurrently
+    # under one wall-clock budget; late results are not awaited (but keep running
+    # so they land in the per-question cache)
+    budget = ctx.settings.llm_prestage_budget_seconds
+    deadline = t_start + budget
+    rewrite_task = asyncio.create_task(rewrite_and_hyde(ctx, message))
+    analysis_task = asyncio.create_task(analyze_query(ctx, message))
+    try:
+        analysis = await asyncio.wait_for(asyncio.shield(analysis_task), timeout=budget)
+    except asyncio.TimeoutError:
+        log.warning("query analysis exceeded the %.0fs budget; using heuristics", budget)
+        analysis = analyze_heuristic(message)
+        timings["analysis_timed_out"] = 1
+    except Exception as exc:
+        log.warning("query analysis failed: %s", exc)
+        analysis = analyze_heuristic(message)
+    timings["analysis"] = (time.perf_counter() - t_start) * 1000
     as_at = (analysis.temporal_anchor or date.today()).isoformat()
     high_stakes = detect_high_stakes(message)
     last_sync = await db.kv_get("last_sync") or await db.kv_get("last_seed")
 
+    assistant_mid = new_id()  # known up front so meta and done agree
+
     def meta_event(intent: str, result: RetrievalResult | None) -> dict:
         return {
-            "conversation_id": conversation_id, "message_id": "",
+            "conversation_id": conversation_id, "message_id": assistant_mid,
             "intent": intent,
             "low_confidence": bool(result and result.low_confidence),
             "low_confidence_reasons": result.low_confidence_reasons if result else [],
@@ -243,16 +321,22 @@ async def _chat_stream_inner(
                             "referrals": REFERRALS if high_stakes else []},
             "attribution": AGC_ATTRIBUTION, "disclaimer": LEGAL_INFO_DISCLAIMER,
             "corpus_last_synced": last_sync,
+            "business_id": business_id,
         }
 
     async def finish(intent: str, text: str, sources: list[Source],
                      result: RetrievalResult | None, validation: dict) -> AsyncIterator[str]:
         meta = meta_event(intent, result)
         meta["validation"] = validation
-        mid = await db.add_message(conversation_id, "assistant", text,
+        timings["total"] = (time.perf_counter() - t_start) * 1000
+        rounded = {k: round(v) for k, v in timings.items()}
+        meta["timings_ms"] = rounded
+        log.info("chat timings ms: %s", rounded)
+        mid = await db.add_message(conversation_id, "assistant", text, message_id=assistant_mid,
                                    sources=[s.model_dump() for s in sources], meta=meta)
         yield sse("validation", validation)
-        yield sse("done", {"message_id": mid, "finish_reason": "stop"})
+        yield sse("done", {"message_id": mid, "finish_reason": "stop",
+                           "timings_ms": rounded})
 
     # -- refusal / out-of-scope short paths ------------------------------
     if analysis.wants_drafting:
@@ -278,7 +362,25 @@ async def _chat_stream_inner(
         return
 
     # -- retrieval -------------------------------------------------------
-    result = await retrieve(ctx, message, doc_ids=doc_ids, analysis=analysis)
+    t_wait = time.perf_counter()
+    remaining = max(0.0, deadline - t_wait)
+    try:
+        rewrites, hyde = await asyncio.wait_for(asyncio.shield(rewrite_task), timeout=remaining)
+    except asyncio.TimeoutError:
+        # enrichment, not a dependency: answer on the raw query rather than stall
+        log.warning("rewrite/HyDE missed the %.0fs pre-stage budget; retrieving on the raw query",
+                    budget)
+        rewrites, hyde = [], None
+        timings["rewrite_hyde_timed_out"] = 1
+    except Exception as exc:  # never let a helper call sink the answer
+        log.warning("rewrite/HyDE failed: %s", exc)
+        rewrites, hyde = [], None
+    timings["rewrite_hyde_extra_wait"] = (time.perf_counter() - t_wait) * 1000
+    result = await retrieve(ctx, message, doc_ids=doc_ids, analysis=analysis,
+                            rewrites=rewrites, hyde=hyde)
+    for key, val in result.debug.timings_ms.items():
+        if key not in ("analysis", "rewrite_hyde", "total"):
+            timings[f"retrieval_{key}"] = val
     sources, texts = to_sources(result)
     yield sse("meta", meta_event(analysis.intent, result))
     yield sse("sources", {"sources": [s.model_dump() for s in sources]})
@@ -305,15 +407,22 @@ async def _chat_stream_inner(
         system += _LOW_CONFIDENCE_ADDENDUM.format(
             reasons=", ".join(result.low_confidence_reasons))
     history = await db.message_history(conversation_id, limit=8)
+    user_turn = f"SOURCES:\n\n{_source_block(sources, texts)}\n\n"
+    if user_context:
+        user_turn += ("USER CONTEXT (not legal authority — the user's own description "
+                      "of their situation; use it only to judge which law is relevant):\n"
+                      f"{user_context}\n\n")
+    user_turn += f"QUESTION: {message}"
     msgs = ([{"role": "system", "content": system}]
-            + history[:-1]
-            + [{"role": "user", "content":
-                f"SOURCES:\n\n{_source_block(sources, texts)}\n\n"
-                f"QUESTION: {message}"}])
+            + history[:-1]  # the final entry is the user turn being answered
+            + [{"role": "user", "content": user_turn}])
 
     full: list[str] = []
+    t_gen = time.perf_counter()
     try:
         async for delta in ctx.llm.stream(msgs, max_tokens=8000):
+            if not full:
+                timings["generation_first_token"] = (time.perf_counter() - t_gen) * 1000
             full.append(delta)
             yield sse("token", {"text": delta})
     except LLMUnavailable:
@@ -325,6 +434,7 @@ async def _chat_stream_inner(
         yield sse("error", {"message": f"The generation service failed ({exc}). "
                                        "Retrieved sources are shown above."})
         full.append("")
+    timings["generation"] = (time.perf_counter() - t_gen) * 1000
     text = "".join(full)
     async for f in finish(analysis.intent, text, sources, result,
                           validate_grounding(text, len(sources))):

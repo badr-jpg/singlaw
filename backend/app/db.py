@@ -9,7 +9,7 @@ import fcntl
 import json
 import uuid
 from contextlib import asynccontextmanager
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -53,7 +53,25 @@ CREATE TABLE IF NOT EXISTS crawl_state (
   url TEXT PRIMARY KEY, kind TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'pending',
   last_fetched TEXT, etag TEXT, error TEXT, added_at TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS kv (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+-- v2 (2026-10-07): business workspaces, answer feedback, billing waitlist
+CREATE TABLE IF NOT EXISTS businesses (
+  id TEXT PRIMARY KEY, user_id TEXT NOT NULL, name TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '', icon TEXT NOT NULL DEFAULT 'Building2',
+  created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS message_feedback (
+  message_id TEXT PRIMARY KEY REFERENCES messages(id) ON DELETE CASCADE,
+  rating TEXT NOT NULL, comment TEXT, created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS billing_waitlist (
+  email TEXT NOT NULL, plan_id TEXT NOT NULL, created_at TEXT NOT NULL,
+  PRIMARY KEY (email, plan_id));
 """
+
+# Columns added to pre-existing tables after their first release. Applied
+# idempotently in open(); CREATE TABLE IF NOT EXISTS cannot add columns.
+_MIGRATIONS: list[tuple[str, str, str]] = [
+    # (table, column, ALTER TABLE ... ADD COLUMN clause)
+    ("user_documents", "business_id", "business_id TEXT"),
+]
 
 
 def _now() -> str:
@@ -62,6 +80,9 @@ def _now() -> str:
 
 def _new_id() -> str:
     return uuid.uuid4().hex[:16]
+
+
+new_id = _new_id  # public alias for callers that pre-assign ids
 
 
 class Database:
@@ -79,7 +100,15 @@ class Database:
         await self._conn.execute("PRAGMA foreign_keys=ON")
         await self._conn.execute("PRAGMA busy_timeout=10000")
         await self._conn.executescript(_SCHEMA)
+        await self._migrate()
         await self._conn.commit()
+
+    async def _migrate(self) -> None:
+        """Idempotent column additions, guarded by PRAGMA table_info."""
+        for table, column, clause in _MIGRATIONS:
+            cur = await self.conn.execute(f"PRAGMA table_info({table})")
+            if column not in {r["name"] for r in await cur.fetchall()}:
+                await self.conn.execute(f"ALTER TABLE {table} ADD COLUMN {clause}")
 
     async def close(self) -> None:
         if self._conn:
@@ -129,7 +158,9 @@ class Database:
         if not row:
             return None
         cur = await self.conn.execute(
-            "SELECT * FROM messages WHERE conversation_id=? ORDER BY created_at", (cid,))
+            """SELECT m.*, f.rating AS feedback FROM messages m
+               LEFT JOIN message_feedback f ON f.message_id = m.id
+               WHERE m.conversation_id=? ORDER BY m.created_at""", (cid,))
         msgs = []
         for m in await cur.fetchall():
             d = dict(m)
@@ -153,8 +184,9 @@ class Database:
     async def add_message(
         self, cid: str, role: str, content: str,
         sources: list[dict] | None = None, meta: dict | None = None,
+        message_id: str | None = None,
     ) -> str:
-        mid = _new_id()
+        mid = message_id or _new_id()
         async with self._write() as c:
             await c.execute(
                 "INSERT INTO messages (id, conversation_id, role, content, sources, meta, created_at) "
@@ -172,14 +204,135 @@ class Database:
         rows = [dict(r) for r in await cur.fetchall()]
         return list(reversed(rows))
 
+    async def get_message(self, mid: str) -> dict[str, Any] | None:
+        cur = await self.conn.execute("SELECT * FROM messages WHERE id=?", (mid,))
+        row = await cur.fetchone()
+        return dict(row) if row else None
+
+    async def last_user_message(self, cid: str) -> dict[str, Any] | None:
+        cur = await self.conn.execute(
+            "SELECT * FROM messages WHERE conversation_id=? AND role='user' "
+            "ORDER BY created_at DESC LIMIT 1", (cid,))
+        row = await cur.fetchone()
+        return dict(row) if row else None
+
+    async def delete_last_assistant_message(self, cid: str) -> bool:
+        """Regenerate support: drop the conversation's final message if (and
+        only if) it is an assistant turn. An earlier assistant turn is never
+        touched, so a user message whose answer failed is simply re-answered."""
+        async with self._write() as c:
+            cur = await c.execute(
+                """DELETE FROM messages WHERE role='assistant' AND id = (
+                     SELECT id FROM messages WHERE conversation_id=?
+                     ORDER BY created_at DESC LIMIT 1)""", (cid,))
+            return cur.rowcount > 0
+
+    async def top_user_questions(
+        self, days: int = 30, min_count: int = 3, limit: int = 4,
+    ) -> list[dict[str, Any]]:
+        """Most-asked user questions (identical after trim/lower-case) in the
+        window — feeds /api/content/suggestions."""
+        since = (datetime.now(UTC) - timedelta(days=days)).isoformat()
+        cur = await self.conn.execute(
+            """SELECT content, COUNT(*) AS n FROM messages
+               WHERE role='user' AND created_at >= ?
+                 AND length(trim(content)) BETWEEN 8 AND 200
+               GROUP BY lower(trim(content)) HAVING n >= ?
+               ORDER BY n DESC, MAX(created_at) DESC LIMIT ?""",
+            (since, min_count, limit))
+        return [dict(r) for r in await cur.fetchall()]
+
+    # ---------------- feedback ----------------
+
+    async def upsert_feedback(self, mid: str, rating: str, comment: str | None) -> None:
+        async with self._write() as c:
+            await c.execute(
+                """INSERT INTO message_feedback (message_id, rating, comment, created_at)
+                   VALUES (?,?,?,?)
+                   ON CONFLICT(message_id) DO UPDATE SET rating=excluded.rating,
+                     comment=excluded.comment, created_at=excluded.created_at""",
+                (mid, rating, comment, _now()))
+
+    # ---------------- businesses ----------------
+
+    _BUSINESS_SELECT = """SELECT b.*, COUNT(d.id) AS document_count FROM businesses b
+               LEFT JOIN user_documents d ON d.business_id = b.id"""
+
+    async def create_business(
+        self, user_id: str, name: str, description: str = "", icon: str = "Building2",
+    ) -> str:
+        bid = _new_id()
+        async with self._write() as c:
+            await c.execute(
+                "INSERT INTO businesses (id, user_id, name, description, icon, created_at) "
+                "VALUES (?,?,?,?,?,?)", (bid, user_id, name, description, icon, _now()))
+        return bid
+
+    async def list_businesses(self, user_id: str) -> list[dict[str, Any]]:
+        cur = await self.conn.execute(
+            self._BUSINESS_SELECT + " WHERE b.user_id=? GROUP BY b.id ORDER BY b.created_at",
+            (user_id,))
+        return [dict(r) for r in await cur.fetchall()]
+
+    async def get_business(self, bid: str) -> dict[str, Any] | None:
+        cur = await self.conn.execute(
+            self._BUSINESS_SELECT + " WHERE b.id=? GROUP BY b.id", (bid,))
+        row = await cur.fetchone()
+        return dict(row) if row else None
+
+    async def count_businesses(self, user_id: str) -> int:
+        cur = await self.conn.execute(
+            "SELECT COUNT(*) n FROM businesses WHERE user_id=?", (user_id,))
+        return (await cur.fetchone())["n"]
+
+    async def update_business(self, bid: str, **fields: Any) -> bool:
+        allowed = {k: v for k, v in fields.items()
+                   if k in ("name", "description", "icon") and v is not None}
+        if not allowed:
+            return await self.get_business(bid) is not None
+        sets = ", ".join(f"{k}=?" for k in allowed)
+        async with self._write() as c:
+            cur = await c.execute(
+                f"UPDATE businesses SET {sets} WHERE id=?", (*allowed.values(), bid))
+            return cur.rowcount > 0
+
+    async def delete_business(self, bid: str) -> bool:
+        async with self._write() as c:
+            cur = await c.execute("DELETE FROM businesses WHERE id=?", (bid,))
+            return cur.rowcount > 0
+
+    # ---------------- billing ----------------
+
+    async def usage_counts(self, user_id: str) -> dict[str, int]:
+        cur = await self.conn.execute(
+            """SELECT (SELECT COUNT(*) FROM conversations) AS conversations,
+                      (SELECT COUNT(*) FROM messages) AS messages,
+                      (SELECT COUNT(*) FROM user_documents WHERE user_id=?) AS documents,
+                      (SELECT COUNT(*) FROM businesses WHERE user_id=?) AS businesses""",
+            (user_id, user_id))
+        return dict(await cur.fetchone())
+
+    async def add_waitlist(self, email: str, plan_id: str) -> None:
+        async with self._write() as c:
+            await c.execute(
+                "INSERT OR IGNORE INTO billing_waitlist (email, plan_id, created_at) VALUES (?,?,?)",
+                (email, plan_id, _now()))
+
+    async def waitlist_entries(self) -> list[dict[str, Any]]:
+        cur = await self.conn.execute(
+            "SELECT * FROM billing_waitlist ORDER BY created_at")
+        return [dict(r) for r in await cur.fetchall()]
+
     # ---------------- user documents ----------------
 
-    async def add_user_document(self, user_id: str, filename: str, path: str) -> str:
+    async def add_user_document(
+        self, user_id: str, filename: str, path: str, business_id: str | None = None,
+    ) -> str:
         did = _new_id()
         async with self._write() as c:
             await c.execute(
-                "INSERT INTO user_documents (id, user_id, filename, path, created_at) "
-                "VALUES (?,?,?,?,?)", (did, user_id, filename, path, _now()))
+                "INSERT INTO user_documents (id, user_id, filename, path, business_id, created_at) "
+                "VALUES (?,?,?,?,?,?)", (did, user_id, filename, path, business_id, _now()))
         return did
 
     async def set_document_path(self, did: str, path: str) -> None:
@@ -195,10 +348,16 @@ class Database:
                 "UPDATE user_documents SET status=?, chunk_count=COALESCE(?, chunk_count), error=? WHERE id=?",
                 (status, chunk_count, error, did))
 
-    async def list_user_documents(self, user_id: str) -> list[dict[str, Any]]:
-        cur = await self.conn.execute(
-            "SELECT * FROM user_documents WHERE user_id=? ORDER BY created_at DESC",
-            (user_id,))
+    async def list_user_documents(
+        self, user_id: str, business_id: str | None = None,
+    ) -> list[dict[str, Any]]:
+        """All of the user's documents, or only those of one business."""
+        sql = "SELECT * FROM user_documents WHERE user_id=?"
+        args: list[Any] = [user_id]
+        if business_id is not None:
+            sql += " AND business_id=?"
+            args.append(business_id)
+        cur = await self.conn.execute(sql + " ORDER BY created_at DESC", args)
         return [dict(r) for r in await cur.fetchall()]
 
     async def get_user_document(self, did: str) -> dict[str, Any] | None:

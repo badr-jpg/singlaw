@@ -1,0 +1,15 @@
+{
+  "_note": "Starter chips per mode. Every question is answerable from the seed corpus (Employment Act s 14, Part-Time Employees Regulations, PDPA ss 13/16, Supreme Court PD 2021 Part 6). /api/content/suggestions merges these with the most-asked real user questions.",
+  "personal": [
+    {"label": "Unfair dismissal", "text": "Can my employer dismiss me for misconduct without holding an inquiry first?"},
+    {"label": "Suspension pay", "text": "Can my employer suspend me without pay while investigating alleged misconduct?"},
+    {"label": "Claim deadline", "text": "How long do I have to make a wrongful dismissal claim after being dismissed?"},
+    {"label": "Data consent", "text": "Can I withdraw the consent I gave a company to use my personal data?"}
+  ],
+  "business": [
+    {"label": "Dismissing staff", "text": "What must an employer do before dismissing an employee for misconduct?"},
+    {"label": "Part-time staff", "text": "How do I work out annual leave and public holiday pay for part-time employees?"},
+    {"label": "Customer data", "text": "When do I need a customer's consent to collect or use their personal data?"},
+    {"label": "Court timelines", "text": "After serving an originating claim, when must I file proof of service?"}
+  ]
+}

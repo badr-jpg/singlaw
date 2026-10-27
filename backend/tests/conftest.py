@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import httpx
 import pytest
 
 from app.config import Settings
@@ -7,6 +8,7 @@ from app.context import AppContext, shutdown_context
 from app.db import Database
 from app.ingest.pipeline import seed_from_archive
 from app.llm import NullProvider
+from app.main import create_app
 from app.ml import ModelRegistry
 from app.vectorstore import VectorStore
 
@@ -29,3 +31,14 @@ async def ctx(tmp_path_factory) -> AppContext:
     await seed_from_archive(ctx, ARCHIVE)
     yield ctx
     await shutdown_context(ctx)
+
+
+@pytest.fixture(scope="session")
+async def client(ctx):
+    """httpx client over the ASGI app, bypassing lifespan (ctx already built)."""
+    app = create_app()
+    app.state.ctx = ctx
+    transport = httpx.ASGITransport(app=app)
+    async with httpx.AsyncClient(transport=transport,
+                                 base_url="http://test") as c:
+        yield c

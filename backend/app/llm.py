@@ -23,7 +23,8 @@ class LLMProvider(Protocol):
     configured: bool
 
     async def complete(self, messages: list[dict[str, str]], *,
-                       max_tokens: int = 1024, temperature: float = 0.2) -> str: ...
+                       max_tokens: int = 1024, temperature: float = 0.2,
+                       model: str | None = None) -> str: ...
 
     def stream(self, messages: list[dict[str, str]], *,
                max_tokens: int = 2048, temperature: float = 0.2,
@@ -105,11 +106,12 @@ class OpenAICompatProvider:
         self._client = AsyncOpenAI(api_key=api_key or "unset", base_url=base_url,
                                    timeout=timeout)
 
-    async def complete(self, messages, *, max_tokens=1024, temperature=0.2) -> str:
+    async def complete(self, messages, *, max_tokens=1024, temperature=0.2,
+                       model: str | None = None) -> str:
         if not self.configured:
             raise LLMUnavailable("No LLM API key configured")
         resp = await self._client.chat.completions.create(
-            model=self.model, messages=messages,
+            model=model or self.model, messages=messages,
             max_tokens=max_tokens, temperature=temperature)
         return strip_think(resp.choices[0].message.content or "")
 
@@ -134,7 +136,7 @@ class NullProvider:
     name = "none"
     configured = False
 
-    async def complete(self, messages, *, max_tokens=1024, temperature=0.2) -> str:
+    async def complete(self, messages, **kw) -> str:
         raise LLMUnavailable("No LLM configured")
 
     async def stream(self, messages, *, max_tokens=2048, temperature=0.2):

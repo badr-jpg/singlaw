@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Request, Response
 
-from app.schemas import RenameRequest
+from app.schemas import CreateConversationRequest, RenameRequest
 
 router = APIRouter(tags=["conversations"])
 
@@ -8,6 +8,17 @@ router = APIRouter(tags=["conversations"])
 @router.get("/conversations")
 async def list_conversations(request: Request):
     return await request.app.state.ctx.db.list_conversations()
+
+
+@router.post("/conversations", status_code=201)
+async def create_conversation(req: CreateConversationRequest, request: Request):
+    """Create an empty conversation; the UI navigates to it and then streams."""
+    db = request.app.state.ctx.db
+    title = (req.title or "").strip()[:120] or "New conversation"
+    cid = await db.create_conversation(title=title)
+    conv = await db.get_conversation(cid)
+    return {k: conv[k] for k in ("id", "title", "created_at", "updated_at")} | {
+        "message_count": 0}
 
 
 @router.get("/conversations/{cid}")

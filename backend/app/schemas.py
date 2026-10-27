@@ -1,10 +1,11 @@
 """Shared data models: chunk metadata (spec §2.4), API shapes, SSE payloads."""
 from __future__ import annotations
 
+import re
 from datetime import date
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 DocType = Literal[
     "act",
@@ -171,9 +172,11 @@ class RetrievalResult(BaseModel):
 # ---- API request/response ----
 
 class ChatRequest(BaseModel):
-    message: str
+    message: str = ""  # may be blank when regenerate=True (it is ignored then)
     conversation_id: str | None = None
     doc_ids: list[str] | None = None
+    business_id: str | None = None  # v2: scope to a business workspace
+    regenerate: bool = False        # v2: re-answer the last user turn
 
 
 class SearchRequest(BaseModel):
@@ -181,6 +184,7 @@ class SearchRequest(BaseModel):
     top_k: int = 20
     include_debug: bool = False
     doc_ids: list[str] | None = None
+    business_id: str | None = None
 
 
 class RenameRequest(BaseModel):
@@ -189,3 +193,48 @@ class RenameRequest(BaseModel):
 
 class SyncRequest(BaseModel):
     force: bool = False
+
+
+# ---- v2 (SingLaw UI addendum, 2026-10-07) ----
+
+class CreateConversationRequest(BaseModel):
+    title: str | None = None
+
+
+class BusinessCreate(BaseModel):
+    name: str = Field(min_length=1, max_length=80)
+    description: str = Field(default="", max_length=2000)
+    icon: str = Field(default="Building2", max_length=40)
+
+
+class BusinessUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=1, max_length=80)
+    description: str | None = Field(default=None, max_length=2000)
+    icon: str | None = Field(default=None, max_length=40)
+
+
+class FeedbackRequest(BaseModel):
+    message_id: str
+    rating: Literal["up", "down"]
+    comment: str | None = Field(default=None, max_length=2000)
+
+
+class CheckoutRequest(BaseModel):
+    plan_id: str
+    interval: Literal["monthly", "yearly"] = "monthly"
+
+
+_EMAIL_RX = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]{2,}$")
+
+
+class WaitlistRequest(BaseModel):
+    email: str = Field(max_length=254)
+    plan_id: str
+
+    @field_validator("email")
+    @classmethod
+    def _valid_email(cls, v: str) -> str:
+        v = v.strip()
+        if not _EMAIL_RX.match(v):
+            raise ValueError("invalid email address")
+        return v.lower()

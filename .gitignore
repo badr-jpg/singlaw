@@ -29,3 +29,6 @@ eval/results.json
 
 # os
 .DS_Store
+
+# frontend agent build checks
+frontend/dist-check-*/

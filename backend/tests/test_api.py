@@ -1,21 +1,7 @@
 import asyncio
 import urllib.parse
 
-import httpx
-import pytest
-
 from app.crawler import window_from_settings
-from app.main import create_app
-
-
-@pytest.fixture(scope="session")
-async def client(ctx):
-    app = create_app()
-    app.state.ctx = ctx  # bypass lifespan; session ctx already built on stubs
-    transport = httpx.ASGITransport(app=app)
-    async with httpx.AsyncClient(transport=transport,
-                                 base_url="http://test") as c:
-        yield c
 
 
 async def test_health(client):

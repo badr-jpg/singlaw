@@ -1,0 +1,45 @@
+{
+  "_note": "Curated 'did you know' items. Each is grounded in a document in data/archive (url = that document's source_url in manifest.json); `question` is sent to /api/chat so the RAG answers it live with citations.",
+  "discoveries": [
+    {
+      "id": "due-inquiry-before-dismissal",
+      "title": "Dismissal for misconduct needs a 'due inquiry' first",
+      "body": "Section 14(1) of the Employment Act 1968 lets an employer dismiss an employee without notice for misconduct only after due inquiry. In Tan Ah Kow v Lim Logistics Pte Ltd [2022] SGCA 60 the Court of Appeal held that this is a mandatory procedural requirement, so a dismissal without due inquiry is wrongful even if the misconduct is later proved.",
+      "question": "Can an employer dismiss an employee for misconduct without holding a due inquiry first?",
+      "citation": "Employment Act 1968, s 14(1); Tan Ah Kow v Lim Logistics Pte Ltd [2022] SGCA 60",
+      "url": "https://sso.agc.gov.sg/Act/EmA1968"
+    },
+    {
+      "id": "wrongful-dismissal-one-month",
+      "title": "Wrongful dismissal claims have a one-month window",
+      "body": "Under section 14(2) of the Employment Act 1968, an employee who considers that they were dismissed without just cause or excuse may make a wrongful dismissal claim under section 13 of the Employment Claims Act 2016. The claim must be made within one month after the dismissal.",
+      "question": "How long after a dismissal can an employee make a wrongful dismissal claim under the Employment Act?",
+      "citation": "Employment Act 1968, s 14(2)",
+      "url": "https://sso.agc.gov.sg/Act/EmA1968"
+    },
+    {
+      "id": "pdpa-withdraw-consent",
+      "title": "Consent under the PDPA can be withdrawn",
+      "body": "Section 16 of the Personal Data Protection Act 2012 lets an individual withdraw, at any time and on reasonable notice, any consent given or deemed given for an organisation to collect, use or disclose their personal data. On receiving the notice, the organisation must inform the individual of the likely consequences of withdrawing consent.",
+      "question": "Can an individual withdraw consent to the collection, use or disclosure of their personal data under the PDPA?",
+      "citation": "Personal Data Protection Act 2012, s 16",
+      "url": "https://sso.agc.gov.sg/Act/PDPA2012"
+    },
+    {
+      "id": "part-time-proportional-leave",
+      "title": "Part-time employees get annual leave in proportion to their hours",
+      "body": "Under the Employment (Part-Time Employees) Regulations, a part-time employee is one contracted to work less than 35 hours a week. After 3 months of service, such an employee is entitled to paid annual leave in proportion to that of a similar full-time employee, calculated from the hours they are required to work using the formula in the Schedule.",
+      "question": "How much paid annual leave is a part-time employee entitled to under the Employment (Part-Time Employees) Regulations?",
+      "citation": "Employment (Part-Time Employees) Regulations, reg 4",
+      "url": "https://sso.agc.gov.sg/SL/EmA1968-RG1"
+    },
+    {
+      "id": "proof-of-service-14-days",
+      "title": "Proof of service must be filed within 14 days",
+      "body": "The Supreme Court Practice Directions 2021 require an originating claim to be served on the defendant within the period of its validity. The claimant must then file proof of service within 14 days after service is effected.",
+      "question": "After serving an originating claim, within how many days must the claimant file proof of service under the Supreme Court Practice Directions?",
+      "citation": "Supreme Court Practice Directions 2021, para 40",
+      "url": "https://epd2021-supremecourt.judiciary.gov.sg/part-6"
+    }
+  ]
+}

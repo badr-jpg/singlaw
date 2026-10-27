@@ -3,6 +3,7 @@ Qdrant, with the corpus registry, citation graph and treatment pass."""
 from __future__ import annotations
 
 import asyncio
+import shutil
 import hashlib
 import logging
 from datetime import UTC, date, datetime
@@ -178,7 +179,7 @@ async def _user_chunk_context(
             {"role": "user", "content":
                 f"Document: {filename}\nDocument opening:\n{doc_head}\n\n"
                 f"Chunk:\n{body[:2000]}\n\nContext:"},
-        ], max_tokens=1500)  # reasoning models think before the short reply
+        ], max_tokens=1500, model=ctx.settings.llm_fast_model or None)
         text = f"{reply.strip()} (From '{filename}', uploaded by the user; " \
                "factual background, not legal authority.)"
         cached.write_text(text)
@@ -242,3 +243,17 @@ async def ingest_user_document(ctx: AppContext, document_id: str) -> None:
     except Exception as exc:
         log.exception("user document ingest failed")
         await ctx.db.set_document_status(document_id, "error", error=str(exc)[:500])
+
+
+async def delete_user_document(ctx: AppContext, document_id: str) -> bool:
+    """Remove a user document everywhere: its Qdrant points, its upload
+    directory and its row. Shared by DELETE /api/documents/{id} and the
+    business-delete cascade."""
+    row = await ctx.db.get_user_document(document_id)
+    if not row:
+        return False
+    await ctx.store.delete_doc(USER_DOCS, f"user-{document_id}")
+    await ctx.db.delete_user_document(document_id)
+    if row.get("path"):
+        shutil.rmtree(Path(row["path"]).parent, ignore_errors=True)
+    return True

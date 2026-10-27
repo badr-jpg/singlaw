@@ -10,6 +10,8 @@ and rewriting/HyDE are skipped.
 from __future__ import annotations
 
 import asyncio
+import hashlib
+import json
 import logging
 import math
 import re
@@ -37,6 +39,24 @@ from app.schemas import (
 from app.vectorstore import SG_LAW, USER_DOCS
 
 log = logging.getLogger(__name__)
+
+
+async def _cached_llm(ctx: AppContext, kind: str, query: str, producer):
+    """Persist helper-call results per normalised question (SQLite kv).
+
+    Analysis, rewrites and HyDE depend only on the question text, and each
+    costs a 5–15 s reasoning-model round-trip — repeated and trending
+    questions should pay that once."""
+    norm = " ".join(query.lower().split())
+    key = "llmcache:" + hashlib.sha256(
+        f"{kind}|{ctx.settings.llm_fast_model}|{norm}".encode()).hexdigest()
+    hit = await ctx.db.kv_get(key)
+    if hit is not None:
+        return json.loads(hit)
+    value = await producer()
+    if value not in (None, [], ""):
+        await ctx.db.kv_set(key, json.dumps(value))
+    return value
 
 # authority_tier → score for the final blend (tunable; logged per result)
 TIER_SCORE = {1: 1.0, 2: 0.92, 3: 0.8, 4: 0.75, 5: 0.55, 6: 0.35}
@@ -108,16 +128,22 @@ async def analyze_query(ctx: AppContext, query: str) -> QueryAnalysis:
     a = analyze_heuristic(query)
     if not ctx.llm.configured:
         return a
+    cached = await _cached_llm(ctx, "analysis", query,
+                               lambda: _analyze_with_llm(ctx, query, a))
+    return QueryAnalysis.model_validate(cached) if isinstance(cached, dict) else a
+
+
+async def _analyze_with_llm(ctx: AppContext, query: str, a: QueryAnalysis) -> dict:
     try:
         reply = await ctx.llm.complete(
             [{"role": "user", "content": _ANALYSIS_PROMPT.format(query=query)}],
-            max_tokens=3000, temperature=0.0)  # room for reasoning-model thinking
+            max_tokens=3000, temperature=0.0, model=ctx.settings.llm_fast_model or None)  # room for reasoning-model thinking
     except Exception as exc:
         log.warning("query analysis LLM call failed, using heuristics: %s", exc)
-        return a
+        return a.model_dump(mode="json")
     data = parse_json_reply(reply)
     if not data:
-        return a
+        return a.model_dump(mode="json")
     if data.get("intent") in ("statutory_lookup", "procedural",
                               "rights_obligations", "case_law", "out_of_scope"):
         a.intent = data["intent"]
@@ -130,7 +156,7 @@ async def analyze_query(ctx: AppContext, query: str) -> QueryAnalysis:
     a.out_of_scope = bool(data.get("out_of_scope"))
     a.out_of_scope_reason = str(data.get("out_of_scope_reason") or "")
     a.wants_drafting = a.wants_drafting or bool(data.get("wants_drafting"))
-    return a
+    return a.model_dump(mode="json")
 
 
 # ---------------------------------------------------------------- stage 2
@@ -184,32 +210,71 @@ async def resolve_citations(ctx: AppContext, citations: list[str]) -> list[Retri
 
 # ---------------------------------------------------------------- stage 3
 
-_REWRITE_PROMPT = """You expand a layperson's legal question for a Singapore law search engine whose corpus uses formal statutory language.
+_REWRITE_PROMPT = """Rewrite the layperson's legal question below for a Singapore law search engine whose corpus uses formal statutory language. Give {n} short rephrasings (one line each) using Singapore legal terms of art and likely Act names — one statutory, one rights/duties, one procedural or case-law angle.
+Reply with ONLY a JSON array of {n} strings. No explanation.
 
-Reply with ONLY a JSON object:
-{{
-  "rewrites": [<{n} rephrasings using precise Singapore legal vocabulary — statutory terms of art, likely Act names, formal register. Vary the angle: one statutory, one rights/duties, one procedural or case-law oriented.>],
-  "hyde": "<a short passage (~120 words) written as if it were the provision or judgment paragraph that answers the question — formal Singapore legislative/judicial style, plausible section references omitted rather than invented>"
-}}
+Question: {query}"""
+
+_HYDE_PROMPT = """Write one short passage (at most 60 words) in the style of a Singapore statutory provision or judgment paragraph that would directly answer the question below. Formal legislative register; do not invent section numbers or case names. Reply with the passage only.
 
 Question: {query}"""
 
 
-async def rewrite_and_hyde(ctx: AppContext, query: str) -> tuple[list[str], str | None]:
+async def rewrite_queries(ctx: AppContext, query: str) -> list[str]:
     if not ctx.llm.configured:
-        return [], None
+        return []
+    return await _cached_llm(ctx, "rewrites", query, lambda: _rewrite_with_llm(ctx, query))
+
+
+async def _rewrite_with_llm(ctx: AppContext, query: str) -> list[str]:
     try:
         reply = await ctx.llm.complete(
             [{"role": "user", "content": _REWRITE_PROMPT.format(
                 n=ctx.settings.n_rewrites, query=query)}],
-            max_tokens=3000, temperature=0.4)  # room for reasoning-model thinking
+            max_tokens=2000, temperature=0.3, model=ctx.settings.llm_fast_model or None)
     except Exception as exc:
-        log.warning("rewrite/HyDE LLM call failed: %s", exc)
-        return [], None
-    data = parse_json_reply(reply) or {}
-    rewrites = [r for r in (data.get("rewrites") or []) if isinstance(r, str)]
-    hyde = data.get("hyde") if isinstance(data.get("hyde"), str) else None
-    return rewrites[: ctx.settings.n_rewrites], hyde
+        log.warning("rewrite LLM call failed: %s", exc)
+        return []
+    cleaned = _strip_fences(reply)
+    try:
+        data = json.loads(cleaned)
+    except json.JSONDecodeError:
+        lo, hi = cleaned.find("["), cleaned.rfind("]")
+        try:
+            data = json.loads(cleaned[lo:hi + 1]) if 0 <= lo < hi else []
+        except json.JSONDecodeError:
+            data = []
+    return [r.strip() for r in data if isinstance(r, str) and r.strip()][: ctx.settings.n_rewrites]
+
+
+async def hyde_passage(ctx: AppContext, query: str) -> str | None:
+    if not ctx.llm.configured:
+        return None
+    return await _cached_llm(ctx, "hyde", query, lambda: _hyde_with_llm(ctx, query))
+
+
+async def _hyde_with_llm(ctx: AppContext, query: str) -> str | None:
+    try:
+        reply = await ctx.llm.complete(
+            [{"role": "user", "content": _HYDE_PROMPT.format(query=query)}],
+            max_tokens=2000, temperature=0.3, model=ctx.settings.llm_fast_model or None)
+    except Exception as exc:
+        log.warning("HyDE LLM call failed: %s", exc)
+        return None
+    text = _strip_fences(reply).strip().strip('"')
+    return text or None
+
+
+async def rewrite_and_hyde(ctx: AppContext, query: str) -> tuple[list[str], str | None]:
+    """Query rewrites and a HyDE passage, as two small concurrent LLM calls.
+    One combined JSON call cost 25–40 s on reasoning models; two terse calls
+    run in parallel finish in a fraction of that."""
+    rewrites, hyde = await asyncio.gather(rewrite_queries(ctx, query), hyde_passage(ctx, query))
+    return rewrites, hyde
+
+
+def _strip_fences(text: str) -> str:
+    return re.sub(r"^```(?:json)?\s*|\s*```$", "", text.strip(), flags=re.MULTILINE)
 
 
 # ---------------------------------------------------------------- stages 4–5
@@ -397,6 +462,8 @@ async def retrieve(
     doc_ids: list[str] | None = None,
     top_k: int | None = None,
     analysis: QueryAnalysis | None = None,
+    rewrites: list[str] | None = None,
+    hyde: str | None = None,
 ) -> RetrievalResult:
     s = ctx.settings
     t0 = time.perf_counter()
@@ -412,7 +479,8 @@ async def retrieve(
     t1 = time.perf_counter()
     timings["citation_shortcircuit"] = (t1 - t0) * 1000 - timings["analysis"]
 
-    rewrites, hyde = await rewrite_and_hyde(ctx, query)
+    if rewrites is None:  # callers may precompute these concurrently with analysis
+        rewrites, hyde = await rewrite_and_hyde(ctx, query)
     debug.rewrites, debug.hyde = rewrites, hyde
     queries = [query] + rewrites
     t2 = time.perf_counter()
