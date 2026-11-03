@@ -40,10 +40,10 @@ class Settings(BaseSettings):
     # --- LLM (generation / rewriting / HyDE only) ---
     minimax_api_key: str = ""
     llm_base_url: str = "https://api.minimax.io/v1"
-    llm_model: str = "MiniMax-M2.7"  # verified against /v1/models 2026-08-12
+    llm_model: str = "MiniMax-M3"  # verified against /v1/models 2026-11-03 (M2.7 being retired)
     # analysis / rewriting / HyDE / document-context calls: a faster variant than the
-    # answer model (MiniMax lists -highspeed siblings in /v1/models). Falls back to llm_model.
-    llm_fast_model: str = "MiniMax-M2.7-highspeed"
+    # answer model (a non-reasoning Flash model). Falls back to llm_model.
+    llm_fast_model: str = "MiniMax-M3.1-Flash"
     # total wall-clock budget for the pre-retrieval LLM calls (analysis, rewrites,
     # HyDE), measured from question arrival. Past it, analysis falls back to the
     # instant heuristics and whatever enrichment has arrived is used; the late

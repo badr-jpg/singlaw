@@ -22,7 +22,7 @@ Accuracy-first by design: answers state the date they are current to, repealed a
 | Reranker | `Qwen/Qwen3-Reranker-0.6B`, local |
 | Vector store | Qdrant **embedded** (on-disk, no server/Docker), two collections: `sg_law`, `user_docs` |
 | Relational store | SQLite (WAL) — conversations, documents, citation graph, crawl state, caches |
-| LLM | MiniMax (`MiniMax-M2.7`) via an OpenAI-compatible provider interface — generation, query analysis, rewriting/HyDE only; swap to local vLLM by changing one URL |
+| LLM | MiniMax (`MiniMax-M3` for answers, `MiniMax-M3.1-Flash` for helper calls) via an OpenAI-compatible provider interface — generation, query analysis, rewriting/HyDE only; swap to local vLLM by changing one URL |
 | Ingestion | Window-guarded SSO crawler (05:00–07:00 SGT, per SSO terms), structure-aware legislation/judgment parsers, section-level chunking with derived context |
 | Frontend | React 19 · TypeScript · Vite · TanStack Router/Query · shadcn/ui · Tailwind v4 · streamdown |
 | Billing | Plan catalogue in code; Stripe Checkout optional (waitlist fallback) |

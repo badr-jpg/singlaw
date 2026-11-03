@@ -671,7 +671,7 @@ badges in the UI, and the mandatory warning in generated prose.
 
 `LLMProvider` is a small protocol (`complete` + `stream`);
 `OpenAICompatProvider` implements it against any OpenAI-compatible
-chat-completions endpoint. The default is **MiniMax** (`MiniMax-M2.7` at
+chat-completions endpoint. The default is **MiniMax** (`MiniMax-M3` at
 `https://api.minimax.io/v1`, verified against its live `/v1/models` listing);
 setting `LLM_BASE_URL`/`LLM_MODEL` to a local vLLM server swaps providers with
 zero call-site changes and makes the whole system offline. With no key,
@@ -956,9 +956,9 @@ via `.env` at the repo root.
 |---|---|---|
 | `MINIMAX_API_KEY` | *(empty)* | Enables the LLM. Empty → NullProvider: heuristic analysis, no rewrites/HyDE, extractive answers |
 | `LLM_BASE_URL` | `https://api.minimax.io/v1` | OpenAI-compatible endpoint; point at local vLLM to go fully offline |
-| `LLM_MODEL` | `MiniMax-M2.7` | Chat model name |
+| `LLM_MODEL` | `MiniMax-M3` | Chat model name |
 | `LLM_TIMEOUT_SECONDS` | `120.0` | Per-request LLM timeout |
-| `LLM_FAST_MODEL` | `MiniMax-M2.7-highspeed` | Model for the helper calls (query analysis, rewrites, HyDE, document context); the answer itself uses `LLM_MODEL` |
+| `LLM_FAST_MODEL` | `MiniMax-M3.1-Flash` | Model for the helper calls (query analysis, rewrites, HyDE, document context); the answer itself uses `LLM_MODEL` |
 | `LLM_PRESTAGE_BUDGET_SECONDS` | `15.0` | Wall-clock budget for the pre-retrieval LLM calls; past it analysis falls back to heuristics and late enrichment is skipped (but still cached for next time) |
 | `MODEL_PROFILE` | `full` | `full` / `dev` / `stub` embedder+reranker pair ([§6.2](#62-model-profiles)) |
 | `EMBEDDING_MODEL` | *(profile)* | Override the dense embedder (requires reindex) |
