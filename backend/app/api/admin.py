@@ -1,4 +1,5 @@
 import asyncio
+import json
 import logging
 
 from fastapi import APIRouter, Request
@@ -61,3 +62,42 @@ async def trigger_sync(req: SyncRequest, request: Request):
         lambda t: log.info("sync task finished: %s",
                            t.exception() or t.result()))
     return {"started": True, "reason": "sync started"}
+
+
+# ---------------------------------------------------------------- judgments index
+
+_index_task: asyncio.Task | None = None
+
+
+@router.post("/admin/index-judgments")
+async def index_judgments(request: Request, limit: int | None = None,
+                          follow: bool = False):
+    """Index judgments already downloaded by `python -m app.elitigation fetch`.
+    Runs inside the server process (embedded Qdrant is single-process), so the
+    UI stays available while it works."""
+    global _index_task
+    from app.elitigation import index_archive, index_follow
+
+    ctx = request.app.state.ctx
+    if _index_task and not _index_task.done():
+        return {"started": False, "reason": "a judgment index run is already in progress"}
+
+    async def progress(stats: dict) -> None:
+        await ctx.db.kv_set("judgment_index_progress", json.dumps(stats))
+
+    job = (index_follow(ctx, progress=progress) if follow
+           else index_archive(ctx, limit=limit, progress=progress))
+    _index_task = asyncio.create_task(job)
+    _index_task.add_done_callback(
+        lambda t: log.info("judgment index finished: %s", t.exception() or t.result()))
+    return {"started": True,
+            "reason": "following the fetch until it completes" if follow else "indexing started"}
+
+
+@router.get("/admin/index-judgments")
+async def index_judgments_status(request: Request):
+    ctx = request.app.state.ctx
+    raw = await ctx.db.kv_get("judgment_index_progress")
+    return {"running": bool(_index_task and not _index_task.done()),
+            "progress": json.loads(raw) if raw else None,
+            "last_finished": await ctx.db.kv_get("last_judgment_index")}

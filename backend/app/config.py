@@ -57,6 +57,9 @@ class Settings(BaseSettings):
     crawl_tz: str = "Asia/Singapore"
     crawl_delay_seconds: float = 2.0
     crawl_max_backoff_seconds: float = 300.0
+    # eLitigation has no published extraction window; 0 = no pause between
+    # requests (still one connection, still exponential backoff on 429/5xx)
+    elitigation_delay_seconds: float = 0.0
     sso_base_url: str = "https://sso.agc.gov.sg"
     sso_whats_new_path: str = "/Browse/Whats-New"
     judiciary_base_url: str = "https://www.judiciary.gov.sg"

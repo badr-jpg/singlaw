@@ -73,14 +73,26 @@ async def ingest_judgment_html(
     fetched_at: str | None = None,
 ) -> tuple[str, int]:
     j = parse_judgment(html, source_url=source_url)
+    return await ingest_judgment(ctx, j, fetched_at=fetched_at)
+
+
+async def ingest_judgment(
+    ctx: AppContext, j, fetched_at: str | None = None,
+) -> tuple[str, int]:
+    """Chunk, embed and register a parsed judgment, and add its citation edges."""
+    source_url = j.source_url
     chunks = chunk_judgment(j)
     n = await upsert_chunks(ctx, SG_LAW, chunks)
     doc_id = chunks[0].doc_id if chunks else slugify(j.neutral_citation)
     await ctx.db.upsert_judgment(
         j.neutral_citation, j.case_name, j.court_code, j.court_level,
         j.decision_date.isoformat() if j.decision_date else None, doc_id)
-    await ctx.db.add_citation_edges(edges_from_paragraphs(
-        j.neutral_citation, [(p.number, p.text) for p in j.paragraphs]))
+    edges = edges_from_paragraphs(
+        j.neutral_citation, [(p.number, p.text) for p in j.paragraphs])
+    if not getattr(j, "numbered", True):
+        for e in edges:
+            e.paragraph = None  # sequence index, not a citable paragraph
+    await ctx.db.add_citation_edges(edges)
     await ctx.db.upsert_corpus_doc(
         doc_id=doc_id, title=f"{j.case_name} {j.neutral_citation}",
         citation=j.neutral_citation, doc_type="judgment", status="in_force",
