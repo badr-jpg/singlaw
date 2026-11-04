@@ -1,14 +1,14 @@
 {
   "overall": {
-    "documents": 500,
-    "chunks": 12161,
-    "words": 3437863,
-    "types": 38809,
+    "documents": 1012,
+    "chunks": 45321,
+    "words": 11988242,
+    "types": 53839,
     "words_per_chunk": {
-      "mean": 282.7,
-      "median": 297,
-      "p95": 375,
-      "max": 743
+      "mean": 264.5,
+      "median": 240,
+      "p95": 647,
+      "max": 842
     },
     "meets_brief": {
       "chunks_at_least_10000": true,
@@ -16,6 +16,18 @@
     }
   },
   "by_doc_type": {
+    "act": {
+      "documents": 512,
+      "chunks": 33160,
+      "words": 8550379,
+      "types": 30474,
+      "words_per_chunk": {
+        "mean": 257.9,
+        "median": 185.0,
+        "p95": 660,
+        "max": 842
+      }
+    },
     "judgment": {
       "documents": 500,
       "chunks": 12161,
@@ -41,9 +53,21 @@
         "p95": 375,
         "max": 743
       }
+    },
+    "SSO legislation (Hugging Face copy)": {
+      "documents": 512,
+      "chunks": 33160,
+      "words": 8550379,
+      "types": 30474,
+      "words_per_chunk": {
+        "mean": 257.9,
+        "median": 185.0,
+        "p95": 660,
+        "max": 842
+      }
     }
   },
   "status_counts": {
-    "in_force": 12161
+    "in_force": 45321
   }
 }

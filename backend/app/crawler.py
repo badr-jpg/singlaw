@@ -31,6 +31,7 @@ import argparse
 import asyncio
 import logging
 import os
+import time
 from datetime import datetime, timedelta
 from datetime import time as dtime
 from pathlib import Path
@@ -302,31 +303,46 @@ class SSOCrawler:
                 "already_archived": skipped, "errors": errors + found["errors"],
                 "remaining": remaining}
 
+    async def _sleep_until_open(self, label: str = "") -> None:
+        """Wait for the window by polling the WALL clock every 30 s.
+
+        One long asyncio.sleep() is unreliable on a laptop: it runs on the
+        monotonic clock, which stops while the machine sleeps, so a 14-hour
+        sleep with an hour of system sleep in it wakes an hour late — after
+        the window. Polling wakes within 30 s of 05:00, or immediately if the
+        machine itself wakes up inside the window."""
+        last_log = 0.0
+        while not self.window.is_open():
+            now = time.time()
+            if now - last_log >= 1800:
+                log.info("waiting for the 05:00 SGT window%s: opens in %.0f min",
+                         f" ({label})" if label else "", self.window.seconds_until_open() / 60)
+                last_log = now
+            await asyncio.sleep(min(30.0, max(1.0, self.window.seconds_until_open())))
+
+    async def _sleep_until_closed(self) -> None:
+        while self.window.is_open():
+            await asyncio.sleep(30)
+
     async def run_scheduler(self) -> None:
-        """Sleep until the window opens, sync, repeat. Ctrl-C to stop."""
+        """Wait for the window, sync, repeat daily. Ctrl-C to stop."""
         while True:
-            wait = self.window.seconds_until_open()
-            if wait > 0:
-                log.info("sleeping %.0f min until the 05:00 SGT window", wait / 60)
-                await asyncio.sleep(wait)
+            await self._sleep_until_open()
             result = await self.sync()
             log.info("sync finished: %s", result)
-            await asyncio.sleep(max(self.window.seconds_until_open(), 60))
+            await self._sleep_until_closed()
 
     async def run_full_until_done(self, include_sl: bool = False, max_days: int = 4) -> dict:
         """Wait for the window, crawl, and repeat on following mornings until
         nothing is pending (or max_days windows have been used)."""
         result: dict = {}
         for day in range(1, max_days + 1):
-            wait = self.window.seconds_until_open()
-            if wait > 0:
-                log.info("sleeping %.0f min until the 05:00 SGT window (day %d)", wait / 60, day)
-                await asyncio.sleep(wait)
+            await self._sleep_until_open(f"day {day} of {max_days}")
             result = await self.crawl_full(include_sl=include_sl)
             log.info("full crawl, day %d: %s", day, result)
             if result.get("started") and result.get("remaining", 1) == 0:
                 break
-            await asyncio.sleep(max(self.window.seconds_until_open(), 60))
+            await self._sleep_until_closed()  # one run per window, then wait for tomorrow
         return result
 
 

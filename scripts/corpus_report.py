@@ -37,6 +37,8 @@ def tokens(text: str) -> list[str]:
 
 def source_of(row: dict) -> str:
     url = row.get("source_url") or ""
+    if "Kaidon-Ng/singapore-statutes" in url:
+        return "SSO legislation (Hugging Face copy)"
     if "huggingface.co" in url:
         return "MLEB judgments (Hugging Face)"
     if "sso.agc.gov.sg" in url:
@@ -135,6 +137,12 @@ def chunk_corpus(archive_dir: Path) -> list[dict]:
                 if e.get("limit") is not None and i >= e["limit"]:
                     break
                 chunks += chunks_for_row(row, max_chars=e.get("max_chars", DEFAULT_MAX_CHARS))[1]
+        elif kind == "sso_statutes_jsonl":
+            from app.ingest.sso_statutes import DEFAULT_MAX_CHARS as LEG_MAX
+            from app.ingest.sso_statutes import all_chunks
+
+            chunks += all_chunks(path, doc_types=e.get("doc_types"),
+                                 max_chars=e.get("max_chars", LEG_MAX), limit=e.get("limit"))
         elif kind == "legislation":
             doc = parse_legislation(read_archived(path), source_url=url, doc_type=e.get("doc_type"))
             chunks += chunk_legislation(doc, as_at=date.today())

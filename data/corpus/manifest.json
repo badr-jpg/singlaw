@@ -8,6 +8,17 @@
       "source_url": "https://huggingface.co/datasets/isaacus/singaporean-judicial-keywords",
       "license": "CC BY 4.0",
       "citation": "Butler, Butler & Malec (2025). The Massive Legal Embedding Benchmark (MLEB). arXiv:2510.19365"
+    },
+    {
+      "path": "sso_statutes/sections.jsonl",
+      "kind": "sso_statutes_jsonl",
+      "doc_types": [
+        "act"
+      ],
+      "max_chars": 4000,
+      "source_url": "https://huggingface.co/datasets/Kaidon-Ng/singapore-statutes",
+      "license": "SSO Terms of Use, clause 13: Singapore legislation is subject to copyright of the Singapore Government; check https://sso.agc.gov.sg for the latest version",
+      "citation": "LawBot Project (2026). Singapore Statutes and Subsidiary Legislation (SSO). Hugging Face: Kaidon-Ng/singapore-statutes"
     }
   ]
 }

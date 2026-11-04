@@ -5,10 +5,22 @@
 | Path | Source | Licence |
 |---|---|---|
 | `hf/corpus.jsonl` | 500 Singapore judgments (118 Court of Appeal, 382 High Court, 2000–2025) from the MLEB dataset [isaacus/singaporean-judicial-keywords](https://huggingface.co/datasets/isaacus/singaporean-judicial-keywords) | CC BY 4.0 — cite Butler, Butler & Malec (2025), *The Massive Legal Embedding Benchmark (MLEB)*, arXiv:2510.19365 |
-| `acts/*.html.gz` | Acts from Singapore Statutes Online, crawled 05:00–07:00 SGT only (added Thu 5 Nov if the crawl succeeds) | © Singapore Government, SSO terms of use |
+| `sso_statutes/sections.jsonl` | 512 Acts indexed (33,160 chunks; the dataset labels 535 rows as Acts, 22 of which are really Regulations or Notifications) + ~1,800 subsidiary legislation, from the Hugging Face copy of SSO [Kaidon-Ng/singapore-statutes](https://huggingface.co/datasets/Kaidon-Ng/singapore-statutes) ("LawBot Project", 2026). Acts only are indexed (`doc_types` in the manifest). | SSO Terms of Use clause 13: subject to Singapore Government copyright; check SSO for the latest version |
 | `manifest.json` | Lists every file and how to chunk it | — |
 
-Current size: 500 documents · 12,161 chunks · 3,437,863 words · 38,809 types (meets the brief's 10,000 / 100,000).
+Total: 1,012 documents · 45,321 chunks · ~12.0 million words · 53,839 types (512 Acts: 33,160 chunks; 500 judgments: 12,161 chunks).
+
+SSO blocked automated crawling (HTTP 403 at 05:00 on 5 Nov), so no pages were crawled; the
+legislation comes from the published copy above instead.
+
+### Get the legislation files (not in git: too large for the web uploader)
+
+```bash
+mkdir -p data/corpus/sso_statutes
+curl -L -o data/corpus/sso_statutes/sections.parquet  https://huggingface.co/datasets/Kaidon-Ng/singapore-statutes/resolve/main/data/sections.parquet
+curl -L -o data/corpus/sso_statutes/documents.parquet https://huggingface.co/datasets/Kaidon-Ng/singapore-statutes/resolve/main/data/documents.parquet
+cd backend && uv run --with pandas --with pyarrow python ../scripts/prepare_sso_statutes.py
+```
 
 ## Subgroup C — get the chunks (no index needed, ~10 s)
 

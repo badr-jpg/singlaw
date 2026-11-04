@@ -211,6 +211,16 @@ async def seed_from_archive(ctx: AppContext, archive_dir: Path) -> dict[str, int
             log.warning("manifest entry missing on disk, skipped: %s", entry["path"])
             counts["missing_files"] += 1
             continue
+        if kind == "sso_statutes_jsonl":  # Hugging Face copy of SSO legislation (clause 13)
+            from app.ingest.sso_statutes import DEFAULT_MAX_CHARS as LEG_MAX
+            from app.ingest.sso_statutes import ingest_sso_statutes
+
+            c = await ingest_sso_statutes(
+                ctx, path, doc_types=entry.get("doc_types"),
+                max_chars=entry.get("max_chars", LEG_MAX), limit=entry.get("limit"))
+            counts["legislation"] += c["documents"]
+            counts["chunks"] += c["chunks"]
+            continue
         if kind == "judgments_jsonl":  # bulk plain-text judgments (MLEB backup corpus)
             c = await ingest_hf_judgments(
                 ctx, path, max_chars=entry.get("max_chars", DEFAULT_MAX_CHARS),
