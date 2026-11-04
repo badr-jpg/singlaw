@@ -15,7 +15,7 @@ import json
 import re
 from datetime import UTC, datetime
 from pathlib import Path
-from urllib.parse import urljoin, urlsplit, urlunsplit
+from urllib.parse import parse_qs, urljoin, urlsplit, urlunsplit
 
 from bs4 import BeautifulSoup
 
@@ -34,16 +34,20 @@ def extract_listing_links(
     """From one SSO browse page, return (document URLs, further listing pages).
 
     Document URLs are anchors whose path is /Act/<code> or /SL/<code>, with the
-    query string removed. Listing pages are anchors whose path starts with the
-    browse prefix (pagination, letter filters); the caller de-duplicates them
-    and caps how many it follows.
+    query string removed. Listing pages are the numbered pages of the SAME
+    listing: SSO paginates as <prefix>/1, <prefix>/2 … with the start URL's query
+    (PageSize, SortBy, SortOrder), so sort-order and letter-filter links, which
+    would only re-list the same Acts, are not followed.
     """
     soup = BeautifulSoup(html, "lxml")
     docs: list[str] = []
     pages: list[str] = []
     seen_docs: set[str] = set()
     seen_pages: set[str] = set()
-    prefix_path = urlsplit(browse_prefix).path.rstrip("/")
+    start = urlsplit(browse_prefix)
+    prefix_path = start.path.rstrip("/")
+    page_rx = re.compile(re.escape(prefix_path) + r"(?:/\d+)?/?") if prefix_path else None
+    want_query = parse_qs(start.query)
     for a in soup.find_all("a", href=True):
         url = urljoin(page_url, a["href"])
         parts = urlsplit(url)
@@ -54,7 +58,8 @@ def extract_listing_links(
             if clean not in seen_docs:
                 seen_docs.add(clean)
                 docs.append(clean)
-        elif prefix_path and parts.path.startswith(prefix_path):
+        elif (page_rx and page_rx.fullmatch(parts.path)
+              and parse_qs(parts.query) == want_query):
             page = url.split("#")[0]
             if page not in seen_pages and page != page_url:
                 seen_pages.add(page)
