@@ -1,0 +1,49 @@
+{
+  "overall": {
+    "documents": 500,
+    "chunks": 12161,
+    "words": 3437863,
+    "types": 38809,
+    "words_per_chunk": {
+      "mean": 282.7,
+      "median": 297,
+      "p95": 375,
+      "max": 743
+    },
+    "meets_brief": {
+      "chunks_at_least_10000": true,
+      "words_at_least_100000": true
+    }
+  },
+  "by_doc_type": {
+    "judgment": {
+      "documents": 500,
+      "chunks": 12161,
+      "words": 3437863,
+      "types": 38809,
+      "words_per_chunk": {
+        "mean": 282.7,
+        "median": 297,
+        "p95": 375,
+        "max": 743
+      }
+    }
+  },
+  "by_source": {
+    "MLEB judgments (Hugging Face)": {
+      "documents": 500,
+      "chunks": 12161,
+      "words": 3437863,
+      "types": 38809,
+      "words_per_chunk": {
+        "mean": 282.7,
+        "median": 297,
+        "p95": 375,
+        "max": 743
+      }
+    }
+  },
+  "status_counts": {
+    "in_force": 12161
+  }
+}

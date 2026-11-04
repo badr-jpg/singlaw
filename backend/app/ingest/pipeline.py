@@ -196,12 +196,31 @@ async def seed_from_archive(ctx: AppContext, archive_dir: Path) -> dict[str, int
     the --seed-from-archive path for dev and offline distribution."""
     import json
 
+    from app.ingest.archive import read_archived
+    from app.ingest.hf_judgments import DEFAULT_MAX_CHARS, ingest_hf_judgments
+
     manifest = json.loads((archive_dir / "manifest.json").read_text())
-    counts = {"legislation": 0, "judgment": 0, "practice_direction": 0, "chunks": 0}
-    for entry in manifest["documents"]:
-        html = (archive_dir / entry["path"]).read_text()
+    counts = {"legislation": 0, "judgment": 0, "practice_direction": 0,
+              "judgments_jsonl_docs": 0, "chunks": 0, "missing_files": 0}
+    entries = manifest["documents"]
+    for i, entry in enumerate(entries, start=1):
+        path = archive_dir / entry["path"]
         kind = entry["kind"]
         url = entry.get("source_url", "")
+        if not path.exists():
+            log.warning("manifest entry missing on disk, skipped: %s", entry["path"])
+            counts["missing_files"] += 1
+            continue
+        if kind == "judgments_jsonl":  # bulk plain-text judgments (MLEB backup corpus)
+            c = await ingest_hf_judgments(
+                ctx, path, max_chars=entry.get("max_chars", DEFAULT_MAX_CHARS),
+                limit=entry.get("limit"))
+            counts["judgments_jsonl_docs"] += c["documents"]
+            counts["chunks"] += c["chunks"]
+            continue
+        html = read_archived(path)
+        if i % 25 == 0:
+            log.info("seeding %d/%d (%d chunks so far)", i, len(entries), counts["chunks"])
         if kind == "legislation":
             _, n = await ingest_legislation_html(
                 ctx, html, source_url=url, doc_type=entry.get("doc_type"))
