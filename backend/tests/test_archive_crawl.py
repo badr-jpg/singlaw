@@ -21,7 +21,9 @@ LISTING_1 = """<html><body>
 <a href="/Act/PDPA2012?ProvIds=P1">PDPA</a>
 <a href="/Act/EmA1968">duplicate</a>
 <a href="/SL/EmA1968-RG1">Regs</a>
-<a href="/Browse/Act/Current/All/1?PageSize=500">Next</a>
+<a href="/Browse/Act/Current/All/1?PageSize=500&SortBy=Title&SortOrder=ASC">2</a>
+<a href="/Browse/Act/Current/All?PageSize=500&SortBy=Year&SortOrder=DESC">sort by year</a>
+<a href="/Browse/Act/Current/A?PageSize=500&SortBy=Title&SortOrder=ASC">letter A</a>
 <a href="https://other.example/Act/X">offsite</a>
 <a href="/Help">help</a>
 </body></html>"""
@@ -34,7 +36,8 @@ ACT = """<html><head><title>Employment Act 1968</title></head><body>
 def test_extract_listing_links():
     docs, pages = extract_listing_links(LISTING_1, BASE + BROWSE, BROWSE)
     assert docs == [f"{BASE}/Act/EmA1968", f"{BASE}/Act/PDPA2012", f"{BASE}/SL/EmA1968-RG1"]
-    assert pages == [f"{BASE}/Browse/Act/Current/All/1?PageSize=500"]
+    # only the numbered page of the same listing — not sort or letter variants
+    assert pages == [f"{BASE}/Browse/Act/Current/All/1?PageSize=500&SortBy=Title&SortOrder=ASC"]
 
 
 def test_archive_relpath_and_roundtrip(tmp_path):
