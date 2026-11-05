@@ -12,6 +12,17 @@ Accuracy-first by design: answers state the date they are current to, repealed a
 - **Explore the corpus** — browse Acts → Parts → Sections, search the law directly, see version history and citing judgments.
 - **Honest UI** — low-confidence framing, high-stakes referrals (criminal, immigration, deadlines, eviction), a retrieval inspector showing exactly why each source was ranked and where the time went.
 
+## Knowledge base
+
+SingLaw's knowledge base comes from two Hugging Face datasets:
+
+| Content | Source |
+|---|---|
+| 512 Singapore Acts | [`Kaidon-Ng/singapore-statutes`](https://huggingface.co/datasets/Kaidon-Ng/singapore-statutes) |
+| 10,000 passages from 214 Supreme Court negligence judgments | [`badlaldh/singapore-judgments`](https://huggingface.co/datasets/badlaldh/singapore-judgments) |
+
+See [docs/CORPUS.md](docs/CORPUS.md) for how the index is built and what it doesn't cover.
+
 ## Technology stack
 
 | Layer | Choice |
