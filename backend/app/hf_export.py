@@ -193,7 +193,8 @@ def build(out: Path, archive: Path, workers: int | None = None) -> dict[str, Any
     return stats
 
 
-def upload(folder: Path, repo: str, api: Any = None, replace: bool = False) -> str:
+def upload(folder: Path, repo: str, api: Any = None, replace: bool = False,
+           allow_patterns: list[str] | None = None, commit_message: str | None = None) -> str:
     """Upload to a private dataset repo; refuse anything that is not private.
     `replace` removes data files absent from `folder` in the same commit (they
     stay in the repo's git history)."""
@@ -209,10 +210,11 @@ def upload(folder: Path, repo: str, api: Any = None, replace: bool = False) -> s
     api.create_repo(repo, repo_type="dataset", private=True, exist_ok=True)
     require_private()  # exist_ok returns an existing repo with its visibility unchanged
     api.upload_folder(repo_id=repo, repo_type="dataset", folder_path=str(folder),
-                      allow_patterns=["README.md", "data/*.parquet"],
+                      allow_patterns=allow_patterns or ["README.md", "data/*.parquet"],
                       delete_patterns=["data/*"] if replace else None,
-                      commit_message=("Replace dataset contents" if replace
-                                      else "Add Singapore Supreme Court judgments"))
+                      commit_message=commit_message or (
+                          "Replace dataset contents" if replace
+                          else "Add Singapore Supreme Court judgments"))
     require_private()
     return f"https://huggingface.co/datasets/{repo}"
 

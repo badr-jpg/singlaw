@@ -155,6 +155,10 @@ def chunk_corpus(archive_dir: Path) -> list[dict]:
 
             chunks += all_chunks(path, doc_types=e.get("doc_types"),
                                  max_chars=e.get("max_chars", LEG_MAX), limit=e.get("limit"))
+        elif kind == "hf_judgment_passages":
+            from app.ingest.hf_judgments import all_chunks as passage_chunks
+
+            chunks += passage_chunks(path)
         elif kind == "legislation":
             doc = parse_legislation(read_archived(path), source_url=url, doc_type=e.get("doc_type"))
             chunks += chunk_legislation(doc, as_at=date.today())

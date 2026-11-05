@@ -78,10 +78,12 @@ async def ingest_judgment_html(
 
 async def ingest_judgment(
     ctx: AppContext, j, fetched_at: str | None = None,
+    chunks: list[ChunkPayload] | None = None,
 ) -> tuple[str, int]:
-    """Chunk, embed and register a parsed judgment, and add its citation edges."""
+    """Chunk, embed and register a parsed judgment, and add its citation edges.
+    `chunks` overrides the default chunking for sources already split into passages."""
     source_url = j.source_url
-    chunks = chunk_judgment(j)
+    chunks = chunk_judgment(j) if chunks is None else chunks
     n = await upsert_chunks(ctx, SG_LAW, chunks)
     doc_id = chunks[0].doc_id if chunks else slugify(j.neutral_citation)
     await ctx.db.upsert_judgment(
@@ -231,6 +233,13 @@ async def seed_from_archive(ctx: AppContext, archive_dir: Path) -> dict[str, int
                 ctx, path, doc_types=entry.get("doc_types"),
                 max_chars=entry.get("max_chars", LEG_MAX), limit=entry.get("limit"))
             counts["legislation"] += c["documents"]
+            counts["chunks"] += c["chunks"]
+            continue
+        if kind == "hf_judgment_passages":  # badlaldh/singapore-judgments, already split
+            from app.ingest.hf_judgments import ingest_hf_judgments
+
+            c = await ingest_hf_judgments(ctx, path)
+            counts["judgment"] += c["documents"]
             counts["chunks"] += c["chunks"]
             continue
         html = read_archived(path)

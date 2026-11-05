@@ -167,7 +167,8 @@ def judgment_tier(court_code: str) -> int:
 
 def _judgment_context(j: Judgment, para_lo: int, para_hi: int) -> str:
     rng = f"[{para_lo}]" if para_lo == para_hi else f"[{para_lo}]–[{para_hi}]"
-    decided = f", decided {j.decision_date.strftime('%-d %B %Y')}" if j.decision_date else ""
+    d = j.decision_date
+    decided = f", decided {d.day} {d:%B %Y}" if d else ""  # %-d is not portable to Windows
     where = (f"paragraph{'s' if para_lo != para_hi else ''} {rng}" if j.numbered
              else "an extract")  # unnumbered source: no pinpoint to give
     sent = [

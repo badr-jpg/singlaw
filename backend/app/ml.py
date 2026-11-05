@@ -141,6 +141,7 @@ class STEmbedder:
         self.model = _local_first(
             lambda: SentenceTransformer(model_name, trust_remote_code=True))
         self.dim = int(self.model.get_sentence_embedding_dimension())
+        log.info("embedder %s on %s (%d-dim)", model_name, self.model.device, self.dim)
         # Qwen3-Embedding ships an asymmetric "query" prompt in its config
         self._query_prompt = "query" if "query" in (self.model.prompts or {}) else None
 
@@ -203,7 +204,8 @@ class QwenReranker:
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         self._torch = torch
-        self._device = "mps" if torch.backends.mps.is_available() else "cpu"
+        self._device = ("cuda" if torch.cuda.is_available()
+                        else "mps" if torch.backends.mps.is_available() else "cpu")
         self.tokenizer = _local_first(
             lambda: AutoTokenizer.from_pretrained(model_name, padding_side="left"))
         self.model = _local_first(

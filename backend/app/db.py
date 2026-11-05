@@ -5,7 +5,6 @@ uvicorn workers never interleave writes (spec Part 5)."""
 from __future__ import annotations
 
 import asyncio
-import fcntl
 import json
 import uuid
 from contextlib import asynccontextmanager
@@ -14,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 import aiosqlite
+import portalocker
 
 from app.ingest.citations import CitationEdge
 
@@ -124,7 +124,7 @@ class Database:
         """Single-writer election: in-process asyncio lock + cross-process flock."""
         async with self._write_lock:
             fd = open(self._flock_path, "w")
-            await asyncio.to_thread(fcntl.flock, fd, fcntl.LOCK_EX)
+            await asyncio.to_thread(portalocker.lock, fd, portalocker.LOCK_EX)
             try:
                 yield self.conn
                 await self.conn.commit()
@@ -132,7 +132,7 @@ class Database:
                 await self.conn.rollback()
                 raise
             finally:
-                fcntl.flock(fd, fcntl.LOCK_UN)
+                portalocker.unlock(fd)
                 fd.close()
 
     # ---------------- conversations ----------------

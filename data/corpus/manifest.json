@@ -11,6 +11,13 @@
       "source_url": "https://huggingface.co/datasets/Kaidon-Ng/singapore-statutes",
       "license": "SSO Terms of Use, clause 13: Singapore legislation is subject to copyright of the Singapore Government; check https://sso.agc.gov.sg for the latest version",
       "citation": "LawBot Project (2026). Singapore Statutes and Subsidiary Legislation (SSO). Hugging Face: Kaidon-Ng/singapore-statutes"
+    },
+    {
+      "path": "hf_judgments/passages.jsonl",
+      "kind": "hf_judgment_passages",
+      "source_url": "https://huggingface.co/datasets/badlaldh/singapore-judgments",
+      "license": "Judgments are (c) Government of Singapore; no licence granted. Source terms bar reproduction for commercial purposes without written permission.",
+      "citation": "Singapore Negligence Judgments: Page-Sized Passages. Hugging Face: badlaldh/singapore-judgments"
     }
   ]
 }

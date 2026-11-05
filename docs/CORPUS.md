@@ -31,6 +31,18 @@ Citations for these Acts link to SSO's home page, not the provision, because the
 SSO URLs or Act codes. Where two documents share a truncated name, the later ones get `-2`, `-3`
 on their ids, with Acts numbered first, but their citations still show the shared name.
 
+## Get the judgment passages
+
+The manifest also indexes [badlaldh/singapore-judgments](https://huggingface.co/datasets/badlaldh/singapore-judgments):
+10,000 passages of about 300 words from 214 negligence judgments, as one chunk per passage. This is a subset, separate
+from the full eLitigation archive indexed by `app.elitigation`.
+
+```bash
+mkdir -p data/corpus/hf_judgments
+curl -L -o data/corpus/hf_judgments/train-00000-of-00001.parquet https://huggingface.co/datasets/badlaldh/singapore-judgments/resolve/main/data/train-00000-of-00001.parquet
+cd backend && uv run --with pandas --with pyarrow python ../scripts/prepare_hf_judgments.py
+```
+
 ## Export the chunks (no index needed)
 
 ```bash
@@ -62,6 +74,34 @@ database, and switching `MODEL_PROFILE` requires it because the vector size chan
 Measured speeds: `full` profile about 0.4 chunks/s on a MacBook Air (about 23 h for the 33,160 Act
 chunks; use the fastest machine available); judgments about 16 per minute with the current
 profile (about 10.5 h for the full archive).
+
+### GPU on Windows
+
+`uv sync` installs CPU-only torch on Windows, and `uv run` puts it back, so call the venv's Python directly.
+Set `PYTHONUTF8=1`, because some files are read with the platform's default encoding. `RERANKER_MODEL=stub` skips
+loading a reranker that indexing does not use.
+
+```bash
+cd backend
+uv sync --no-install-package torch
+uv pip install "torch==2.13.0" --index-url https://download.pytorch.org/whl/cu130
+PYTHONUTF8=1 RERANKER_MODEL=stub .venv/Scripts/python.exe -m app.crawler seed --archive ../data/corpus
+```
+
+An RTX 3090 at the default batch size of 32 embeds about 46 chunks/s.
+
+## Check and publish the index
+
+```bash
+cd backend
+uv pip install pandas pyarrow
+RERANKER_MODEL=Qwen/Qwen3-Reranker-0.6B PYTHONUTF8=1 .venv/Scripts/python.exe ../scripts/verify_vdb.py
+PYTHONUTF8=1 .venv/Scripts/python.exe ../scripts/publish_vdb.py build --repo <user>/<name>
+PYTHONUTF8=1 .venv/Scripts/python.exe ../scripts/publish_vdb.py upload --repo <user>/<name>
+```
+
+`verify_vdb.py` expects the current corpus counts and exits 1 on any structural failure, and `build` refuses to run without
+a passing report. `upload` only writes to private repos, because the judgments' source terms require that.
 
 ## Rules
 
