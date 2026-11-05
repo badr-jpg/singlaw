@@ -18,6 +18,12 @@ data/models/
 data/uploads/
 data/raw/
 data/export/
+# source documents never go in git, including pages the crawler saves here
+data/corpus/*
+!data/corpus/manifest.json
+!data/corpus/sso_statutes/
+data/corpus/sso_statutes/*
+!data/corpus/sso_statutes/README.md
 data/*.log
 *.sqlite3
 *.sqlite3-*
