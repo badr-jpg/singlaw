@@ -17,6 +17,7 @@ data/cache/
 data/models/
 data/uploads/
 data/raw/
+data/export/
 data/*.log
 *.sqlite3
 *.sqlite3-*
