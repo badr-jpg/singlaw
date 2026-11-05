@@ -37,7 +37,7 @@ def tokens(text: str) -> list[str]:
 
 def source_of(row: dict) -> str:
     url = row.get("source_url") or ""
-    if "Kaidon-Ng/singapore-statutes" in url:
+    if url.rstrip("/") == "https://sso.agc.gov.sg":  # crawled pages have their own URLs
         return "SSO legislation (Hugging Face copy)"
     if "elitigation.sg" in url:
         return "eLitigation judgments"
@@ -98,7 +98,7 @@ def scroll_index(qdrant_path: Path) -> list[dict]:
             f"No index found at {qdrant_path} (collection sg_law missing).\n"
             "Run the seed step first, from the backend folder:\n"
             "  uv run python -m app.crawler seed --archive ../data/corpus\n"
-            "and check its log says chunks > 0 and missing_files 0.")
+            "and check its log says chunks > 0.")
     try:
         while True:
             recs, offset = client.scroll("sg_law", limit=1000, offset=offset,

@@ -1,7 +1,9 @@
 import json
 
+import pytest
+
 from app.ingest.sso_statutes import (
-    HF_STATUTES_URL,
+    SSO_URL,
     all_chunks,
     chunks_for_document,
     iter_documents,
@@ -37,7 +39,8 @@ def test_chunks_cite_sections_and_split_long_ones():
     assert chunks[0].chunk_id == "employment-act-1968:s1"
     assert chunks[0].citation == "Employment Act 1968, s 1"
     assert chunks[0].doc_type == "act" and chunks[0].authority_tier == 2
-    assert chunks[0].source_url == HF_STATUTES_URL and "check SSO" in chunks[0].context
+    assert chunks[0].source_url == SSO_URL and "check SSO" in chunks[0].context
+    assert "published copy" in chunks[0].context
     parts = [c for c in chunks if c.chunk_id.startswith("employment-act-1968:s14.")]
     assert len(parts) > 2 and all(len(c.text) <= 1500 for c in parts)
     assert parts[1].text.startswith("(")  # split at a subsection boundary
@@ -53,7 +56,51 @@ def test_oversized_subsection_is_split_at_sentences_then_words():
     assert " ".join(c.text for c in chunks).split() == text.split()  # nothing lost
 
 
-async def test_seed_statutes_and_report_missing_files(tmp_path):
+def test_schedule_paragraphs_are_not_cited_as_sections():
+    act = "Test Act 2000"
+    rows = [_row(act, "1. Short title", "1. This Act is the Test Act."),
+            _row(act, "12. First Schedule amended", "12. The First Schedule is amended."),
+            _row(act, "First Schedule amended", "13. The First Schedule is amended again."),
+            _row(act, "FIRST SCHEDULE", "1. Fees payable are $5."),
+            _row(act, "FIRST SCHEDULE — continue", "2. Further fees are $9."),
+            _row(act, "THE SCHEDULE", "1. Other fees."),
+            _row(act, "2000 Revised Edition note", "Editorial note.")]
+    citations = [c.citation for c in chunks_for_document(act, rows)]
+    assert citations[:3] == [f"{act}, s 1", f"{act}, s 12", f"{act}, s 13"]
+    assert citations[3:6] == [f"{act}, First Schedule", f"{act}, First Schedule", f"{act}, Schedule"]
+    assert citations[6] == f"{act}, 2000 Revised Edition note"
+
+
+def _cover(name, kind="SECTIONS"):
+    return _row(name, "Unsectioned", f"THE STATUTES OF THE REPUBLIC OF SINGAPORE\nARRANGEMENT OF {kind}")
+
+
+def test_same_named_documents_keep_separate_ids(tmp_path):
+    name = "Very Long Name That The Dataset Cut Off At Fifty C"
+    rows = [_cover(name, "REGULATIONS"), _row(name, "1. Citation", "1. Regulations text."),
+            _cover(name), _row(name, "1. Short title", "1. First Act text."),
+            _cover(name), _row(name, "1. Short title", "1. Second Act text."),
+            _cover("Other Act 2000"), _row("Other Act 2000", "1. Short title", "1. Other text.")]
+    p = tmp_path / "sections.jsonl"
+    p.write_text("\n".join(json.dumps(r) for r in rows))
+    slug = "very-long-name-that-the-dataset-cut-off-at-fifty-c"
+
+    by_id = {c.chunk_id: c.text for c in all_chunks(p)}
+    assert len(by_id) == 4  # nothing overwritten
+    assert by_id[f"{slug}:s1"] == "1. First Act text."  # an Act keeps the plain id
+    assert by_id[f"{slug}-2:s1"] == "1. Second Act text."
+    assert by_id[f"{slug}-3:s1"] == "1. Regulations text."
+    assert by_id["other-act-2000:s1"] == "1. Other text."
+
+    # same ids whichever types are indexed, so eval labels stay valid
+    acts = {c.chunk_id for c in all_chunks(p, doc_types=["act"])}
+    assert acts == {f"{slug}:s1", f"{slug}-2:s1", "other-act-2000:s1"}
+    sl = all_chunks(p, doc_types=["subsidiary_legislation"])
+    assert [c.chunk_id for c in sl] == [f"{slug}-3:s1"]
+    assert len(all_chunks(p, doc_types=["act"], limit=1)) == 1
+
+
+async def test_seed_statutes_and_stop_on_missing_files(tmp_path):
     """Own throwaway index, so the shared session corpus other tests rely on is untouched."""
     from app.config import Settings
     from app.context import AppContext, shutdown_context
@@ -77,16 +124,23 @@ async def test_seed_statutes_and_report_missing_files(tmp_path):
     rows = [_row("Employment Act 1968", "1. Short title", "1. This Act is the Employment Act 1968."),
             _row("Employment Act 1968", "2. Interpretation", "2. In this Act, words mean things.")]
     (archive / "sso_statutes" / "sections.jsonl").write_text("\n".join(json.dumps(r) for r in rows))
+    statutes = {"path": "sso_statutes/sections.jsonl", "kind": "sso_statutes_jsonl", "doc_types": ["act"]}
     (archive / "manifest.json").write_text(json.dumps({"documents": [
-        {"path": "sso_statutes/sections.jsonl", "kind": "sso_statutes_jsonl", "doc_types": ["act"]},
-        {"path": "acts/missing.html.gz", "kind": "legislation"},
+        statutes, {"path": "sso_statutes/missing.jsonl", "kind": "sso_statutes_jsonl"},
     ]}))
     try:
+        # a missing file stops the seed before anything is indexed
+        with pytest.raises(FileNotFoundError, match=r"sso_statutes/missing\.jsonl.*docs/CORPUS\.md"):
+            await seed_from_archive(ctx, archive)
+        assert await ctx.store.count(SG_LAW) == 0
+        assert await ctx.db.kv_get("last_seed") is None
+
+        (archive / "manifest.json").write_text(json.dumps({"documents": [statutes]}))
         counts = await seed_from_archive(ctx, archive)
-        assert counts["legislation"] == 1 and counts["missing_files"] == 1
+        assert counts["legislation"] == 1
         assert await ctx.store.count(SG_LAW) == counts["chunks"] == 2
         hits = await ctx.store.by_doc_id(SG_LAW, "employment-act-1968")
-        assert hits and hits[0]["source_url"] == HF_STATUTES_URL
+        assert hits and hits[0]["source_url"] == SSO_URL
     finally:
         await shutdown_context(ctx)
 

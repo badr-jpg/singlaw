@@ -30,6 +30,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+from collections import Counter
 from collections.abc import Iterator
 from datetime import UTC, date, datetime
 from pathlib import Path
@@ -43,7 +44,9 @@ if TYPE_CHECKING:
 
 log = logging.getLogger(__name__)
 
-HF_STATUTES_URL = "https://huggingface.co/datasets/Kaidon-Ng/singapore-statutes"
+# Where a citation sends the reader to check the law. It is SSO's home page, not
+# the provision: the dataset has no SSO URLs or Act codes to build a deep link from.
+SSO_URL = "https://sso.agc.gov.sg"
 DEFAULT_MAX_CHARS = 4000
 
 # "14. Termination of contract", "Section 14 — Termination", "14A Interpretation", "14"
@@ -55,6 +58,9 @@ _SEC_TEXT_RX = re.compile(r"^\s*(\d{1,4}[A-Z]{0,3})\.\s*[—–-]?\s*")
 _SUBSECTION_RX = re.compile(r"\s(?=\(\d{1,3}[A-Z]{0,2}\)\s)")
 _SENT_RX = re.compile(r"(?<=[.!?;:])\s+(?=[A-Z“\"‘(\[])")
 _SCHEDULE_RX = re.compile(r"^(?:THE\s+)?([A-Z]+)?\s*SCHEDULE\b(?:\s*[—–-]\s*continue\w*)?", re.IGNORECASE)
+_PLAIN_SCHEDULE_RX = re.compile(
+    r"(?:THE\s+)?(?:[A-Z]+\s+)?SCHEDULE(?:\s*[—–-]\s*continue\w*)?\.?", re.IGNORECASE)
+_YEAR_RX = re.compile(r"(?:18|19|20)\d\d")
 _VERSION_RX = re.compile(r"version in force from\s+(\d{1,2})/(\d{1,2})/(\d{4})", re.IGNORECASE)
 FRONT_MATTER_TITLE = "unsectioned"
 
@@ -157,7 +163,11 @@ def document_type(rows: list[dict]) -> str:
 
 
 def _schedule_label(title: str) -> str | None:
-    if m := _SCHEDULE_RX.match(title.strip()):
+    """"First Schedule" for a Schedule's heading; None for a section that merely
+    mentions one, such as "First Schedule amended"."""
+    title = title.strip()
+    m = _SCHEDULE_RX.match(title)
+    if m and (title.isupper() or _PLAIN_SCHEDULE_RX.fullmatch(title)):
         word = (m.group(1) or "").strip()
         return f"{word.title()} Schedule" if word and word.upper() != "THE" else "Schedule"
     return None
@@ -190,8 +200,11 @@ def normalise_doc_type(raw: str | None) -> str:
 
 def section_number_and_heading(row: dict) -> tuple[str | None, str]:
     title = " ".join(str(row.get("section_title") or "").split())
-    if m := _SEC_TITLE_RX.match(title):
+    m = _SEC_TITLE_RX.match(title)
+    if m and not (_YEAR_RX.fullmatch(m.group(1)) and m.group(2)):  # "2000 Revised Edition"
         return m.group(1).upper(), m.group(2).strip(" .—–-")
+    if _schedule_label(title):  # a Schedule's paragraph 1 is not section 1
+        return None, title
     if m := _SEC_TEXT_RX.match(str(row.get("text") or "")):
         return m.group(1).upper(), title
     return None, title
@@ -253,7 +266,7 @@ def _tier(doc_name: str, doc_type: str) -> int:
 
 def chunks_for_document(
     doc_name: str, rows: list[dict], *, max_chars: int = DEFAULT_MAX_CHARS,
-    as_at: date | None = None,
+    as_at: date | None = None, doc_id: str | None = None,
 ) -> list[ChunkPayload]:
     as_at = as_at or date.today()
     doc_type = document_type(rows)
@@ -262,7 +275,7 @@ def chunks_for_document(
         doc_name, version = front_matter(rows[0], doc_name)
         rows = rows[1:]
     doc_name = " ".join(doc_name.split())
-    doc_id = slugify(doc_name)
+    doc_id = doc_id or slugify(doc_name)
     tier = _tier(doc_name, doc_type)
     parent = rows[0].get("parent_act") if rows else None
     used_ids: set[str] = set()
@@ -296,7 +309,7 @@ def chunks_for_document(
                if doc_type == "subsidiary_legislation" and parent else "")
             + (f" Text of the consolidated version in force from {version.isoformat()},"
                if version else " Text")
-            + " reproduced from Singapore Statutes Online; check SSO for the latest version."
+            + " taken from a published copy of Singapore Statutes Online; check SSO for the latest version."
         )
         hierarchy = [p for p in (doc_name, part, division) if p]
         hierarchy.append(f"Section {num}" + (f" — {heading}" if heading else "")
@@ -315,7 +328,7 @@ def chunks_for_document(
                 authority_tier=tier,
                 status="in_force",
                 hierarchy_path=hierarchy,
-                source_url=HF_STATUTES_URL,
+                source_url=SSO_URL,
                 sso_version_date=version,
             ))
     return chunks
@@ -346,14 +359,46 @@ def iter_documents(path: Path, doc_types: list[str] | None = None) -> Iterator[t
         yield current, rows
 
 
+def _document_ids(path: Path) -> list[str]:
+    """A unique doc_id for each document, in iter_documents order. The dataset
+    cuts long names at 50 characters, so different documents can share a name.
+    Acts choose first, so an Act's id stays the slug of its name and lookup by
+    name finds it. Ids are assigned over the whole file, so they don't depend
+    on which document types are indexed."""
+    docs = []
+    for name, rows in iter_documents(path):
+        if str(rows[0].get("section_title") or "").strip().casefold() == FRONT_MATTER_TITLE:
+            name = front_matter(rows[0], name)[0]
+        docs.append((slugify(name), document_type(rows)))
+    taken: Counter[str] = Counter()
+    ids = [""] * len(docs)
+    for i in sorted(range(len(docs)), key=lambda i: docs[i][1] != "act"):
+        slug = docs[i][0]
+        taken[slug] += 1
+        ids[i] = slug if taken[slug] == 1 else f"{slug}-{taken[slug]}"
+    return ids
+
+
+def iter_document_chunks(path: Path, *, doc_types: list[str] | None = None,
+                         max_chars: int = DEFAULT_MAX_CHARS,
+                         limit: int | None = None) -> Iterator[list[ChunkPayload]]:
+    """Each wanted document's chunks. The seed step and the corpus report both
+    read through here, so their chunk ids match."""
+    wanted = {normalise_doc_type(t) for t in doc_types} if doc_types else None
+    done = 0
+    for doc_id, (name, rows) in zip(_document_ids(path), iter_documents(path), strict=True):
+        if wanted is not None and document_type(rows) not in wanted:
+            continue
+        if limit is not None and done >= limit:
+            return
+        done += 1
+        yield chunks_for_document(name, rows, max_chars=max_chars, doc_id=doc_id)
+
+
 def all_chunks(path: Path, *, doc_types: list[str] | None = None,
                max_chars: int = DEFAULT_MAX_CHARS, limit: int | None = None) -> list[ChunkPayload]:
-    out: list[ChunkPayload] = []
-    for i, (name, rows) in enumerate(iter_documents(path, doc_types)):
-        if limit is not None and i >= limit:
-            break
-        out.extend(chunks_for_document(name, rows, max_chars=max_chars))
-    return out
+    return [c for chunks in iter_document_chunks(path, doc_types=doc_types, max_chars=max_chars,
+                                                 limit=limit) for c in chunks]
 
 
 async def ingest_sso_statutes(
@@ -365,17 +410,14 @@ async def ingest_sso_statutes(
 
     counts = {"documents": 0, "chunks": 0}
     fetched_at = datetime.now(UTC).isoformat()
-    for i, (name, rows) in enumerate(iter_documents(path, doc_types)):
-        if limit is not None and i >= limit:
-            break
-        chunks = chunks_for_document(name, rows, max_chars=max_chars)
+    for chunks in iter_document_chunks(path, doc_types=doc_types, max_chars=max_chars, limit=limit):
         if not chunks:
             continue
         n = await upsert_chunks(ctx, SG_LAW, chunks)
         c = chunks[0]
         await ctx.db.upsert_corpus_doc(
             doc_id=c.doc_id, title=c.title, citation=c.title, doc_type=c.doc_type,
-            status="in_force", authority_tier=c.authority_tier, source_url=HF_STATUTES_URL,
+            status="in_force", authority_tier=c.authority_tier, source_url=SSO_URL,
             sso_version_date=c.sso_version_date.isoformat() if c.sso_version_date else None,
             fetched_at=fetched_at, chunk_count=n)
         counts["documents"] += 1

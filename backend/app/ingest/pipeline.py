@@ -211,17 +211,18 @@ async def seed_from_archive(ctx: AppContext, archive_dir: Path) -> dict[str, int
     from app.ingest.archive import read_archived
 
     manifest = json.loads((archive_dir / "manifest.json").read_text())
-    counts = {"legislation": 0, "judgment": 0, "practice_direction": 0,
-              "chunks": 0, "missing_files": 0}
+    counts = {"legislation": 0, "judgment": 0, "practice_direction": 0, "chunks": 0}
     entries = manifest["documents"]
+    # stop before indexing anything, not hours in or with a silently partial corpus
+    missing = [e["path"] for e in entries if not (archive_dir / e["path"]).exists()]
+    if missing:
+        raise FileNotFoundError(
+            f"manifest files missing from {archive_dir}: {', '.join(missing)}. "
+            "See docs/CORPUS.md for how to get them.")
     for i, entry in enumerate(entries, start=1):
         path = archive_dir / entry["path"]
         kind = entry["kind"]
         url = entry.get("source_url", "")
-        if not path.exists():
-            log.warning("manifest entry missing on disk, skipped: %s", entry["path"])
-            counts["missing_files"] += 1
-            continue
         if kind == "sso_statutes_jsonl":  # Hugging Face copy of SSO legislation (clause 13)
             from app.ingest.sso_statutes import DEFAULT_MAX_CHARS as LEG_MAX
             from app.ingest.sso_statutes import ingest_sso_statutes

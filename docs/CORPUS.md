@@ -24,8 +24,12 @@ curl -L -o data/corpus/sso_statutes/documents.parquet https://huggingface.co/dat
 cd backend && uv run --with pandas --with pyarrow python ../scripts/prepare_sso_statutes.py
 ```
 
-Without these files the seed step still exits successfully but indexes no Acts. Check that its
-log shows `missing_files: 0`.
+Without these files the seed step stops with an error before indexing anything. The chunk export
+below only prints a warning and leaves the Acts out.
+
+Citations for these Acts link to SSO's home page, not the provision, because the dataset has no
+SSO URLs or Act codes. Where two documents share a truncated name, the later ones get `-2`, `-3`
+on their ids, with Acts numbered first, but their citations still show the shared name.
 
 ## Export the chunks (no index needed)
 
