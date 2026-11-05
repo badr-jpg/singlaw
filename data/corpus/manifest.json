@@ -1,6 +1,13 @@
 {
-  "note": "SingLaw legislation archive (data/archive is only the dev fixture set). The crawler appends every SSO page it saves (gzip) to this list. Load it with: python -m app.crawler seed --archive ../data/corpus. Judgments are indexed separately from data/raw/elitigation; see docs/CORPUS.md.",
+  "note": "SingLaw corpus manifest: eLitigation judgment passages (Hugging Face) + SSO Acts (Hugging Face copy, clause 13). Load both with: python -m app.crawler seed --archive ../data/corpus. The crawler appends any SSO pages it saves.",
   "documents": [
+    {
+      "path": "elitigation_hf",
+      "kind": "elitigation_passages",
+      "source_url": "https://huggingface.co/datasets/badlaldh/singapore-judgments",
+      "license": "Judgments are © Government of Singapore; eLitigation terms permit fair dealing for private study and research, not commercial reproduction. Keep private.",
+      "note": "judgments subset: 10,000 passages (~300 words) from 214 Supreme Court judgments on Tort — Negligence, 2001–2026; other subsets are skipped"
+    },
     {
       "path": "sso_statutes/sections.jsonl",
       "kind": "sso_statutes_jsonl",

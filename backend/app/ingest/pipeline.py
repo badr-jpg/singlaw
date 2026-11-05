@@ -223,6 +223,13 @@ async def seed_from_archive(ctx: AppContext, archive_dir: Path) -> dict[str, int
         path = archive_dir / entry["path"]
         kind = entry["kind"]
         url = entry.get("source_url", "")
+        if kind == "elitigation_passages":  # judgments: eLitigation passages from Hugging Face
+            from app.ingest.hf_elitigation import ingest_passages
+
+            c = await ingest_passages(ctx, path, limit=entry.get("limit"))
+            counts["judgment"] += c["documents"]
+            counts["chunks"] += c["chunks"]
+            continue
         if kind == "sso_statutes_jsonl":  # Hugging Face copy of SSO legislation (clause 13)
             from app.ingest.sso_statutes import DEFAULT_MAX_CHARS as LEG_MAX
             from app.ingest.sso_statutes import ingest_sso_statutes
