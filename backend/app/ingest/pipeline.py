@@ -73,14 +73,26 @@ async def ingest_judgment_html(
     fetched_at: str | None = None,
 ) -> tuple[str, int]:
     j = parse_judgment(html, source_url=source_url)
+    return await ingest_judgment(ctx, j, fetched_at=fetched_at)
+
+
+async def ingest_judgment(
+    ctx: AppContext, j, fetched_at: str | None = None,
+) -> tuple[str, int]:
+    """Chunk, embed and register a parsed judgment, and add its citation edges."""
+    source_url = j.source_url
     chunks = chunk_judgment(j)
     n = await upsert_chunks(ctx, SG_LAW, chunks)
     doc_id = chunks[0].doc_id if chunks else slugify(j.neutral_citation)
     await ctx.db.upsert_judgment(
         j.neutral_citation, j.case_name, j.court_code, j.court_level,
         j.decision_date.isoformat() if j.decision_date else None, doc_id)
-    await ctx.db.add_citation_edges(edges_from_paragraphs(
-        j.neutral_citation, [(p.number, p.text) for p in j.paragraphs]))
+    edges = edges_from_paragraphs(
+        j.neutral_citation, [(p.number, p.text) for p in j.paragraphs])
+    if not getattr(j, "numbered", True):
+        for e in edges:
+            e.paragraph = None  # sequence index, not a citable paragraph
+    await ctx.db.add_citation_edges(edges)
     await ctx.db.upsert_corpus_doc(
         doc_id=doc_id, title=f"{j.case_name} {j.neutral_citation}",
         citation=j.neutral_citation, doc_type="judgment", status="in_force",
@@ -196,12 +208,34 @@ async def seed_from_archive(ctx: AppContext, archive_dir: Path) -> dict[str, int
     the --seed-from-archive path for dev and offline distribution."""
     import json
 
+    from app.ingest.archive import read_archived
+
     manifest = json.loads((archive_dir / "manifest.json").read_text())
     counts = {"legislation": 0, "judgment": 0, "practice_direction": 0, "chunks": 0}
-    for entry in manifest["documents"]:
-        html = (archive_dir / entry["path"]).read_text()
+    entries = manifest["documents"]
+    # stop before indexing anything, not hours in or with a silently partial corpus
+    missing = [e["path"] for e in entries if not (archive_dir / e["path"]).exists()]
+    if missing:
+        raise FileNotFoundError(
+            f"manifest files missing from {archive_dir}: {', '.join(missing)}. "
+            "See docs/CORPUS.md for how to get them.")
+    for i, entry in enumerate(entries, start=1):
+        path = archive_dir / entry["path"]
         kind = entry["kind"]
         url = entry.get("source_url", "")
+        if kind == "sso_statutes_jsonl":  # Hugging Face copy of SSO legislation (clause 13)
+            from app.ingest.sso_statutes import DEFAULT_MAX_CHARS as LEG_MAX
+            from app.ingest.sso_statutes import ingest_sso_statutes
+
+            c = await ingest_sso_statutes(
+                ctx, path, doc_types=entry.get("doc_types"),
+                max_chars=entry.get("max_chars", LEG_MAX), limit=entry.get("limit"))
+            counts["legislation"] += c["documents"]
+            counts["chunks"] += c["chunks"]
+            continue
+        html = read_archived(path)
+        if i % 25 == 0:
+            log.info("seeding %d/%d (%d chunks so far)", i, len(entries), counts["chunks"])
         if kind == "legislation":
             _, n = await ingest_legislation_html(
                 ctx, html, source_url=url, doc_type=entry.get("doc_type"))

@@ -168,8 +168,10 @@ def judgment_tier(court_code: str) -> int:
 def _judgment_context(j: Judgment, para_lo: int, para_hi: int) -> str:
     rng = f"[{para_lo}]" if para_lo == para_hi else f"[{para_lo}]–[{para_hi}]"
     decided = f", decided {j.decision_date.strftime('%-d %B %Y')}" if j.decision_date else ""
+    where = (f"paragraph{'s' if para_lo != para_hi else ''} {rng}" if j.numbered
+             else "an extract")  # unnumbered source: no pinpoint to give
     sent = [
-        f"This is paragraph{'s' if para_lo != para_hi else ''} {rng} of the judgment in "
+        f"This is {where} of the judgment in "
         f"{j.case_name} {j.neutral_citation} ({j.court}{decided})."
     ]
     if j.catchwords:
@@ -184,8 +186,9 @@ def chunk_judgment(
     groups: list[list] = []
     current: list = []
     used = 0
+    label = (lambda p: f"[{p.number}] {p.text}") if j.numbered else (lambda p: p.text)
     for p in j.paragraphs:
-        text = f"[{p.number}] {p.text}"
+        text = label(p)
         if current and used + len(text) > max_chars:
             groups.append(current)
             current, used = [], 0
@@ -209,15 +212,20 @@ def chunk_judgment(
     )
     single = len(groups) == 1
     chunks = []
-    for group in groups:
+    for i, group in enumerate(groups, start=1):
         lo, hi = group[0].number, group[-1].number
         rng = f"[{lo}]" if lo == hi else f"[{lo}]–[{hi}]"
-        citation = j.neutral_citation if single else f"{j.neutral_citation} at {rng}"
-        hierarchy = [f"{j.case_name} {j.neutral_citation}", j.court, f"Paragraphs {rng}"]
+        if j.numbered:
+            citation = j.neutral_citation if single else f"{j.neutral_citation} at {rng}"
+            where, chunk_id = f"Paragraphs {rng}", f"{doc_id}:para{lo}-{hi}"
+        else:  # never invent a pinpoint the source does not print
+            citation = j.neutral_citation
+            where, chunk_id = f"Part {i} of {len(groups)}", f"{doc_id}:part{i}"
+        hierarchy = [f"{j.case_name} {j.neutral_citation}", j.court, where]
         chunks.append(ChunkPayload(
-            chunk_id=f"{doc_id}:para{lo}-{hi}",
+            chunk_id=chunk_id,
             citation=citation,
-            text="\n".join(f"[{p.number}] {p.text}" for p in group),
+            text="\n".join(label(p) for p in group),
             context=_judgment_context(j, lo, hi),
             hierarchy_path=hierarchy,
             **common,

@@ -39,6 +39,7 @@ TIER_GUIDANCE = 6
 # court_level: higher number = higher court (used for treatment pass)
 COURT_LEVELS: dict[str, int] = {
     "SGCA": 5,   # Court of Appeal
+    "SGCA(I)": 5,  # Court of Appeal, international commercial
     "SGHC(A)": 4,  # Appellate Division
     "SGHC": 3,   # General Division
     "SGHC(I)": 3,  # SICC
@@ -47,7 +48,7 @@ COURT_LEVELS: dict[str, int] = {
     "SGDC": 1,
     "SGMC": 1,
 }
-BINDING_COURTS = {"SGCA", "SGHC(A)"}
+BINDING_COURTS = {"SGCA", "SGCA(I)", "SGHC(A)"}
 
 AGC_ATTRIBUTION = (
     "Legislation reproduced here is © Singapore Government and reproduced with "

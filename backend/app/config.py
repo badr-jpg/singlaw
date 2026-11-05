@@ -57,9 +57,19 @@ class Settings(BaseSettings):
     crawl_tz: str = "Asia/Singapore"
     crawl_delay_seconds: float = 2.0
     crawl_max_backoff_seconds: float = 300.0
+    # eLitigation has no published extraction window; 0 = no pause between
+    # requests (still one connection, still exponential backoff on 429/5xx)
+    elitigation_delay_seconds: float = 0.0
     sso_base_url: str = "https://sso.agc.gov.sg"
     sso_whats_new_path: str = "/Browse/Whats-New"
     judiciary_base_url: str = "https://www.judiciary.gov.sg"
+    # full crawl (crawl-full). Browse paths and the whole-document query are best
+    # guesses at SSO's URLs: open them in a browser first and adjust in .env.
+    sso_browse_acts_path: str = "/Browse/Act/Current/All?PageSize=500&SortBy=Title&SortOrder=ASC"
+    sso_browse_sl_path: str = "/Browse/SL/Current/All?PageSize=500&SortBy=Title&SortOrder=ASC"
+    sso_whole_doc_query: str = "WholeDoc=1"  # "" = fetch the default (possibly lazy-loaded) page
+    crawl_max_listing_pages: int = 60
+    corpus_dir: Path = ROOT / "data" / "corpus"  # raw-page archive the crawler writes
 
     # --- retrieval ---
     top_k_per_list: int = 75          # dense and sparse, per query variant
