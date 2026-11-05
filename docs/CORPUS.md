@@ -3,7 +3,35 @@
 Data and source documents never go in this repo; they belong on Hugging Face or in the ignored
 local `data/` folders. Git holds only code, docs and the manifest.
 
-The corpus has two sources, each loaded by its own command.
+## The index the app uses
+
+The app runs on a prebuilt index, the private Hugging Face dataset
+[`badlaldh/singlaw-vdb`](https://huggingface.co/datasets/badlaldh/singlaw-vdb): 43,160 chunks made
+of 512 Acts (33,160 chunks) and 10,000 passages from 214 *Tort — Negligence* judgments. Other areas
+of case law and all subsidiary legislation are not covered, so questions on them have no authority
+to draw on. The Acts source also has no Women's Charter, Work Injury Compensation Act or Workplace
+Safety and Health Act, so questions on civil divorce and those workplace laws can't be answered. The
+dataset's README lists its other limits.
+
+Stop the server, set `HF_TOKEN` in your shell, then:
+
+```bash
+make index
+```
+
+This overwrites `data/qdrant`, `data/db` and `data/cache`, including local chat history, so back up
+`data/db` first if you want to keep it. The revision is pinned in the `Makefile`.
+
+The index was built on another machine with changes not yet committed here (Windows fixes and the
+judgment passage loader), so the commands under "Build the index" below do not reproduce it: they
+index the full judgments rather than these passages.
+
+`eval/questions.jsonl` was written for the fixtures in `data/archive`. 27 of its 49 expected
+citations are for documents outside this index, so its scores don't measure this index.
+
+## Sources and rebuilding
+
+The sections below describe the full source material, each loaded by its own command.
 
 | Content | Local path | Source | Terms |
 |---|---|---|---|

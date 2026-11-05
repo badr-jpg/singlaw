@@ -18,6 +18,8 @@ data/models/
 data/uploads/
 data/raw/
 data/export/
+data/backups/
+data/.cache/
 # source documents never go in git, including pages the crawler saves here
 data/corpus/*
 !data/corpus/manifest.json
