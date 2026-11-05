@@ -1,4 +1,8 @@
-.PHONY: setup dev frontend-dev build test eval seed sync clean
+.PHONY: setup dev frontend-dev build test eval seed index sync clean
+
+# Pinned so everyone runs the same index. Update it when a new one is published.
+INDEX_REPO := badlaldh/singlaw-vdb
+INDEX_REVISION := aecbff97626c7123ce1b29fee46cae04292ab277
 
 setup:            ## install backend + frontend deps
 	cd backend && uv sync
@@ -22,6 +26,13 @@ eval:             ## retrieval + grounding evaluation
 
 seed:             ## load the bundled archive into Qdrant (no crawling)
 	cd backend && uv run python -m app.crawler seed --archive ../data/archive
+
+# Overwrites data/qdrant, data/db (including local chat history) and data/cache.
+# Private repo: needs HF_TOKEN set in the shell. Stop the server first.
+index:            ## download the published vector index into data/
+	cd backend && uv run --with huggingface_hub hf download $(INDEX_REPO) --repo-type dataset \
+		--revision $(INDEX_REVISION) --include "qdrant/*" --include "db/*" --include "cache/*" \
+		--local-dir ../data
 
 sync:             ## SSO incremental sync (only runs 05:00–07:00 SGT)
 	cd backend && uv run python -m app.crawler sync

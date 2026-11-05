@@ -390,7 +390,7 @@ class Database:
                  kw.get("source_url", "")))
 
     async def list_corpus(
-        self, q: str | None = None, doc_type: str | None = None, limit: int = 500,
+        self, q: str | None = None, doc_type: str | None = None, limit: int = 5000,
     ) -> list[dict[str, Any]]:
         sql = "SELECT * FROM corpus_docs WHERE 1=1"
         args: list[Any] = []
