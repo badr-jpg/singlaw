@@ -149,6 +149,11 @@ def chunk_corpus(archive_dir: Path) -> list[dict]:
             print(f"missing, skipped: {e['path']}")
             continue
         kind, url = e["kind"], e.get("source_url", "")
+        if kind == "elitigation_passages":
+            from app.ingest.hf_elitigation import all_chunks as passage_chunks
+
+            chunks += passage_chunks(path, limit=e.get("limit"))
+            continue
         if kind == "sso_statutes_jsonl":
             from app.ingest.sso_statutes import DEFAULT_MAX_CHARS as LEG_MAX
             from app.ingest.sso_statutes import all_chunks
@@ -170,7 +175,9 @@ def chunk_corpus(archive_dir: Path) -> list[dict]:
             chunks += generic_chunks(text, title=e.get("title", e["path"]),
                                      doc_type="practice_direction", source_url=url)
     raw_dir = archive_dir.parent / "raw" / "elitigation"
-    if raw_dir.exists():
+    if any(e["kind"] == "elitigation_passages" for e in manifest["documents"]):
+        pass  # judgments come from the manifest; don't add the raw archive on top
+    elif raw_dir.exists():
         chunks += chunk_elitigation(raw_dir)
     else:
         print(f"no judgments included: {raw_dir} not found")
