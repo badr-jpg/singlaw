@@ -1,0 +1,16 @@
+{
+  "judge": "Claude Sonnet 5.5",
+  "complete": true,
+  "scored_questions": 200,
+  "missing_question_ids": [],
+  "batch_validation_issues": {},
+  "claude_mean_answer_score_100": 93.08333333333333,
+  "codex_mean_answer_score_100_on_same_questions": 90.41735,
+  "faithfulness_scored_questions": 196,
+  "dimension_means_0_to_4": {
+    "correctness": 3.795,
+    "completeness": 3.81,
+    "answer_relevance": 3.565,
+    "faithfulness": 3.857142857142857
+  }
+}
