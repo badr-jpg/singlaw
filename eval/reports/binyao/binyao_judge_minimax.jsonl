@@ -1,0 +1,200 @@
+{"question_id": "binyao-001", "correct": 2, "cited_gold": true, "note": "Both exceptions correct"}
+{"question_id": "binyao-002", "correct": 2, "cited_gold": true, "note": "Correct incl. smart watch; opens with an unnecessary hedge"}
+{"question_id": "binyao-003", "correct": 2, "cited_gold": true, "note": "Exact"}
+{"question_id": "binyao-004", "correct": 0, "cited_gold": false, "note": "Empty answer (generation returned only whitespace)"}
+{"question_id": "binyao-006", "correct": 2, "cited_gold": true, "note": "Correct, cites s 5; opens with an unnecessary hedge"}
+{"question_id": "binyao-007", "correct": 2, "cited_gold": true, "note": "Correct incl. disqualification"}
+{"question_id": "binyao-008", "correct": 2, "cited_gold": true, "note": "Correct incl. solicitation ban"}
+{"question_id": "binyao-009", "correct": 2, "cited_gold": true, "note": "Correct; hedge about scope"}
+{"question_id": "binyao-010", "correct": 2, "cited_gold": true, "note": "Correct, adds statutory-declaration route"}
+{"question_id": "binyao-011", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-012", "correct": 2, "cited_gold": true, "note": "All three routes"}
+{"question_id": "binyao-013", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-014", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-015", "correct": 2, "cited_gold": true, "note": "Correct; cites s 3 only"}
+{"question_id": "binyao-016", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-017", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-018", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-019", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-020", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-021", "correct": 2, "cited_gold": true, "note": "Correct; hedge"}
+{"question_id": "binyao-022", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-023", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-024", "correct": 2, "cited_gold": true, "note": "Correct, cites ss 57-58 (GLM got this wrong)"}
+{"question_id": "binyao-025", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-026", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-027", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-028", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-029", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-030", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-031", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-032", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-033", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-034", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-035", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-036", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-037", "correct": 2, "cited_gold": true, "note": "Correct; hedge"}
+{"question_id": "binyao-038", "correct": 2, "cited_gold": true, "note": "Correct incl. both exceptions"}
+{"question_id": "binyao-039", "correct": 1, "cited_gold": true, "note": "Exit permit only; omits duty to return and the fine"}
+{"question_id": "binyao-040", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-041", "correct": 2, "cited_gold": true, "note": "First-offence and damage penalties right; omits repeat-offence tier"}
+{"question_id": "binyao-042", "correct": 0, "cited_gold": false, "note": "Empty answer (generation returned only whitespace)"}
+{"question_id": "binyao-043", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-044", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-045", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-046", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-047", "correct": 2, "cited_gold": true, "note": "Correct; hedge"}
+{"question_id": "binyao-048", "correct": 2, "cited_gold": true, "note": "Correct incl. defence"}
+{"question_id": "binyao-049", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-050", "correct": 2, "cited_gold": true, "note": "Correct; omits pre-2007 carve-out"}
+{"question_id": "binyao-051", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-052", "correct": 2, "cited_gold": true, "note": "Correct; long hedge"}
+{"question_id": "binyao-053", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-054", "correct": 0, "cited_gold": false, "note": "Empty answer (generation returned only whitespace)"}
+{"question_id": "binyao-055", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-056", "correct": 1, "cited_gold": false, "note": "Says yes via Customs Act s 108; misses Postal Services Act s 13"}
+{"question_id": "binyao-057", "correct": 2, "cited_gold": true, "note": "Correct; hedge"}
+{"question_id": "binyao-058", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-059", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-060", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-061", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-062", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-063", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-064", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-065", "correct": 2, "cited_gold": true, "note": "Correct; hedge"}
+{"question_id": "binyao-066", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-067", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-068", "correct": 2, "cited_gold": true, "note": "In rem route correct; omits in personam"}
+{"question_id": "binyao-069", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-070", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-071", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-072", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-073", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-074", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-075", "correct": 2, "cited_gold": true, "note": "Correct; hedge"}
+{"question_id": "binyao-076", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-077", "correct": 0, "cited_gold": false, "note": "Empty answer (generation returned only whitespace)"}
+{"question_id": "binyao-078", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-079", "correct": 2, "cited_gold": false, "note": "Correct content, but [CITE:4] points to s 6 not s 4 (citation index mismatch)"}
+{"question_id": "binyao-080", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-081", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-082", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-083", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-084", "correct": 2, "cited_gold": true, "note": "Correct for use; omits other acts"}
+{"question_id": "binyao-085", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-086", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-087", "correct": 0, "cited_gold": false, "note": "Retrieval missed RTA s 73; says cannot answer"}
+{"question_id": "binyao-088", "correct": 0, "cited_gold": false, "note": "Empty answer (generation returned only whitespace)"}
+{"question_id": "binyao-089", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-090", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-091", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-092", "correct": 2, "cited_gold": true, "note": "Correct; hedge"}
+{"question_id": "binyao-093", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-094", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-095", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-096", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-097", "correct": 0, "cited_gold": false, "note": "Empty answer (generation returned only whitespace)"}
+{"question_id": "binyao-098", "correct": 1, "cited_gold": true, "note": "Names the Authority only; omits start date and scope"}
+{"question_id": "binyao-099", "correct": 2, "cited_gold": true, "note": "Correct (GLM falsely refused this one)"}
+{"question_id": "binyao-100", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-101", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-102", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-104", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-103", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-105", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-106", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-107", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-108", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-109", "correct": 2, "cited_gold": false, "note": "Correct"}
+{"question_id": "binyao-110", "correct": 2, "cited_gold": true, "note": "Correct; hedge"}
+{"question_id": "binyao-111", "correct": 2, "cited_gold": false, "note": "Both parts correct"}
+{"question_id": "binyao-112", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-113", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-114", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-115", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-116", "correct": 2, "cited_gold": true, "note": "Correct; hedge"}
+{"question_id": "binyao-117", "correct": 2, "cited_gold": true, "note": "Correct; temporal anchor 'As at 2008-12-31' but answer unaffected"}
+{"question_id": "binyao-118", "correct": 2, "cited_gold": true, "note": "Correct; anchored as at 2008-12-31"}
+{"question_id": "binyao-119", "correct": 1, "cited_gold": true, "note": "Insurer and fertility right; says CA outcome on psychiatric claim not stated"}
+{"question_id": "binyao-120", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-121", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-122", "correct": 2, "cited_gold": true, "note": "Correct; anchored as at 2004-12-31"}
+{"question_id": "binyao-123", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-124", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-125", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-126", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-127", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-129", "correct": 2, "cited_gold": true, "note": "Correct; anchored as at 2012-12-31"}
+{"question_id": "binyao-128", "correct": 1, "cited_gold": true, "note": "HC holding right; says AD final outcome not in sources (gold: appeal dismissed)"}
+{"question_id": "binyao-130", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-131", "correct": 2, "cited_gold": false, "note": "Right in principle (indemnity costs possible); does not identify the crane case"}
+{"question_id": "binyao-132", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-133", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-134", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-135", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-136", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-137", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-138", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-139", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-140", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-141", "correct": 2, "cited_gold": false, "note": "Correct conclusion via Lorinet; gold passage not cited"}
+{"question_id": "binyao-142", "correct": 0, "cited_gold": false, "note": "Empty answer (generation returned only whitespace)"}
+{"question_id": "binyao-143", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-144", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-145", "correct": 2, "cited_gold": false, "note": "Right in principle; specific case not identified"}
+{"question_id": "binyao-146", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-147", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-148", "correct": 2, "cited_gold": true, "note": "Spandeck correct (GLM said Anns); no duty correct"}
+{"question_id": "binyao-149", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-150", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-151", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-152", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-153", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-154", "correct": 2, "cited_gold": true, "note": "Correct (GLM falsely refused)"}
+{"question_id": "binyao-155", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-156", "correct": 2, "cited_gold": false, "note": "Correct; hedge"}
+{"question_id": "binyao-157", "correct": 2, "cited_gold": false, "note": "Correct: defendant bears burden (GLM inverted it)"}
+{"question_id": "binyao-158", "correct": 0, "cited_gold": false, "note": "Leads with 'yes, you must prove carelessness' then says unresolved; misses bailee burden"}
+{"question_id": "binyao-159", "correct": 2, "cited_gold": false, "note": "Correct"}
+{"question_id": "binyao-160", "correct": 2, "cited_gold": false, "note": "Correct; hedge"}
+{"question_id": "binyao-161", "correct": 2, "cited_gold": true, "note": "Correct (GLM conflated with fertility claim)"}
+{"question_id": "binyao-162", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-163", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-164", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-165", "correct": 2, "cited_gold": false, "note": "Method correct; not the gold case figures"}
+{"question_id": "binyao-166", "correct": 2, "cited_gold": true, "note": "Correct (GLM falsely refused)"}
+{"question_id": "binyao-167", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-168", "correct": 2, "cited_gold": true, "note": "Correct; hedge"}
+{"question_id": "binyao-169", "correct": 2, "cited_gold": false, "note": "Correct; hedge"}
+{"question_id": "binyao-170", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-171", "correct": 2, "cited_gold": true, "note": "Correct; anchored as at 2012-12-31"}
+{"question_id": "binyao-172", "correct": 2, "cited_gold": true, "note": "Correct; omits plaintiff reaching for wheel"}
+{"question_id": "binyao-173", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-174", "correct": 2, "cited_gold": true, "note": "Correct; anchored as at 2015-12-31"}
+{"question_id": "binyao-175", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-176", "correct": 2, "cited_gold": false, "note": "Correct"}
+{"question_id": "binyao-177", "correct": 2, "cited_gold": true, "note": "Correct; anchored as at 2019-12-31"}
+{"question_id": "binyao-178", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-179", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-180", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-181", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-182", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-183", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-185", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-186", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-189", "correct": 2, "cited_gold": true, "note": "Correct; anchored as at 1999-12-31 (GLM failed this from the anchor)"}
+{"question_id": "binyao-005", "correct": 2, "cited_gold": true, "note": "Correct"}
+{"question_id": "binyao-184", "correct": 0, "cited_gold": false, "note": "Empty answer (generation returned only whitespace)"}
+{"question_id": "binyao-187", "correct": 0, "cited_gold": false, "note": "Empty answer (generation returned only whitespace)"}
+{"question_id": "binyao-188", "correct": 1, "cited_gold": true, "note": "Says sources do not answer the dismissal question (Enlistment Act s 22 not retrieved); rest relevant"}
+{"question_id": "binyao-190", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-191", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-192", "correct": 1, "cited_gold": true, "note": "Gives s 6 penalty ($10,000/3 years) instead of s 3; CII duty correct (GLM also wrong here)"}
+{"question_id": "binyao-193", "correct": 0, "cited_gold": false, "note": "Empty answer (generation returned only whitespace)"}
+{"question_id": "binyao-194", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-195", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-196", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-197", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-198", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-199", "correct": 2, "cited_gold": true, "note": "Both parts correct"}
+{"question_id": "binyao-200", "correct": 0, "cited_gold": false, "note": "Empty answer (generation returned only whitespace)"}
