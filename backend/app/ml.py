@@ -138,8 +138,18 @@ class STEmbedder:
     def __init__(self, model_name: str):
         from sentence_transformers import SentenceTransformer
 
+        # Only a few short queries are embedded per request, so on GPUs under
+        # 8 GB keep the embedder on CPU and leave the VRAM to the reranker.
+        device = None
+        try:
+            import torch
+            if (torch.cuda.is_available() and
+                    torch.cuda.get_device_properties(0).total_memory < 8 * 1024**3):
+                device = "cpu"
+        except Exception:
+            pass
         self.model = _local_first(
-            lambda: SentenceTransformer(model_name, trust_remote_code=True))
+            lambda: SentenceTransformer(model_name, trust_remote_code=True, device=device))
         self.dim = int(self.model.get_sentence_embedding_dimension())
         # Qwen3-Embedding ships an asymmetric "query" prompt in its config
         self._query_prompt = "query" if "query" in (self.model.prompts or {}) else None
@@ -203,11 +213,14 @@ class QwenReranker:
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         self._torch = torch
-        self._device = "mps" if torch.backends.mps.is_available() else "cpu"
+        self._device = ("cuda" if torch.cuda.is_available()
+                        else "mps" if torch.backends.mps.is_available() else "cpu")
+        # fp16 on CUDA halves VRAM (~1.2 GB) so it fits small laptop GPUs
+        dtype = torch.float16 if self._device == "cuda" else None
         self.tokenizer = _local_first(
             lambda: AutoTokenizer.from_pretrained(model_name, padding_side="left"))
         self.model = _local_first(
-            lambda: AutoModelForCausalLM.from_pretrained(model_name)
+            lambda: AutoModelForCausalLM.from_pretrained(model_name, dtype=dtype)
         ).eval().to(self._device)
         self._yes = self.tokenizer.convert_tokens_to_ids("yes")
         self._no = self.tokenizer.convert_tokens_to_ids("no")
@@ -227,7 +240,9 @@ class QwenReranker:
                 batch = self.tokenizer(pairs[i:i + 8], return_tensors="pt",
                                        padding=True, truncation=True, max_length=4096
                                        ).to(self._device)
-                logits = self.model(**batch).logits[:, -1, :]
+                # only the last position is scored; logits_to_keep=1 avoids
+                # materialising full-vocab logits for every token (~1.7 GB/batch)
+                logits = self.model(**batch, logits_to_keep=1).logits[:, -1, :]
                 pair_logits = torch.stack([logits[:, self._no], logits[:, self._yes]], dim=1)
                 out.extend(torch.nn.functional.log_softmax(pair_logits, dim=1)[:, 1]
                            .exp().tolist())
