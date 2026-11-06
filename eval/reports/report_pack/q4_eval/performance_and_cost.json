@@ -1,0 +1,90 @@
+{
+ "tokens_per_answered_query_mean_of_4": {
+  "m3_in": 10592,
+  "m3_out": 2994,
+  "flash_in": 1008,
+  "flash_out": 2494
+ },
+ "usd_per_query_low": 0.0099,
+ "usd_per_query_high": 0.0197,
+ "usd_per_1000_queries": [
+  9.91,
+  19.68
+ ],
+ "price_assumptions": {
+  "low": {
+   "m3_in": 0.3,
+   "m3_out": 1.2,
+   "flash_in": 0.15,
+   "flash_out": 1.2
+  },
+  "high": {
+   "m3_in": 0.6,
+   "m3_out": 2.4,
+   "flash_in": 0.15,
+   "flash_out": 2.4
+  },
+  "note": "Published prices conflict: MiniMax-M3 is listed at $0.30/$1.20 or $0.60/$2.40 per million tokens. MiniMax-M3.1-Flash input is reported at $0.15; no output price was found, so the M3 output price is used as a stand-in. Check platform.minimax.io before quoting. Judging and annotation costs are not included.",
+  "sources": [
+   "https://developer.puter.com/tutorials/minimax-api-pricing/",
+   "https://venturebeat.com/technology/minimax-m3-debuts-eclipsing-gpt-5-5-and-gemini-3-1-pro-on-key-benchmark-performance-for-just-5-10-of-the-cost",
+   "https://www.developersdigest.tech/models/minimax-m3"
+  ]
+ },
+ "throughput": {
+  "badr_run": {
+   "questions": 200,
+   "minutes": 21,
+   "questions_per_second": 0.159,
+   "in_flight": 8,
+   "workers": 2
+  },
+  "huang_rerun": {
+   "questions": 200,
+   "minutes": 21,
+   "questions_per_second": 0.159,
+   "in_flight": 8,
+   "workers": 2
+  },
+  "retrieval_only_100_questions_two_runs_minutes": 3
+ },
+ "latency_seconds": {
+  "badr_p50_p90_max": [
+   41.9,
+   71.4,
+   138.4
+  ],
+  "all_1000_p50_p90": [
+   66.6,
+   115.1
+  ],
+  "five_queries_total": [
+   30.66,
+   65.28,
+   40.99,
+   51.14,
+   0.95
+  ],
+  "five_queries_first_token": [
+   29.02,
+   55.08,
+   38.59,
+   44.27,
+   0.95
+  ],
+  "five_queries_search_and_rerank": [
+   5.42,
+   5.38,
+   5.21,
+   5.34,
+   5.14
+  ]
+ },
+ "resources": {
+  "worker_rss_gb_each_approx": 3.5,
+  "lowest_free_memory_two_workers_pct": 41,
+  "index_size_mb": 611,
+  "model_load_seconds": 21.3,
+  "crash": "Six full-profile workers (24 questions in flight) exhausted memory and caused a kernel watchdog panic on a 64 GB M4 Max with about 50 GB already in use; two workers stayed at 41% free or better."
+ }
+}

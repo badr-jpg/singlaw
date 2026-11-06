@@ -1,0 +1,134 @@
+{
+ "reference_label": {
+  "pairwise": {
+   "AB": {
+    "agreement": 0.943,
+    "cohen_kappa": 0.6779
+   },
+   "AC": {
+    "agreement": 0.949,
+    "cohen_kappa": 0.6962
+   },
+   "BC": {
+    "agreement": 0.946,
+    "cohen_kappa": 0.6922
+   }
+  },
+  "mean_pairwise_agreement": 0.946,
+  "all_three_agree": 0.919,
+  "fleiss_kappa": 0.6886,
+  "counts": {
+   "A": {
+    "correct": 907,
+    "incorrect": 4,
+    "partial": 89
+   },
+   "B": {
+    "correct": 898,
+    "partial": 96,
+    "incorrect": 6
+   },
+   "C": {
+    "correct": 909,
+    "incorrect": 5,
+    "partial": 86
+   }
+  }
+ },
+ "answerable": {
+  "pairwise": {
+   "AB": {
+    "agreement": 0.983,
+    "cohen_kappa": 0.7214
+   },
+   "AC": {
+    "agreement": 0.985,
+    "cohen_kappa": 0.7093
+   },
+   "BC": {
+    "agreement": 0.986,
+    "cohen_kappa": 0.7516
+   }
+  },
+  "mean_pairwise_agreement": 0.9847,
+  "all_three_agree": 0.977,
+  "fleiss_kappa": 0.7277,
+  "counts": {
+   "A": {
+    "yes": 971,
+    "no": 29
+   },
+   "B": {
+    "yes": 966,
+    "no": 34
+   },
+   "C": {
+    "yes": 976,
+    "no": 24
+   }
+  }
+ },
+ "standalone": {
+  "pairwise": {
+   "AB": {
+    "agreement": 0.972,
+    "cohen_kappa": 0.5341
+   },
+   "AC": {
+    "agreement": 0.977,
+    "cohen_kappa": 0.6448
+   },
+   "BC": {
+    "agreement": 0.977,
+    "cohen_kappa": 0.6112
+   }
+  },
+  "mean_pairwise_agreement": 0.9753,
+  "all_three_agree": 0.963,
+  "fleiss_kappa": 0.5978,
+  "counts": {
+   "A": {
+    "yes": 966,
+    "no": 34
+   },
+   "B": {
+    "yes": 972,
+    "no": 28
+   },
+   "C": {
+    "yes": 967,
+    "no": 33
+   }
+  }
+ },
+ "majority": {
+  "reference_label": {
+   "correct": 911,
+   "incorrect": 5,
+   "partial": 84
+  },
+  "answerable": {
+   "yes": 972,
+   "no": 28
+  },
+  "standalone": {
+   "yes": 968,
+   "no": 32
+  }
+ },
+ "by_person_not_correct": {
+  "darien": 9,
+  "sumo": 34,
+  "huang": 5,
+  "binyao": 21,
+  "badr": 20
+ },
+ "flagged_incorrect": [
+  "badr-002",
+  "badr-189",
+  "binyao-027",
+  "binyao-062",
+  "sumo-060"
+ ],
+ "disputed": []
+}

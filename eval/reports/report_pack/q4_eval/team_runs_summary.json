@@ -1,0 +1,1339 @@
+{
+ "config": {
+  "badr": {
+   "judge": "Claude Haiku 5.5 (subagents)",
+   "rubric": "judge_claude.py",
+   "reranker": "Qwen3-Reranker-0.6B",
+   "fusion_top": 50,
+   "embedding": "Qwen3-Embedding-0.6B",
+   "index": "singlaw-vdb",
+   "llm": "MiniMax-M3",
+   "machine": "M4 Max, 2 workers x 4"
+  },
+  "binyao": {
+   "judge": "Claude, model not recorded (manual)",
+   "rubric": "2/1/0",
+   "reranker": "ms-marco-MiniLM-L-6-v2",
+   "fusion_top": "not stated (default 150)",
+   "embedding": "Qwen3-Embedding-0.6B",
+   "index": "singlaw-vdb",
+   "llm": "MiniMax-M3",
+   "machine": "Windows CPU, 5 at once"
+  },
+  "darien": {
+   "judge": "Claude Opus 5.5 (in chat)",
+   "rubric": "judge_claude.py",
+   "reranker": "Qwen3-Reranker-0.6B",
+   "fusion_top": 50,
+   "embedding": "Qwen3-Embedding-0.6B",
+   "index": "singlaw-vdb",
+   "llm": "MiniMax-M3",
+   "machine": "MacBook Air, 1 at a time"
+  },
+  "huang": {
+   "judge": "Claude Sonnet 5.5",
+   "rubric": "0-4 dimensions",
+   "reranker": "ms-marco-MiniLM-L-6-v2",
+   "fusion_top": "not stated (default 150)",
+   "embedding": "all-MiniLM-L6-v2 (rebuilt index)",
+   "index": "rebuilt from export, no citation graph",
+   "llm": "MiniMax-M3",
+   "machine": "dev profile; sources not saved"
+  },
+  "sumo": {
+   "judge": "Claude, model not recorded (manual; run by binyao)",
+   "rubric": "2/1/0",
+   "reranker": "ms-marco-MiniLM-L-6-v2",
+   "fusion_top": "not stated (default 150)",
+   "embedding": "Qwen3-Embedding-0.6B",
+   "index": "singlaw-vdb",
+   "llm": "MiniMax-M3",
+   "machine": "Windows CPU, 5 at once"
+  }
+ },
+ "overall_all": {
+  "n": 1000,
+  "correctness": 0.9313,
+  "correctness_ci95": [
+   0.917,
+   0.946
+  ],
+  "fully_correct": 0.904,
+  "partial": 0.052,
+  "zero": 0.044,
+  "blank": 27,
+  "correctness_excl_blank": 0.9571,
+  "faithfulness_norm": 0.9593,
+  "relevancy_norm": 0.8988,
+  "hit_at_1": 0.5275,
+  "hit_at_5": 0.8263,
+  "hit_at_10": 0.8875,
+  "hit_at_20": 0.925,
+  "mrr": 0.641,
+  "recall_at_10": 0.8529,
+  "doc_hit_at_20": 0.9775,
+  "context_recall": 0.9006,
+  "latency_p50": 73.6
+ },
+ "overall_same_index": {
+  "n": 800,
+  "correctness": 0.9269,
+  "correctness_ci95": [
+   0.909,
+   0.943
+  ],
+  "fully_correct": 0.9038,
+  "partial": 0.0462,
+  "zero": 0.05,
+  "blank": 24,
+  "correctness_excl_blank": 0.9555,
+  "faithfulness_norm": 0.9569,
+  "relevancy_norm": 0.9025,
+  "hit_at_1": 0.5275,
+  "hit_at_5": 0.8263,
+  "hit_at_10": 0.8875,
+  "hit_at_20": 0.925,
+  "mrr": 0.641,
+  "recall_at_10": 0.8529,
+  "doc_hit_at_20": 0.9775,
+  "context_recall": 0.9006,
+  "latency_p50": 73.6
+ },
+ "by_person": {
+  "badr": {
+   "n": 200,
+   "correctness": 0.9675,
+   "correctness_ci95": [
+    0.945,
+    0.985
+   ],
+   "fully_correct": 0.945,
+   "partial": 0.045,
+   "zero": 0.01,
+   "blank": 1,
+   "correctness_excl_blank": 0.9724,
+   "faithfulness_norm": 0.9465,
+   "relevancy_norm": 0.96,
+   "hit_at_1": 0.565,
+   "hit_at_5": 0.89,
+   "hit_at_10": 0.95,
+   "hit_at_20": 0.975,
+   "mrr": 0.688,
+   "recall_at_10": 0.915,
+   "doc_hit_at_20": 0.99,
+   "context_recall": 0.955,
+   "latency_p50": 41.8
+  },
+  "binyao": {
+   "n": 200,
+   "correctness": 0.9175,
+   "correctness_ci95": [
+    0.88,
+    0.953
+   ],
+   "fully_correct": 0.9,
+   "partial": 0.035,
+   "zero": 0.065,
+   "blank": 11,
+   "correctness_excl_blank": 0.9709,
+   "faithfulness_norm": null,
+   "relevancy_norm": null,
+   "hit_at_1": 0.565,
+   "hit_at_5": 0.82,
+   "hit_at_10": 0.865,
+   "hit_at_20": 0.915,
+   "mrr": 0.6661,
+   "recall_at_10": 0.8267,
+   "doc_hit_at_20": 0.965,
+   "context_recall": 0.8875,
+   "latency_p50": 88.2
+  },
+  "darien": {
+   "n": 200,
+   "correctness": 0.9275,
+   "correctness_ci95": [
+    0.89,
+    0.963
+   ],
+   "fully_correct": 0.915,
+   "partial": 0.025,
+   "zero": 0.06,
+   "blank": 5,
+   "correctness_excl_blank": 0.9513,
+   "faithfulness_norm": 0.9672,
+   "relevancy_norm": 0.845,
+   "hit_at_1": 0.525,
+   "hit_at_5": 0.845,
+   "hit_at_10": 0.925,
+   "hit_at_20": 0.945,
+   "mrr": 0.6427,
+   "recall_at_10": 0.895,
+   "doc_hit_at_20": 0.97,
+   "context_recall": 0.925,
+   "latency_p50": 78.5
+  },
+  "huang": {
+   "n": 200,
+   "correctness": 0.9487,
+   "correctness_ci95": [
+    0.922,
+    0.971
+   ],
+   "fully_correct": 0.905,
+   "partial": 0.075,
+   "zero": 0.02,
+   "blank": 3,
+   "correctness_excl_blank": 0.9632,
+   "faithfulness_norm": 0.9643,
+   "relevancy_norm": 0.8912,
+   "hit_at_1": null,
+   "hit_at_5": null,
+   "hit_at_10": null,
+   "hit_at_20": null,
+   "mrr": null,
+   "recall_at_10": null,
+   "doc_hit_at_20": null,
+   "context_recall": null,
+   "latency_p50": null
+  },
+  "sumo": {
+   "n": 200,
+   "correctness": 0.895,
+   "correctness_ci95": [
+    0.858,
+    0.93
+   ],
+   "fully_correct": 0.855,
+   "partial": 0.08,
+   "zero": 0.065,
+   "blank": 7,
+   "correctness_excl_blank": 0.9275,
+   "faithfulness_norm": null,
+   "relevancy_norm": null,
+   "hit_at_1": 0.455,
+   "hit_at_5": 0.75,
+   "hit_at_10": 0.81,
+   "hit_at_20": 0.865,
+   "mrr": 0.5673,
+   "recall_at_10": 0.775,
+   "doc_hit_at_20": 0.985,
+   "context_recall": 0.835,
+   "latency_p50": 77.1
+  }
+ },
+ "by_type": {
+  "provision_lookup": {
+   "n": 300,
+   "correctness": 0.9733,
+   "correctness_ci95": [
+    0.953,
+    0.988
+   ],
+   "fully_correct": 0.97,
+   "partial": 0.0067,
+   "zero": 0.0233,
+   "blank": 5,
+   "correctness_excl_blank": 0.9898,
+   "faithfulness_norm": 0.9692,
+   "relevancy_norm": 0.9278,
+   "hit_at_1": 0.85,
+   "hit_at_5": 0.9792,
+   "hit_at_10": 0.9792,
+   "hit_at_20": 0.9917,
+   "mrr": 0.9066,
+   "recall_at_10": 0.9792,
+   "doc_hit_at_20": 0.9917,
+   "context_recall": 0.9875,
+   "latency_p50": 65.5
+  },
+  "lay_language": {
+   "n": 300,
+   "correctness": 0.9108,
+   "correctness_ci95": [
+    0.882,
+    0.939
+   ],
+   "fully_correct": 0.8867,
+   "partial": 0.0467,
+   "zero": 0.0667,
+   "blank": 7,
+   "correctness_excl_blank": 0.9326,
+   "faithfulness_norm": 0.95,
+   "relevancy_norm": 0.8778,
+   "hit_at_1": 0.4542,
+   "hit_at_5": 0.7167,
+   "hit_at_10": 0.7708,
+   "hit_at_20": 0.8333,
+   "mrr": 0.5634,
+   "recall_at_10": 0.7667,
+   "doc_hit_at_20": 0.9375,
+   "context_recall": 0.8333,
+   "latency_p50": 83.6
+  },
+  "case_law": {
+   "n": 200,
+   "correctness": 0.98,
+   "correctness_ci95": [
+    0.964,
+    0.994
+   ],
+   "fully_correct": 0.96,
+   "partial": 0.035,
+   "zero": 0.005,
+   "blank": 1,
+   "correctness_excl_blank": 0.9849,
+   "faithfulness_norm": 0.9637,
+   "relevancy_norm": 0.925,
+   "hit_at_1": 0.1437,
+   "hit_at_5": 0.7688,
+   "hit_at_10": 0.8875,
+   "hit_at_20": 0.9313,
+   "mrr": 0.3471,
+   "recall_at_10": 0.8875,
+   "doc_hit_at_20": 1.0,
+   "context_recall": 0.9313,
+   "latency_p50": 72.3
+  },
+  "multi_hop": {
+   "n": 200,
+   "correctness": 0.85,
+   "correctness_ci95": [
+    0.806,
+    0.891
+   ],
+   "fully_correct": 0.775,
+   "partial": 0.145,
+   "zero": 0.08,
+   "blank": 14,
+   "correctness_excl_blank": 0.914,
+   "faithfulness_norm": 0.9539,
+   "relevancy_norm": 0.8604,
+   "hit_at_1": 0.5375,
+   "hit_at_5": 0.8187,
+   "hit_at_10": 0.925,
+   "hit_at_20": 0.9563,
+   "mrr": 0.6531,
+   "recall_at_10": 0.7583,
+   "doc_hit_at_20": 0.9938,
+   "context_recall": 0.8406,
+   "latency_p50": 77.2
+  }
+ },
+ "by_type_same_index": {
+  "provision_lookup": {
+   "n": 240,
+   "correctness": 0.9667,
+   "correctness_ci95": [
+    0.944,
+    0.988
+   ],
+   "fully_correct": 0.9625,
+   "partial": 0.0083,
+   "zero": 0.0292,
+   "blank": 5,
+   "correctness_excl_blank": 0.9872,
+   "faithfulness_norm": 0.9621,
+   "relevancy_norm": 0.9125,
+   "hit_at_1": 0.85,
+   "hit_at_5": 0.9792,
+   "hit_at_10": 0.9792,
+   "hit_at_20": 0.9917,
+   "mrr": 0.9066,
+   "recall_at_10": 0.9792,
+   "doc_hit_at_20": 0.9917,
+   "context_recall": 0.9875,
+   "latency_p50": 65.5
+  },
+  "lay_language": {
+   "n": 240,
+   "correctness": 0.9042,
+   "correctness_ci95": [
+    0.867,
+    0.94
+   ],
+   "fully_correct": 0.8875,
+   "partial": 0.0333,
+   "zero": 0.0792,
+   "blank": 7,
+   "correctness_excl_blank": 0.9313,
+   "faithfulness_norm": 0.9504,
+   "relevancy_norm": 0.875,
+   "hit_at_1": 0.4542,
+   "hit_at_5": 0.7167,
+   "hit_at_10": 0.7708,
+   "hit_at_20": 0.8333,
+   "mrr": 0.5634,
+   "recall_at_10": 0.7667,
+   "doc_hit_at_20": 0.9375,
+   "context_recall": 0.8333,
+   "latency_p50": 83.6
+  },
+  "case_law": {
+   "n": 160,
+   "correctness": 0.9781,
+   "correctness_ci95": [
+    0.959,
+    0.994
+   ],
+   "fully_correct": 0.9625,
+   "partial": 0.0312,
+   "zero": 0.0063,
+   "blank": 1,
+   "correctness_excl_blank": 0.9843,
+   "faithfulness_norm": 0.9674,
+   "relevancy_norm": 0.925,
+   "hit_at_1": 0.1437,
+   "hit_at_5": 0.7688,
+   "hit_at_10": 0.8875,
+   "hit_at_20": 0.9313,
+   "mrr": 0.3471,
+   "recall_at_10": 0.8875,
+   "doc_hit_at_20": 1.0,
+   "context_recall": 0.9313,
+   "latency_p50": 72.3
+  },
+  "multi_hop": {
+   "n": 160,
+   "correctness": 0.85,
+   "correctness_ci95": [
+    0.8,
+    0.897
+   ],
+   "fully_correct": 0.7812,
+   "partial": 0.1375,
+   "zero": 0.0813,
+   "blank": 11,
+   "correctness_excl_blank": 0.9128,
+   "faithfulness_norm": 0.9481,
+   "relevancy_norm": 0.9062,
+   "hit_at_1": 0.5375,
+   "hit_at_5": 0.8187,
+   "hit_at_10": 0.925,
+   "hit_at_20": 0.9563,
+   "mrr": 0.6531,
+   "recall_at_10": 0.7583,
+   "doc_hit_at_20": 0.9938,
+   "context_recall": 0.8406,
+   "latency_p50": 77.2
+  }
+ },
+ "person_by_type": {
+  "badr": {
+   "provision_lookup": {
+    "n": 60,
+    "correctness": 0.9833,
+    "correctness_ci95": [
+     0.95,
+     1.0
+    ],
+    "fully_correct": 0.9833,
+    "partial": 0.0,
+    "zero": 0.0167,
+    "blank": 1,
+    "correctness_excl_blank": 1.0,
+    "faithfulness_norm": 0.9409,
+    "relevancy_norm": 0.95,
+    "hit_at_1": 0.85,
+    "hit_at_5": 0.95,
+    "hit_at_10": 0.95,
+    "hit_at_20": 1.0,
+    "mrr": 0.8951,
+    "recall_at_10": 0.95,
+    "doc_hit_at_20": 1.0,
+    "context_recall": 0.9833,
+    "latency_p50": 37.8
+   },
+   "lay_language": {
+    "n": 60,
+    "correctness": 0.9667,
+    "correctness_ci95": [
+     0.925,
+     1.0
+    ],
+    "fully_correct": 0.95,
+    "partial": 0.0333,
+    "zero": 0.0167,
+    "blank": 0,
+    "correctness_excl_blank": 0.9667,
+    "faithfulness_norm": 0.9341,
+    "relevancy_norm": 0.95,
+    "hit_at_1": 0.4833,
+    "hit_at_5": 0.8,
+    "hit_at_10": 0.9,
+    "hit_at_20": 0.9167,
+    "mrr": 0.6052,
+    "recall_at_10": 0.9,
+    "doc_hit_at_20": 0.9667,
+    "context_recall": 0.9167,
+    "latency_p50": 44.7
+   },
+   "case_law": {
+    "n": 40,
+    "correctness": 0.9875,
+    "correctness_ci95": [
+     0.963,
+     1.0
+    ],
+    "fully_correct": 0.975,
+    "partial": 0.025,
+    "zero": 0.0,
+    "blank": 0,
+    "correctness_excl_blank": 0.9875,
+    "faithfulness_norm": 0.9553,
+    "relevancy_norm": 0.975,
+    "hit_at_1": 0.1,
+    "hit_at_5": 0.9,
+    "hit_at_10": 1.0,
+    "hit_at_20": 1.0,
+    "mrr": 0.3548,
+    "recall_at_10": 1.0,
+    "doc_hit_at_20": 1.0,
+    "context_recall": 1.0,
+    "latency_p50": 40.6
+   },
+   "multi_hop": {
+    "n": 40,
+    "correctness": 0.925,
+    "correctness_ci95": [
+     0.863,
+     0.975
+    ],
+    "fully_correct": 0.85,
+    "partial": 0.15,
+    "zero": 0.0,
+    "blank": 0,
+    "correctness_excl_blank": 0.925,
+    "faithfulness_norm": 0.965,
+    "relevancy_norm": 0.975,
+    "hit_at_1": 0.725,
+    "hit_at_5": 0.925,
+    "hit_at_10": 0.975,
+    "hit_at_20": 1.0,
+    "mrr": 0.8344,
+    "recall_at_10": 0.8,
+    "doc_hit_at_20": 1.0,
+    "context_recall": 0.925,
+    "latency_p50": 46.1
+   }
+  },
+  "binyao": {
+   "provision_lookup": {
+    "n": 60,
+    "correctness": 0.95,
+    "correctness_ci95": [
+     0.892,
+     0.992
+    ],
+    "fully_correct": 0.9333,
+    "partial": 0.0333,
+    "zero": 0.0333,
+    "blank": 2,
+    "correctness_excl_blank": 0.9828,
+    "faithfulness_norm": null,
+    "relevancy_norm": null,
+    "hit_at_1": 0.85,
+    "hit_at_5": 1.0,
+    "hit_at_10": 1.0,
+    "hit_at_20": 1.0,
+    "mrr": 0.9089,
+    "recall_at_10": 1.0,
+    "doc_hit_at_20": 1.0,
+    "context_recall": 1.0,
+    "latency_p50": 76.9
+   },
+   "lay_language": {
+    "n": 60,
+    "correctness": 0.8917,
+    "correctness_ci95": [
+     0.808,
+     0.958
+    ],
+    "fully_correct": 0.8833,
+    "partial": 0.0167,
+    "zero": 0.1,
+    "blank": 4,
+    "correctness_excl_blank": 0.9554,
+    "faithfulness_norm": null,
+    "relevancy_norm": null,
+    "hit_at_1": 0.4,
+    "hit_at_5": 0.6833,
+    "hit_at_10": 0.7167,
+    "hit_at_20": 0.8,
+    "mrr": 0.5175,
+    "recall_at_10": 0.7167,
+    "doc_hit_at_20": 0.9,
+    "context_recall": 0.8,
+    "latency_p50": 112.9
+   },
+   "case_law": {
+    "n": 40,
+    "correctness": 1.0,
+    "correctness_ci95": [
+     1.0,
+     1.0
+    ],
+    "fully_correct": 1.0,
+    "partial": 0.0,
+    "zero": 0.0,
+    "blank": 0,
+    "correctness_excl_blank": 1.0,
+    "faithfulness_norm": null,
+    "relevancy_norm": null,
+    "hit_at_1": 0.375,
+    "hit_at_5": 0.775,
+    "hit_at_10": 0.85,
+    "hit_at_20": 0.925,
+    "mrr": 0.5194,
+    "recall_at_10": 0.85,
+    "doc_hit_at_20": 1.0,
+    "context_recall": 0.925,
+    "latency_p50": 80.2
+   },
+   "multi_hop": {
+    "n": 40,
+    "correctness": 0.825,
+    "correctness_ci95": [
+     0.725,
+     0.925
+    ],
+    "fully_correct": 0.775,
+    "partial": 0.1,
+    "zero": 0.125,
+    "blank": 5,
+    "correctness_excl_blank": 0.9429,
+    "faithfulness_norm": null,
+    "relevancy_norm": null,
+    "hit_at_1": 0.575,
+    "hit_at_5": 0.8,
+    "hit_at_10": 0.9,
+    "hit_at_20": 0.95,
+    "mrr": 0.6716,
+    "recall_at_10": 0.7083,
+    "doc_hit_at_20": 0.975,
+    "context_recall": 0.8125,
+    "latency_p50": 94.7
+   }
+  },
+  "darien": {
+   "provision_lookup": {
+    "n": 60,
+    "correctness": 0.95,
+    "correctness_ci95": [
+     0.9,
+     1.0
+    ],
+    "fully_correct": 0.95,
+    "partial": 0.0,
+    "zero": 0.05,
+    "blank": 1,
+    "correctness_excl_blank": 0.9661,
+    "faithfulness_norm": 0.9833,
+    "relevancy_norm": 0.875,
+    "hit_at_1": 0.8667,
+    "hit_at_5": 0.9667,
+    "hit_at_10": 0.9667,
+    "hit_at_20": 0.9667,
+    "mrr": 0.9139,
+    "recall_at_10": 0.9667,
+    "doc_hit_at_20": 0.9667,
+    "context_recall": 0.9667,
+    "latency_p50": 70.7
+   },
+   "lay_language": {
+    "n": 60,
+    "correctness": 0.9083,
+    "correctness_ci95": [
+     0.833,
+     0.975
+    ],
+    "fully_correct": 0.9,
+    "partial": 0.0167,
+    "zero": 0.0833,
+    "blank": 2,
+    "correctness_excl_blank": 0.9397,
+    "faithfulness_norm": 0.9667,
+    "relevancy_norm": 0.8,
+    "hit_at_1": 0.6,
+    "hit_at_5": 0.85,
+    "hit_at_10": 0.8833,
+    "hit_at_20": 0.9167,
+    "mrr": 0.7036,
+    "recall_at_10": 0.8833,
+    "doc_hit_at_20": 0.9333,
+    "context_recall": 0.9167,
+    "latency_p50": 80.8
+   },
+   "case_law": {
+    "n": 40,
+    "correctness": 0.975,
+    "correctness_ci95": [
+     0.938,
+     1.0
+    ],
+    "fully_correct": 0.95,
+    "partial": 0.05,
+    "zero": 0.0,
+    "blank": 0,
+    "correctness_excl_blank": 0.975,
+    "faithfulness_norm": 0.9796,
+    "relevancy_norm": 0.875,
+    "hit_at_1": 0.075,
+    "hit_at_5": 0.725,
+    "hit_at_10": 0.875,
+    "hit_at_20": 0.925,
+    "mrr": 0.2894,
+    "recall_at_10": 0.875,
+    "doc_hit_at_20": 1.0,
+    "context_recall": 0.925,
+    "latency_p50": 81.0
+   },
+   "multi_hop": {
+    "n": 40,
+    "correctness": 0.875,
+    "correctness_ci95": [
+     0.775,
+     0.963
+    ],
+    "fully_correct": 0.85,
+    "partial": 0.05,
+    "zero": 0.1,
+    "blank": 2,
+    "correctness_excl_blank": 0.9211,
+    "faithfulness_norm": 0.9313,
+    "relevancy_norm": 0.8375,
+    "hit_at_1": 0.35,
+    "hit_at_5": 0.775,
+    "hit_at_10": 0.975,
+    "hit_at_20": 0.975,
+    "mrr": 0.498,
+    "recall_at_10": 0.825,
+    "doc_hit_at_20": 1.0,
+    "context_recall": 0.875,
+    "latency_p50": 80.9
+   }
+  },
+  "huang": {
+   "provision_lookup": {
+    "n": 60,
+    "correctness": 1.0,
+    "correctness_ci95": [
+     1.0,
+     1.0
+    ],
+    "fully_correct": 1.0,
+    "partial": 0.0,
+    "zero": 0.0,
+    "blank": 0,
+    "correctness_excl_blank": 1.0,
+    "faithfulness_norm": 0.9833,
+    "relevancy_norm": 0.9583,
+    "hit_at_1": null,
+    "hit_at_5": null,
+    "hit_at_10": null,
+    "hit_at_20": null,
+    "mrr": null,
+    "recall_at_10": null,
+    "doc_hit_at_20": null,
+    "context_recall": null,
+    "latency_p50": null
+   },
+   "lay_language": {
+    "n": 60,
+    "correctness": 0.9375,
+    "correctness_ci95": [
+     0.883,
+     0.979
+    ],
+    "fully_correct": 0.8833,
+    "partial": 0.1,
+    "zero": 0.0167,
+    "blank": 0,
+    "correctness_excl_blank": 0.9375,
+    "faithfulness_norm": 0.9492,
+    "relevancy_norm": 0.8833,
+    "hit_at_1": null,
+    "hit_at_5": null,
+    "hit_at_10": null,
+    "hit_at_20": null,
+    "mrr": null,
+    "recall_at_10": null,
+    "doc_hit_at_20": null,
+    "context_recall": null,
+    "latency_p50": null
+   },
+   "case_law": {
+    "n": 40,
+    "correctness": 0.9875,
+    "correctness_ci95": [
+     0.969,
+     1.0
+    ],
+    "fully_correct": 0.95,
+    "partial": 0.05,
+    "zero": 0.0,
+    "blank": 0,
+    "correctness_excl_blank": 0.9875,
+    "faithfulness_norm": 0.9563,
+    "relevancy_norm": 0.925,
+    "hit_at_1": null,
+    "hit_at_5": null,
+    "hit_at_10": null,
+    "hit_at_20": null,
+    "mrr": null,
+    "recall_at_10": null,
+    "doc_hit_at_20": null,
+    "context_recall": null,
+    "latency_p50": null
+   },
+   "multi_hop": {
+    "n": 40,
+    "correctness": 0.85,
+    "correctness_ci95": [
+     0.744,
+     0.938
+    ],
+    "fully_correct": 0.75,
+    "partial": 0.175,
+    "zero": 0.075,
+    "blank": 3,
+    "correctness_excl_blank": 0.9189,
+    "faithfulness_norm": 0.9662,
+    "relevancy_norm": 0.7688,
+    "hit_at_1": null,
+    "hit_at_5": null,
+    "hit_at_10": null,
+    "hit_at_20": null,
+    "mrr": null,
+    "recall_at_10": null,
+    "doc_hit_at_20": null,
+    "context_recall": null,
+    "latency_p50": null
+   }
+  },
+  "sumo": {
+   "provision_lookup": {
+    "n": 60,
+    "correctness": 0.9833,
+    "correctness_ci95": [
+     0.95,
+     1.0
+    ],
+    "fully_correct": 0.9833,
+    "partial": 0.0,
+    "zero": 0.0167,
+    "blank": 1,
+    "correctness_excl_blank": 1.0,
+    "faithfulness_norm": null,
+    "relevancy_norm": null,
+    "hit_at_1": 0.8333,
+    "hit_at_5": 1.0,
+    "hit_at_10": 1.0,
+    "hit_at_20": 1.0,
+    "mrr": 0.9083,
+    "recall_at_10": 1.0,
+    "doc_hit_at_20": 1.0,
+    "context_recall": 1.0,
+    "latency_p50": 61.4
+   },
+   "lay_language": {
+    "n": 60,
+    "correctness": 0.85,
+    "correctness_ci95": [
+     0.758,
+     0.933
+    ],
+    "fully_correct": 0.8167,
+    "partial": 0.0667,
+    "zero": 0.1167,
+    "blank": 1,
+    "correctness_excl_blank": 0.8644,
+    "faithfulness_norm": null,
+    "relevancy_norm": null,
+    "hit_at_1": 0.3333,
+    "hit_at_5": 0.5333,
+    "hit_at_10": 0.5833,
+    "hit_at_20": 0.7,
+    "mrr": 0.4273,
+    "recall_at_10": 0.5667,
+    "doc_hit_at_20": 0.95,
+    "context_recall": 0.7,
+    "latency_p50": 88.9
+   },
+   "case_law": {
+    "n": 40,
+    "correctness": 0.95,
+    "correctness_ci95": [
+     0.887,
+     1.0
+    ],
+    "fully_correct": 0.925,
+    "partial": 0.05,
+    "zero": 0.025,
+    "blank": 1,
+    "correctness_excl_blank": 0.9744,
+    "faithfulness_norm": null,
+    "relevancy_norm": null,
+    "hit_at_1": 0.025,
+    "hit_at_5": 0.675,
+    "hit_at_10": 0.825,
+    "hit_at_20": 0.875,
+    "mrr": 0.2248,
+    "recall_at_10": 0.825,
+    "doc_hit_at_20": 1.0,
+    "context_recall": 0.875,
+    "latency_p50": 67.7
+   },
+   "multi_hop": {
+    "n": 40,
+    "correctness": 0.775,
+    "correctness_ci95": [
+     0.662,
+     0.875
+    ],
+    "fully_correct": 0.65,
+    "partial": 0.25,
+    "zero": 0.1,
+    "blank": 4,
+    "correctness_excl_blank": 0.8611,
+    "faithfulness_norm": null,
+    "relevancy_norm": null,
+    "hit_at_1": 0.5,
+    "hit_at_5": 0.775,
+    "hit_at_10": 0.85,
+    "hit_at_20": 0.9,
+    "mrr": 0.6084,
+    "recall_at_10": 0.7,
+    "doc_hit_at_20": 1.0,
+    "context_recall": 0.75,
+    "latency_p50": 90.4
+   }
+  }
+ },
+ "by_reranker_same_index": {
+  "Qwen3 (badr, darien)": {
+   "n": 400,
+   "correctness": 0.9475,
+   "correctness_ci95": [
+    0.927,
+    0.966
+   ],
+   "fully_correct": 0.93,
+   "partial": 0.035,
+   "zero": 0.035,
+   "blank": 6,
+   "correctness_excl_blank": 0.9619,
+   "faithfulness_norm": 0.9569,
+   "relevancy_norm": 0.9025,
+   "hit_at_1": 0.545,
+   "hit_at_5": 0.8675,
+   "hit_at_10": 0.9375,
+   "hit_at_20": 0.96,
+   "mrr": 0.6653,
+   "recall_at_10": 0.905,
+   "doc_hit_at_20": 0.98,
+   "context_recall": 0.94,
+   "latency_p50": 62.4
+  },
+  "ms-marco (binyao, sumo)": {
+   "n": 400,
+   "correctness": 0.9062,
+   "correctness_ci95": [
+    0.88,
+    0.931
+   ],
+   "fully_correct": 0.8775,
+   "partial": 0.0575,
+   "zero": 0.065,
+   "blank": 18,
+   "correctness_excl_blank": 0.949,
+   "faithfulness_norm": null,
+   "relevancy_norm": null,
+   "hit_at_1": 0.51,
+   "hit_at_5": 0.785,
+   "hit_at_10": 0.8375,
+   "hit_at_20": 0.89,
+   "mrr": 0.6167,
+   "recall_at_10": 0.8008,
+   "doc_hit_at_20": 0.975,
+   "context_recall": 0.8612,
+   "latency_p50": 82.5
+  }
+ },
+ "source_type_counts": {
+  "badr": {
+   "judgment": 82,
+   "act": 108,
+   "mixed": 10
+  },
+  "binyao": {
+   "act": 100,
+   "judgment": 70,
+   "mixed": 30
+  },
+  "darien": {
+   "act": 108,
+   "judgment": 82,
+   "mixed": 10
+  },
+  "huang": {
+   "act": 100,
+   "judgment": 70,
+   "mixed": 30
+  },
+  "sumo": {
+   "act": 100,
+   "judgment": 70,
+   "mixed": 30
+  }
+ },
+ "source_kind_counts": {
+  "badr": {
+   "judgment": 82,
+   "act": 108,
+   "mixed": 10
+  },
+  "binyao": {
+   "act": 113,
+   "judgment": 82,
+   "mixed": 5
+  },
+  "darien": {
+   "act": 108,
+   "judgment": 82,
+   "mixed": 10
+  },
+  "huang": {
+   "act": 120,
+   "judgment": 80
+  },
+  "sumo": {
+   "act": 115,
+   "judgment": 80,
+   "mixed": 5
+  }
+ },
+ "multi_doc_counts": {
+  "badr": 30,
+  "binyao": 30,
+  "darien": 30,
+  "huang": 30,
+  "sumo": 30
+ },
+ "by_kind_same_index": {
+  "act": {
+   "n": 444,
+   "correctness": 0.9257,
+   "correctness_ci95": [
+    0.901,
+    0.947
+   ],
+   "fully_correct": 0.9099,
+   "partial": 0.0315,
+   "zero": 0.0586,
+   "blank": 16,
+   "correctness_excl_blank": 0.9603,
+   "faithfulness_norm": 0.9519,
+   "relevancy_norm": 0.9005,
+   "hit_at_1": 0.7815,
+   "hit_at_5": 0.9392,
+   "hit_at_10": 0.9527,
+   "hit_at_20": 0.9707,
+   "mrr": 0.8493,
+   "recall_at_10": 0.9309,
+   "doc_hit_at_20": 0.9887,
+   "context_recall": 0.9538,
+   "latency_p50": 68.8
+  },
+  "judgment": {
+   "n": 326,
+   "correctness": 0.9356,
+   "correctness_ci95": [
+    0.911,
+    0.957
+   ],
+   "fully_correct": 0.908,
+   "partial": 0.0552,
+   "zero": 0.0368,
+   "blank": 6,
+   "correctness_excl_blank": 0.9531,
+   "faithfulness_norm": 0.961,
+   "relevancy_norm": 0.8963,
+   "hit_at_1": 0.1994,
+   "hit_at_5": 0.6687,
+   "hit_at_10": 0.7945,
+   "hit_at_20": 0.8558,
+   "mrr": 0.3666,
+   "recall_at_10": 0.7623,
+   "doc_hit_at_20": 0.9601,
+   "context_recall": 0.8344,
+   "latency_p50": 77.7
+  },
+  "mixed": {
+   "n": 30,
+   "correctness": 0.85,
+   "correctness_ci95": [
+    0.733,
+    0.95
+   ],
+   "fully_correct": 0.7667,
+   "partial": 0.1667,
+   "zero": 0.0667,
+   "blank": 2,
+   "correctness_excl_blank": 0.9107,
+   "faithfulness_norm": 0.977,
+   "relevancy_norm": 0.975,
+   "hit_at_1": 0.3333,
+   "hit_at_5": 0.8667,
+   "hit_at_10": 0.9333,
+   "hit_at_20": 1.0,
+   "mrr": 0.5405,
+   "recall_at_10": 0.6833,
+   "doc_hit_at_20": 1.0,
+   "context_recall": 0.8333,
+   "latency_p50": 75.0
+  }
+ },
+ "by_multi_doc_same_index": {
+  "True": {
+   "n": 120,
+   "correctness": 0.8292,
+   "correctness_ci95": [
+    0.771,
+    0.883
+   ],
+   "fully_correct": 0.7417,
+   "partial": 0.175,
+   "zero": 0.0833,
+   "blank": 10,
+   "correctness_excl_blank": 0.9045,
+   "faithfulness_norm": 0.95,
+   "relevancy_norm": 0.9,
+   "hit_at_1": 0.4833,
+   "hit_at_5": 0.8,
+   "hit_at_10": 0.9167,
+   "hit_at_20": 0.95,
+   "mrr": 0.6147,
+   "recall_at_10": 0.7111,
+   "doc_hit_at_20": 0.9917,
+   "context_recall": 0.8042,
+   "latency_p50": 80.4
+  },
+  "False": {
+   "n": 680,
+   "correctness": 0.9441,
+   "correctness_ci95": [
+    0.928,
+    0.96
+   ],
+   "fully_correct": 0.9324,
+   "partial": 0.0235,
+   "zero": 0.0441,
+   "blank": 14,
+   "correctness_excl_blank": 0.964,
+   "faithfulness_norm": 0.9581,
+   "relevancy_norm": 0.9029,
+   "hit_at_1": 0.5353,
+   "hit_at_5": 0.8309,
+   "hit_at_10": 0.8824,
+   "hit_at_20": 0.9206,
+   "mrr": 0.6457,
+   "recall_at_10": 0.8779,
+   "doc_hit_at_20": 0.975,
+   "context_recall": 0.9176,
+   "latency_p50": 72.2
+  }
+ },
+ "failures": {
+  "partial": {
+   "multi-source: some gold evidence missing": 16,
+   "not classifiable (sources not saved)": 15,
+   "right document, gold passage or section missed": 11,
+   "all gold evidence retrieved, answer still short or wrong": 8,
+   "gold document not retrieved": 2
+  },
+  "zero": {
+   "blank answer": 27,
+   "gold document not retrieved": 9,
+   "right document, gold passage or section missed": 5,
+   "all gold evidence retrieved, answer still short or wrong": 1,
+   "not classifiable (sources not saved)": 1,
+   "multi-source: some gold evidence missing": 1
+  }
+ },
+ "failure_ids": {
+  "partial": {
+   "all gold evidence retrieved, answer still short or wrong": [
+    "badr-024",
+    "badr-037",
+    "badr-071",
+    "badr-098",
+    "badr-170",
+    "binyao-039",
+    "binyao-098",
+    "darien-018"
+   ],
+   "right document, gold passage or section missed": [
+    "badr-113",
+    "binyao-056",
+    "darien-113",
+    "darien-133",
+    "sumo-002",
+    "sumo-135",
+    "sumo-139",
+    "sumo-142",
+    "sumo-177",
+    "sumo-184",
+    "sumo-185"
+   ],
+   "multi-source: some gold evidence missing": [
+    "badr-118",
+    "badr-122",
+    "badr-142",
+    "binyao-119",
+    "binyao-128",
+    "binyao-188",
+    "binyao-192",
+    "darien-180",
+    "darien-195",
+    "sumo-173",
+    "sumo-174",
+    "sumo-180",
+    "sumo-183",
+    "sumo-188",
+    "sumo-192",
+    "sumo-197"
+   ],
+   "not classifiable (sources not saved)": [
+    "huang-017",
+    "huang-019",
+    "huang-022",
+    "huang-052",
+    "huang-092",
+    "huang-117",
+    "huang-137",
+    "huang-144",
+    "huang-157",
+    "huang-171",
+    "huang-177",
+    "huang-182",
+    "huang-183",
+    "huang-193",
+    "huang-195"
+   ],
+   "gold document not retrieved": [
+    "sumo-122",
+    "sumo-125"
+   ]
+  },
+  "zero": {
+   "gold document not retrieved": [
+    "badr-056",
+    "binyao-087",
+    "binyao-158",
+    "darien-033",
+    "darien-034",
+    "darien-040",
+    "darien-118",
+    "darien-132",
+    "sumo-010"
+   ],
+   "blank answer": [
+    "badr-167",
+    "binyao-004",
+    "binyao-042",
+    "binyao-054",
+    "binyao-077",
+    "binyao-088",
+    "binyao-097",
+    "binyao-142",
+    "binyao-184",
+    "binyao-187",
+    "binyao-193",
+    "binyao-200",
+    "darien-023",
+    "darien-058",
+    "darien-061",
+    "darien-183",
+    "darien-196",
+    "huang-185",
+    "huang-198",
+    "huang-200",
+    "sumo-071",
+    "sumo-077",
+    "sumo-121",
+    "sumo-167",
+    "sumo-171",
+    "sumo-172",
+    "sumo-179"
+   ],
+   "all gold evidence retrieved, answer still short or wrong": [
+    "darien-069"
+   ],
+   "right document, gold passage or section missed": [
+    "darien-135",
+    "sumo-018",
+    "sumo-034",
+    "sumo-055",
+    "sumo-107"
+   ],
+   "not classifiable (sources not saved)": [
+    "huang-155"
+   ],
+   "multi-source: some gold evidence missing": [
+    "sumo-006"
+   ]
+  }
+ },
+ "blank_ids": {
+  "badr": [
+   "badr-167"
+  ],
+  "binyao": [
+   "binyao-004",
+   "binyao-042",
+   "binyao-054",
+   "binyao-077",
+   "binyao-088",
+   "binyao-097",
+   "binyao-142",
+   "binyao-184",
+   "binyao-187",
+   "binyao-193",
+   "binyao-200"
+  ],
+  "darien": [
+   "darien-023",
+   "darien-058",
+   "darien-061",
+   "darien-183",
+   "darien-196"
+  ],
+  "huang": [
+   "huang-185",
+   "huang-198",
+   "huang-200"
+  ],
+  "sumo": [
+   "sumo-071",
+   "sumo-077",
+   "sumo-121",
+   "sumo-167",
+   "sumo-171",
+   "sumo-172",
+   "sumo-179"
+  ]
+ },
+ "short_nonblank_under_80_chars": [
+  [
+   "sumo-018",
+   5
+  ]
+ ],
+ "gold_units_missing_from_index": {
+  "badr": 0,
+  "binyao": 0,
+  "darien": 0,
+  "huang": 0,
+  "sumo": 0
+ }
+}
