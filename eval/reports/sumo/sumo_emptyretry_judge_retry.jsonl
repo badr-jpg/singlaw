@@ -1,9 +1,0 @@
-{"question_id": "sumo-006", "correct": 1, "cited_gold": true, "note": "Retry: offence and exceptions correct; says the s 7 penalty is not in the sources"}
-{"question_id": "sumo-018", "correct": 0, "cited_gold": false, "note": "Retry: MPA s 7 not retrieved; says the sources cannot answer"}
-{"question_id": "sumo-071", "correct": 0, "cited_gold": false, "note": "Retry: empty again"}
-{"question_id": "sumo-077", "correct": 1, "cited_gold": true, "note": "Retry: licence requirement correct; says Government exclusion (s 5) is not in the sources"}
-{"question_id": "sumo-121", "correct": 1, "cited_gold": false, "note": "Retry: no-breach findings correct; says disposal and the 85% costs reason are not in the sources"}
-{"question_id": "sumo-167", "correct": 0, "cited_gold": true, "note": "Retry: general pleading points only; no res ipsa loquitur"}
-{"question_id": "sumo-171", "correct": 0, "cited_gold": false, "note": "Retry: empty again"}
-{"question_id": "sumo-172", "correct": 1, "cited_gold": true, "note": "Retry: HC result correct; says the CA outcome is not in the sources"}
-{"question_id": "sumo-179", "correct": 1, "cited_gold": true, "note": "Retry: SCARTA s 5 correct; says the genetic-affinity holding is not in the sources"}
