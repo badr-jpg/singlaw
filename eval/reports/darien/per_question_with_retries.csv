@@ -1,0 +1,201 @@
+question_id,question_type,source_type,gold_doc_ids,Hit@10,R@10,MRR,nDCG@10,context_recall,latency_answer_s,answer_correctness,faithfulness,answer_relevancy,context_precision,refused,judge_reason
+darien-001,provision_lookup,act,employment-act-1968,1.0,1.0,0.5,0.6309,1.0,18.151,1.0,1.0,1.0,0.5,False,"States 2 weeks for 2-5 years' service, matching s 10(3)."
+darien-002,lay_language,act,employment-act-1968,1.0,1.0,1.0,1.0,1.0,42.499,1.0,1.0,1.0,1.0,False,"Gives 4 weeks for over 5 years, applying to both sides."
+darien-003,provision_lookup,act,employment-act-1968,1.0,1.0,1.0,1.0,1.0,69.939,1.0,1.0,1.0,1.0,False,Lists down-grading and suspension without pay up to one week.
+darien-004,lay_language,act,employment-act-1968,1.0,1.0,0.5,0.6309,1.0,78.028,1.0,1.0,0.5,0.9167,False,Correct that one unpaid rest day is allowed weekly; adds long material on rest-day pay.
+darien-005,lay_language,act,employment-act-1968,1.0,1.0,1.0,1.0,1.0,32.592,1.0,1.0,1.0,1.0,False,"14 days' paid sick leave after 6 months' service, matching s 89."
+darien-006,provision_lookup,act,employment-act-1968,1.0,1.0,1.0,1.0,1.0,69.915,1.0,1.0,1.0,1.0,False,Next working day is a paid holiday.
+darien-007,multi_hop,act,employment-act-1968,1.0,1.0,0.3333,0.5706,1.0,67.737,1.0,1.0,1.0,0.4167,False,Combines 2 weeks' notice with salary in lieu at gross rate.
+darien-008,lay_language,act,holidays-act-1998,1.0,1.0,1.0,1.0,1.0,82.169,1.0,1.0,1.0,0.8333,False,Next day not itself a public holiday becomes a public holiday.
+darien-009,provision_lookup,act,holidays-act-1998,1.0,1.0,1.0,1.0,1.0,67.752,1.0,1.0,1.0,1.0,False,President may gazette an additional public holiday.
+darien-010,provision_lookup,act,employment-claims-act-2016,1.0,1.0,1.0,1.0,1.0,68.925,1.0,1.0,1.0,0.8333,False,"Mediation request to the Commissioner first, as reference."
+darien-011,lay_language,act,employment-claims-act-2016,1.0,1.0,1.0,1.0,1.0,75.313,1.0,1.0,1.0,0.625,False,Appeal does not stay enforcement unless a court orders otherwise.
+darien-012,lay_language,act,employment-of-foreign-manpower-act-1990,1.0,1.0,0.5,0.6309,1.0,84.555,1.0,1.0,0.5,0.8529,False,Correct: no employment without a valid work pass; adds much extra detail.
+darien-013,provision_lookup,act,employment-agencies-act-1958,1.0,1.0,1.0,1.0,1.0,99.967,1.0,1.0,1.0,0.75,False,"14 days, in writing to the Minister, whose decision is final."
+darien-014,lay_language,act,employment-agencies-act-1958,1.0,1.0,0.5,0.6309,1.0,91.642,1.0,1.0,1.0,0.3257,False,"Yes, a licence from the Commissioner is required; exceptions are given as well."
+darien-015,provision_lookup,act,platform-workers-act-2024,1.0,1.0,1.0,1.0,1.0,61.626,1.0,1.0,1.0,1.0,False,Records kept for current and former platform workers.
+darien-016,provision_lookup,act,platform-workers-act-2024,1.0,1.0,1.0,1.0,1.0,76.352,1.0,1.0,1.0,0.75,False,Property vests in the Official Receiver; surplus handling described.
+darien-017,provision_lookup,act,platform-workers-act-2024,1.0,1.0,1.0,1.0,1.0,51.828,1.0,1.0,1.0,0.7,False,Definition matches s 3 and adds the First Schedule services.
+darien-018,lay_language,act,employment-act-1968,1.0,1.0,1.0,1.0,1.0,131.918,0.5,1.0,1.0,0.6954,False,Leads with the CDCA 16-week arrangement instead of the Employment Act default of 4 weeks before and 8 after.
+darien-019,lay_language,act,consumer-protection-fair-trading-act-2003,1.0,1.0,0.3333,0.5,1.0,132.478,1.0,1.0,0.5,0.7332,False,"Yes, may sue under s 6; very long answer with many side issues."
+darien-020,provision_lookup,act,consumer-protection-fair-trading-act-2003,1.0,1.0,1.0,1.0,1.0,73.939,1.0,1.0,0.5,0.6181,False,Two years from the later of the two dates; padded with meta-commentary.
+darien-021,lay_language,act,consumer-protection-fair-trading-act-2003,1.0,1.0,0.5,0.6309,1.0,69.274,1.0,1.0,1.0,0.5556,False,Seller repairs within a reasonable time and bears costs.
+darien-022,provision_lookup,act,hire-purchase-act-1969,1.0,1.0,1.0,1.0,1.0,89.295,1.0,1.0,0.5,0.4603,False,Written notice plus paying the net balance; long.
+darien-023,lay_language,act,hire-purchase-act-1969,1.0,1.0,1.0,1.0,1.0,65.159,1.0,1.0,1.0,0.5218,False,"Yes, return the goods under s 14; consequences explained."
+darien-024,provision_lookup,act,supply-of-goods-act-1982,1.0,1.0,1.0,1.0,1.0,76.08,1.0,1.0,1.0,1.0,False,Implied condition of satisfactory quality.
+darien-025,lay_language,act,innkeepers-act-1970,1.0,1.0,1.0,1.0,1.0,80.326,1.0,1.0,1.0,1.0,False,$500 cap with both exceptions.
+darien-026,provision_lookup,act,innkeepers-act-1970,1.0,1.0,0.5,0.6309,1.0,80.053,1.0,1.0,1.0,0.5,False,Copy of s 3 in plain English type in the hall or entrance.
+darien-027,provision_lookup,act,mercantile-law-amendment-act-1856,1.0,1.0,1.0,1.0,1.0,75.08,1.0,1.0,1.0,0.75,False,Assignment of securities and standing in the creditor's place.
+darien-028,lay_language,act,factors-act-1889,1.0,1.0,1.0,1.0,1.0,79.086,1.0,1.0,1.0,1.0,False,Mercantile agent sale is valid if made in good faith without notice.
+darien-029,provision_lookup,act,sale-of-goods-act-1979,1.0,1.0,1.0,1.0,1.0,77.742,1.0,1.0,1.0,1.0,False,Implied condition of the right to sell.
+darien-030,lay_language,act,sale-of-goods-act-1979,1.0,1.0,1.0,1.0,1.0,87.769,1.0,1.0,1.0,0.5588,False,"Risk passes with property, whether delivered or not."
+darien-031,provision_lookup,act,sale-of-goods-act-1979,1.0,1.0,1.0,1.0,1.0,68.115,1.0,1.0,1.0,0.8333,False,Property passes when the contract is made.
+darien-032,multi_hop,act,sale-of-goods-act-1979,1.0,1.0,1.0,1.0,1.0,44.76,1.0,1.0,1.0,1.0,False,No liability for defects the examination ought to reveal.
+darien-033,lay_language,act,unfair-contract-terms-act-1977,0.0,0.0,0.0,0.0,0.0,99.678,0.0,1.0,0.5,0.1402,True,Did not retrieve UCTA s 2; says the exclusion's effect cannot be determined and discusses negligence generally.
+darien-034,provision_lookup,act,unfair-contract-terms-act-1977,0.0,0.0,0.0,0.0,0.0,2.052,0.0,1.0,0.0,0.0,True,"Wrongly refused as out of scope, treating UCTA 1977 as UK-only law."
+darien-035,provision_lookup,act,misrepresentation-act-1967,1.0,1.0,1.0,1.0,1.0,182.746,1.0,1.0,1.0,1.0,False,Damages in lieu of rescission where equitable.
+darien-036,lay_language,act,contracts-rights-of-third-parties-act-2001,1.0,1.0,1.0,1.0,1.0,57.244,1.0,1.0,1.0,0.5536,False,"Third party may enforce a term conferring a benefit, subject to contrary intention."
+darien-037,provision_lookup,act,copyright-act-2021,1.0,1.0,1.0,1.0,1.0,117.252,1.0,1.0,0.5,0.5477,False,70 years after the author's death; padded with many unrelated provisions.
+darien-038,lay_language,act,copyright-act-2021,1.0,1.0,1.0,1.0,1.0,89.888,1.0,1.0,0.5,0.6521,False,"Employer is the first owner; long, with tangents."
+darien-039,provision_lookup,act,copyright-act-2021,1.0,1.0,1.0,1.0,1.0,67.268,1.0,1.0,1.0,1.0,False,70 years after the end of the year of first publication.
+darien-040,provision_lookup,act,patents-act-1994,0.0,0.0,0.0,0.0,0.0,4.09,0.0,1.0,0.0,0.0,True,"Wrongly refused as out of scope, calling the Patents Act 1994 Malaysian."
+darien-041,lay_language,act,patents-act-1994,1.0,1.0,1.0,1.0,1.0,51.884,1.0,1.0,1.0,0.6111,False,"20 years from filing, subject to renewal fees."
+darien-042,lay_language,act,patents-act-1994,1.0,1.0,1.0,1.0,1.0,59.121,1.0,1.0,1.0,0.75,False,Employer owns the invention if made in normal duties and an invention was reasonably expected.
+darien-043,provision_lookup,act,trade-marks-act-1998,1.0,1.0,1.0,1.0,1.0,53.251,1.0,1.0,1.0,0.8095,False,"10 years, renewable for further 10-year periods."
+darien-044,lay_language,act,trade-marks-act-1998,1.0,1.0,1.0,1.0,1.0,69.828,1.0,1.0,1.0,0.6429,False,Descriptive marks are barred unless distinctive through use.
+darien-045,provision_lookup,act,registered-designs-act-2000,1.0,1.0,1.0,1.0,1.0,71.634,1.0,1.0,1.0,0.775,False,"5 years, extendable twice by 5 years."
+darien-046,provision_lookup,act,registered-designs-act-2000,1.0,1.0,1.0,1.0,1.0,47.091,1.0,1.0,1.0,1.0,False,No computer program may be registered.
+darien-047,provision_lookup,act,geographical-indications-act-2014,1.0,1.0,1.0,1.0,1.0,67.087,1.0,1.0,1.0,1.0,False,"10 years, renewable."
+darien-048,provision_lookup,act,plant-varieties-protection-act-2004,1.0,1.0,1.0,1.0,1.0,67.18,1.0,1.0,1.0,1.0,False,25 calendar years.
+darien-049,provision_lookup,act,layout-designs-of-integrated-circuits-act-1999,1.0,1.0,1.0,1.0,1.0,59.496,1.0,1.0,1.0,1.0,False,15 calendar years after creation.
+darien-050,multi_hop,act,layout-designs-of-integrated-circuits-act-1999,1.0,1.0,1.0,1.0,1.0,83.955,1.0,0.75,1.0,1.0,False,Correctly reaches the end of 2022; the as-at date is wrong.
+darien-051,provision_lookup,act,goods-and-services-tax-act-1993,1.0,1.0,1.0,1.0,1.0,62.448,1.0,1.0,1.0,1.0,False,7%.
+darien-052,provision_lookup,act,payroll-tax-act-1965,1.0,1.0,1.0,1.0,1.0,75.179,1.0,1.0,1.0,1.0,False,The fraction of a dollar is disregarded.
+darien-053,provision_lookup,act,property-tax-act-1960,1.0,1.0,1.0,1.0,1.0,82.229,1.0,1.0,1.0,1.0,False,36% of annual value; lower rates possible.
+darien-054,lay_language,act,property-tax-act-1960,1.0,1.0,1.0,1.0,1.0,88.775,1.0,1.0,1.0,1.0,False,21 days from the date of the notice.
+darien-055,provision_lookup,act,spam-control-act-2007,1.0,1.0,1.0,1.0,1.0,130.664,1.0,1.0,0.5,0.7595,False,Comply with the Second Schedule; many extra definitions.
+darien-056,provision_lookup,act,electronic-transactions-act-2010,1.0,1.0,1.0,1.0,1.0,65.46,1.0,1.0,1.0,0.6,False,"Both despatch rules, matching s 13."
+darien-057,lay_language,act,personal-data-protection-act-2012,1.0,1.0,1.0,1.0,1.0,103.461,1.0,1.0,1.0,0.9167,False,"As soon as practicable, no later than 3 calendar days."
+darien-058,provision_lookup,act,personal-data-protection-act-2012,1.0,1.0,0.3333,0.5,1.0,71.457,1.0,1.0,0.5,0.9245,False,Consent or deemed consent unless authorised; long.
+darien-059,lay_language,act,personal-data-protection-act-2012,1.0,1.0,1.0,1.0,1.0,78.705,1.0,1.0,1.0,1.0,False,Must stop retaining once the purpose and legal or business need end.
+darien-060,provision_lookup,act,personal-data-protection-act-2012,1.0,1.0,1.0,1.0,1.0,62.3,1.0,1.0,1.0,1.0,False,Reasonable security arrangements against the listed risks.
+darien-061,lay_language,act,personal-data-protection-act-2012,1.0,1.0,1.0,1.0,1.0,102.696,0.0,0.0,0.0,1.0,False,Empty answer: generation returned no text.
+darien-062,provision_lookup,act,competition-act-2004,1.0,1.0,1.0,1.0,1.0,97.763,1.0,1.0,0.5,1.0,False,"Object or effect of preventing, restricting or distorting competition; long."
+darien-063,provision_lookup,act,competition-act-2004,1.0,1.0,1.0,1.0,1.0,73.419,1.0,1.0,1.0,1.0,False,Predatory behaviour and limiting production.
+darien-064,lay_language,act,competition-act-2004,1.0,1.0,1.0,1.0,1.0,68.675,1.0,1.0,0.5,0.6216,False,Prohibited if it substantially lessens competition; lists exclusions.
+darien-065,provision_lookup,act,casino-control-act-2006,1.0,1.0,1.0,1.0,1.0,104.852,1.0,1.0,0.5,0.7308,False,Period specified in the licence; long digression.
+darien-066,provision_lookup,act,gambling-control-act-2022,1.0,1.0,1.0,1.0,1.0,79.591,1.0,1.0,1.0,1.0,False,"18, or a higher prescribed age."
+darien-067,lay_language,act,gambling-control-act-2022,1.0,1.0,1.0,1.0,1.0,87.261,1.0,1.0,1.0,0.6667,False,"Yes, an offence; accepting a bet is an example."
+darien-068,provision_lookup,act,trade-unions-act-1940,1.0,1.0,1.0,1.0,1.0,65.618,1.0,1.0,1.0,1.0,False,"One month, extendable to 6 months in total."
+darien-069,multi_hop,act,trade-unions-act-1940,1.0,1.0,1.0,1.0,1.0,61.019,0.0,0.5,1.0,1.0,False,"Misreads s 8(2): the extended period may not exceed 6 months in total, so the maximum is 6 months, not 7."
+darien-070,provision_lookup,act,industrial-relations-act-1960,1.0,1.0,0.5,0.6309,1.0,57.659,1.0,1.0,1.0,1.0,False,"No, an unrecognised union cannot serve a s 18 notice."
+darien-071,lay_language,act,trade-disputes-act-1941,1.0,1.0,1.0,1.0,1.0,80.546,1.0,1.0,0.5,0.4208,False,Peaceful picketing for information is lawful; very long.
+darien-072,provision_lookup,act,price-control-act-1950,1.0,1.0,1.0,1.0,1.0,65.4,1.0,1.0,1.0,1.0,False,"Yes, selling above the maximum price is an offence."
+darien-073,provision_lookup,act,price-control-act-1950,1.0,1.0,1.0,1.0,1.0,65.006,1.0,1.0,1.0,1.0,False,Display a legible maximum-price list.
+darien-074,lay_language,act,secondhand-goods-dealers-act-2007,1.0,1.0,0.25,0.4307,1.0,87.034,1.0,1.0,1.0,0.6925,False,Licence needed under s 4.
+darien-075,provision_lookup,act,secondhand-goods-dealers-act-2007,1.0,1.0,1.0,1.0,1.0,71.402,1.0,1.0,1.0,1.0,False,Purchase dates and sellers' names and addresses.
+darien-076,provision_lookup,act,travel-agents-act-1975,1.0,1.0,1.0,1.0,1.0,80.164,1.0,1.0,1.0,1.0,False,"$25,000 fine and/or 2 years."
+darien-077,lay_language,act,multi-level-marketing-and-pyramid-selling-prohibition-act-1973,1.0,1.0,0.25,0.4307,1.0,83.11,1.0,1.0,1.0,0.2917,False,"Unlawful; $200,000 fine and/or 5 years."
+darien-078,provision_lookup,act,foreign-employee-dormitories-act-2015,1.0,1.0,1.0,1.0,1.0,129.311,1.0,1.0,0.5,0.627,False,A valid licence is needed; long.
+darien-079,provision_lookup,act,metrication-act-1970,1.0,1.0,1.0,1.0,1.0,86.741,1.0,1.0,0.5,0.681,False,15 February 1971; adds the schedule contents.
+darien-080,provision_lookup,act,multinational-enterprise-minimum-tax-act-2024,1.0,1.0,1.0,1.0,1.0,63.548,1.0,1.0,1.0,1.0,False,15%.
+darien-081,provision_lookup,act,gambling-duties-act-2022,1.0,1.0,1.0,1.0,1.0,56.826,1.0,1.0,1.0,1.0,False,The authorised betting operator pays.
+darien-082,provision_lookup,act,income-tax-act-1947,1.0,1.0,1.0,1.0,1.0,82.359,1.0,1.0,0.5,0.6667,False,Income accruing in or derived from Singapore; extra on chargeable income.
+darien-083,lay_language,act,manufacture-of-optical-discs-act-2004,1.0,1.0,1.0,1.0,1.0,78.022,1.0,1.0,0.5,0.8478,False,No; licence required under s 4; long.
+darien-084,provision_lookup,act,manufacture-of-optical-discs-act-2004,1.0,1.0,1.0,1.0,1.0,62.387,1.0,1.0,1.0,1.0,False,The manufacturer's code assigned to the licensee.
+darien-085,lay_language,act,casino-control-act-2006,1.0,1.0,1.0,1.0,1.0,67.573,1.0,1.0,1.0,0.5769,False,No; offence with penalties stated.
+darien-086,lay_language,act,casino-control-act-2006,1.0,1.0,1.0,1.0,1.0,69.825,1.0,1.0,1.0,1.0,False,"$150 per 24 hours or $3,000 annual."
+darien-087,multi_hop,act,casino-control-act-2006,1.0,1.0,1.0,1.0,1.0,97.734,1.0,1.0,1.0,0.6429,False,"Annual is cheaper: $3,000 vs $3,750."
+darien-088,provision_lookup,act,gambling-regulatory-authority-of-singapore-act-2022,1.0,1.0,1.0,1.0,1.0,57.117,1.0,1.0,1.0,1.0,False,Contracts and property powers.
+darien-089,provision_lookup,act,enterprise-singapore-board-act-2018,1.0,1.0,0.5,0.6309,1.0,61.487,1.0,1.0,1.0,0.5,False,Lists the enterprise development powers.
+darien-090,provision_lookup,act,significant-investments-review-act-2024,1.0,1.0,1.0,1.0,1.0,90.234,1.0,1.0,1.0,1.0,False,Purpose stated exactly.
+darien-091,lay_language,act,rubber-industry-act-1992,1.0,1.0,0.25,0.4307,1.0,75.966,1.0,1.0,1.0,0.5042,False,"No; a licence is required to deal in, treat or store rubber."
+darien-092,provision_lookup,act,undesirable-publications-act-1967,1.0,1.0,1.0,1.0,1.0,117.653,1.0,1.0,1.0,1.0,False,Tends to deprave and corrupt likely readers.
+darien-093,lay_language,act,electronic-transactions-act-2010,1.0,1.0,1.0,1.0,1.0,99.396,1.0,1.0,0.5,0.6667,False,Valid despite no human review; extra provisions.
+darien-094,provision_lookup,act,goods-and-services-tax-act-1993,1.0,1.0,1.0,1.0,1.0,76.89,1.0,1.0,1.0,1.0,False,Part 1 of the Fourth Schedule.
+darien-095,provision_lookup,act,pensions-act-1956,1.0,1.0,1.0,1.0,1.0,65.457,1.0,1.0,1.0,0.8333,False,The President.
+darien-096,lay_language,act,innkeepers-act-1970,1.0,1.0,1.0,1.0,1.0,80.019,1.0,1.0,1.0,1.0,False,"Yes, by public auction after the statutory conditions."
+darien-097,provision_lookup,act,hire-purchase-act-1969,1.0,1.0,1.0,1.0,1.0,53.737,1.0,1.0,1.0,1.0,False,Implied term of satisfactory quality.
+darien-098,provision_lookup,act,stamp-duties-act-1929,1.0,1.0,0.5,0.6309,1.0,93.362,1.0,1.0,1.0,1.0,False,Exempt if the original or a counterpart was duly stamped.
+darien-099,provision_lookup,act,singapore-tourism-board-act-1963,1.0,1.0,1.0,1.0,1.0,88.737,1.0,1.0,1.0,1.0,False,The Minister appoints; the Chief Executive is excluded.
+darien-100,provision_lookup,act,inland-revenue-authority-of-singapore-act-1992,1.0,1.0,1.0,1.0,1.0,96.272,1.0,1.0,1.0,1.0,False,Lists the taxes as in s 6.
+darien-101,case_law,judgment,2003_SGHC_134-0030,1.0,1.0,0.3333,0.5,1.0,110.056,1.0,0.8333,1.0,0.4167,False,"$130,000; claim allowed with costs."
+darien-102,case_law,judgment,2003_SGHC_134-0001,1.0,1.0,1.0,1.0,1.0,141.027,1.0,1.0,1.0,0.6111,False,"Balance of the $250,361 contract price."
+darien-103,case_law,judgment,2005_SGHC_232-0001,1.0,1.0,1.0,1.0,1.0,98.184,1.0,1.0,1.0,1.0,False,Damages in negligence for the premises and equipment.
+darien-104,case_law,judgment,2005_SGHC_232-0020,1.0,1.0,0.3333,0.5,1.0,118.24,1.0,0.8,1.0,0.4658,False,Liability apportioned equally.
+darien-105,lay_language,judgment,2005_SGHC_232-0020,1.0,1.0,0.3333,0.5,1.0,94.189,1.0,1.0,1.0,0.5333,False,Yes; the landlord bore 50% for the duct grease.
+darien-106,case_law,judgment,2006_SGCA_43-0023,1.0,1.0,0.3333,0.5,1.0,79.73,1.0,1.0,1.0,0.3095,False,60% blame; 40% of the damages.
+darien-107,lay_language,judgment,2006_SGCA_43-0023,1.0,1.0,1.0,1.0,1.0,72.365,1.0,1.0,1.0,0.75,False,Yes; successful party despite apportionment; full costs.
+darien-108,case_law,judgment,2006_SGHC_235-0016,1.0,1.0,0.1667,0.3562,1.0,74.188,1.0,1.0,1.0,0.1667,False,85% costs because she was not wholly successful.
+darien-109,lay_language,judgment,2006_SGHC_235-0016,1.0,1.0,1.0,1.0,1.0,74.284,1.0,1.0,1.0,0.6917,False,Yes; unsafe system and an unsound cage.
+darien-110,case_law,judgment,2009_SGHC_172-0015,1.0,1.0,0.1429,0.3333,1.0,76.478,1.0,1.0,1.0,0.1429,False,Bullock order; reasons for suing both defendants given.
+darien-111,case_law,judgment,2012_SGHC_251-0006,1.0,1.0,0.3333,0.5,1.0,78.036,1.0,1.0,1.0,1.0,False,50% for not wearing the gloves he knew were required.
+darien-112,lay_language,judgment,2012_SGHC_251-0006,1.0,1.0,0.3333,0.5,1.0,92.025,1.0,1.0,1.0,0.3655,False,Yes; damages are reduced for contributory negligence; cites the 50% glove case.
+darien-113,case_law,judgment,2012_SGHC_99-0055,0.0,0.0,0.0,0.0,0.0,142.166,0.5,1.0,1.0,0.2844,False,"Bases (negligence and occupier's liability) right, but says the costs order is not disclosed; the gold passage was not retrieved."
+darien-114,multi_hop,judgment,2012_SGHC_99-0055,1.0,1.0,0.1,0.2891,1.0,81.233,1.0,1.0,1.0,0.2667,False,"$60,000 after the one-third reduction."
+darien-115,case_law,judgment,2013_SGHC_93-0017,1.0,1.0,0.2,0.3869,1.0,76.89,1.0,1.0,1.0,0.2667,False,"First defendant, under a Bullock order."
+darien-116,lay_language,judgment,2013_SGHC_93-0017,1.0,1.0,0.5,0.6309,1.0,143.045,1.0,1.0,0.5,0.6804,False,"Yes, in principle, via a Bullock order if it was reasonable to sue all; long."
+darien-117,case_law,judgment,2014_SGHC_136-0022,1.0,1.0,0.3333,0.5,1.0,90.15,1.0,0.8,1.0,0.8056,False,Jointly and severally liable; 50/50 between them.
+darien-118,lay_language,judgment,2014_SGHC_136-0001,0.0,0.0,0.0,0.0,0.0,56.871,0.0,1.0,0.5,0.0,True,Retrieved an unrelated case and said the facts could not be found.
+darien-119,case_law,judgment,2014_SGHC_177-0069,1.0,1.0,0.25,0.4307,1.0,102.971,1.0,1.0,0.5,0.4693,False,"50% reduction, with reasoning; long."
+darien-120,lay_language,judgment,2014_SGHC_177-0001,1.0,1.0,1.0,1.0,1.0,68.666,1.0,1.0,1.0,1.0,False,"L1 burst fracture, T12 dislocation, paralysis."
+darien-121,case_law,judgment,2015_SGHC_113-0013,1.0,1.0,0.3333,0.5,1.0,74.515,1.0,1.0,1.0,0.3333,False,"$12,000."
+darien-122,multi_hop,judgment,2015_SGHC_113-0013,1.0,1.0,0.125,0.3155,1.0,166.499,1.0,1.0,0.5,0.5549,False,"Reaches $18,010.23 and $9,005.115 after a long detour through the amounts claimed."
+darien-123,lay_language,judgment,2015_SGHC_113-0001,1.0,1.0,0.3333,0.5,1.0,68.251,1.0,1.0,1.0,0.3333,False,No; 50% liability.
+darien-124,case_law,judgment,2016_SGHC_271-0012,0.0,0.0,0.0,0.0,0.0,82.769,1.0,1.0,1.0,0.2936,False,"Appeal dismissed, with the reasons, though the costs order is omitted; the gold passage was not in the top 10."
+darien-125,lay_language,judgment,2016_SGHC_271-0012,1.0,1.0,0.1429,0.3333,1.0,112.922,1.0,1.0,1.0,0.8095,False,"Captures the court's refusal to sanction secret loans, with the Court of Appeal's non-recourse nuance."
+darien-126,case_law,judgment,2016_SGHC_89-0001,1.0,1.0,1.0,1.0,1.0,66.784,1.0,1.0,1.0,0.6811,False,Equal fault; interlocutory judgment for 50%.
+darien-127,case_law,judgment,2016_SGHC_89-0027,1.0,1.0,0.25,0.4307,1.0,78.048,1.0,1.0,1.0,0.7401,False,"Plaintiff's appeal allowed, defendant's dismissed; the 50% finding was unsupported."
+darien-128,lay_language,judgment,2016_SGHC_89-0027,1.0,1.0,0.5,0.6309,1.0,72.798,1.0,1.0,1.0,0.8625,False,No; he was not told of the over-inflation.
+darien-129,case_law,judgment,2017_SGHC_109-0025,1.0,1.0,0.2,0.3869,1.0,78.311,1.0,1.0,1.0,0.3516,False,"20% / 80%, joint and several."
+darien-130,lay_language,judgment,2017_SGHC_109-0001,1.0,1.0,0.5,0.6309,1.0,146.536,1.0,1.0,1.0,0.4167,False,Yes; 80% interlocutory judgment.
+darien-131,case_law,judgment,2017_SGHC_235-0024,1.0,1.0,0.3333,0.5,1.0,70.474,1.0,1.0,1.0,0.3333,False,Blunderbuss pleading; 29-page statement of claim.
+darien-132,lay_language,judgment,2017_SGHC_235-0001,0.0,0.0,0.0,0.0,0.0,92.201,0.0,1.0,0.5,0.0,True,Retrieved unrelated sources and said the injuries could not be found.
+darien-133,case_law,judgment,2018_SGCA_22-0002,0.0,0.0,0.0,0.0,0.0,103.075,0.5,0.75,1.0,0.4484,False,"Outcome (appeal allowed) is right, but the date is wrong: it was heard and allowed on 17 January 2018; the gold passage was not retrieved."
+darien-134,case_law,judgment,2018_SGHC_22-0020,1.0,1.0,0.2,0.3869,1.0,105.908,1.0,1.0,0.5,0.5556,False,"Liable, reduced to 65%; very long."
+darien-135,multi_hop,judgment,2018_SGHC_22-0020,0.0,0.0,0.0,0.0,0.0,103.815,0.0,1.0,0.5,0.8681,True,"Did not retrieve the 65% passage, so said the sum could not be determined."
+darien-136,lay_language,judgment,2018_SGHC_22-0020,1.0,1.0,0.1111,0.301,1.0,97.324,1.0,1.0,0.5,0.7545,False,Employer's duty anticipates worker carelessness; long.
+darien-137,case_law,judgment,2018_SGHC_264-0054,1.0,1.0,0.3333,0.5,1.0,63.697,1.0,1.0,1.0,0.3333,False,Both defendants successful; nominal damages only.
+darien-138,case_law,judgment,2019_SGCA_51-0001,1.0,1.0,0.5,0.6309,1.0,89.6,1.0,1.0,1.0,0.7833,False,"Appeal dismissed; only sub-cl (a) breached, no causation."
+darien-139,case_law,judgment,2019_SGCA_51-0006,1.0,1.0,0.1111,0.301,1.0,85.289,1.0,1.0,1.0,0.1111,False,No ground to pierce the veil; Prest left open.
+darien-140,lay_language,judgment,2019_SGCA_51-0006,0.0,0.0,0.0,0.0,0.0,129.209,1.0,1.0,0.5,0.8078,False,"No, control alone is not enough; answered from the High Court decision."
+darien-141,case_law,judgment,2020_SGHC_69-0003,1.0,1.0,0.25,0.4307,1.0,81.81,1.0,1.0,1.0,0.9167,False,Own recklessness; appeal dismissed with costs.
+darien-142,lay_language,judgment,2020_SGHC_69-0003,1.0,1.0,1.0,1.0,1.0,73.931,1.0,1.0,0.5,0.6245,False,Correct meaning; extended comparison with contributory negligence.
+darien-143,lay_language,judgment,2020_SGHC_69-0003,1.0,1.0,1.0,1.0,1.0,86.139,1.0,1.0,0.5,0.7902,False,"No, not automatically; long statutory digression."
+darien-144,case_law,judgment,2021_SGHC_123-0068,1.0,1.0,0.3333,0.5,1.0,75.051,1.0,1.0,1.0,0.376,False,Not the same; good faith is not part of Singapore law.
+darien-145,case_law,judgment,2022_SGHCA_8-0040,1.0,1.0,0.25,0.4307,1.0,91.151,1.0,1.0,1.0,0.4533,False,Freedom of contract and exit; notice cuts both ways.
+darien-146,lay_language,judgment,2022_SGHCA_8-0040,1.0,1.0,0.25,0.4307,1.0,83.656,1.0,1.0,1.0,0.7754,False,No good reason needed; the court refused to restrict notice clauses.
+darien-147,case_law,judgment,2021_SGHC_190-0023,1.0,1.0,0.3333,0.5,1.0,62.241,1.0,1.0,1.0,0.826,False,"Value at the time and place of destruction, by replacement cost."
+darien-148,lay_language,judgment,2021_SGHC_190-0023,0.0,0.0,0.0714,0.0,1.0,81.117,1.0,1.0,0.5,0.8193,False,Replacement cost at the time and place of destruction; long.
+darien-149,multi_hop,judgment,2021_SGHC_190-0023,1.0,1.0,0.25,0.4307,1.0,76.129,1.0,1.0,1.0,0.25,False,"$652,728.34 with the components."
+darien-150,case_law,judgment,2021_SGHC_203-0126,0.0,0.0,0.0526,0.0,1.0,110.819,1.0,1.0,0.5,0.5965,False,Breach by allowing lithium batteries into the general-waste skip; long; gold ranked low.
+darien-151,lay_language,judgment,2021_SGHC_203-0001,1.0,1.0,1.0,1.0,1.0,79.25,1.0,1.0,1.0,0.6988,False,Unsealed lithium batteries in the skip bin.
+darien-152,case_law,judgment,2022_SGHC_179-0062,1.0,1.0,0.25,0.4307,1.0,149.871,1.0,1.0,0.5,0.6838,False,"All claims dismissed, indemnity costs."
+darien-153,case_law,judgment,2022_SGHC_205-0071,1.0,1.0,0.3333,0.5,1.0,118.002,1.0,1.0,1.0,0.3333,False,Dismissed; no loss or detriment shown on the logo issue.
+darien-154,lay_language,judgment,2022_SGHC_296-0019,1.0,1.0,1.0,1.0,1.0,77.093,1.0,1.0,1.0,1.0,False,"All or nothing, or a fair discount."
+darien-155,case_law,judgment,2022_SGHC_310-0060,1.0,1.0,0.125,0.3155,1.0,68.767,1.0,1.0,1.0,0.125,False,"USD6,136,112."
+darien-156,lay_language,judgment,2022_SGHC_310-0060,0.0,0.0,0.0588,0.0,1.0,77.824,1.0,1.0,0.5,0.5423,False,"Yes, contract and alternatively negligence; long."
+darien-157,case_law,judgment,2022_SGHC_39-0007,1.0,1.0,0.3333,0.5,1.0,68.673,1.0,1.0,1.0,0.81,False,"Yes, Chuah failed to exercise due care."
+darien-158,lay_language,judgment,2022_SGHC_39-0101,1.0,1.0,1.0,1.0,1.0,75.899,1.0,1.0,1.0,0.625,False,Multiple tickets should have alerted the agent.
+darien-159,case_law,judgment,2022_SGHCA_11-0019,1.0,1.0,0.2,0.3869,1.0,91.62,1.0,1.0,0.5,0.8277,False,Wrotham Park claim rejected; long framework discussion.
+darien-160,case_law,judgment,2023_SGHC_23-0062,1.0,1.0,0.25,0.4307,1.0,75.004,1.0,1.0,1.0,0.25,False,"RMB400,000 at 5.33% from the writ."
+darien-161,case_law,judgment,2023_SGHCI_13-0129,1.0,1.0,0.25,0.4307,1.0,94.49,1.0,1.0,0.5,0.3699,False,"US$2,700,198 for deceit and breach of trust; long."
+darien-162,case_law,judgment,2024_SGHC_36-0045,1.0,1.0,0.1,0.2891,1.0,60.505,1.0,1.0,1.0,0.2,False,10%; 90% judgment.
+darien-163,lay_language,judgment,2024_SGHC_36-0045,0.0,0.0,0.0,0.0,0.0,82.405,1.0,1.0,1.0,0.6082,False,"Yes, for failing to coordinate the neighbouring worksite."
+darien-164,case_law,judgment,2024_SGHCI_32-0095,1.0,1.0,0.1,0.2891,1.0,64.45,1.0,1.0,0.5,0.3364,False,Dismissed with costs; long list of findings.
+darien-165,lay_language,judgment,2024_SGHCI_32-0001,1.0,1.0,1.0,1.0,1.0,91.867,1.0,1.0,0.5,0.529,False,Alleged the representations were false and made fraudulently or negligently; long.
+darien-166,case_law,judgment,2025_SGHC_124-0054,1.0,1.0,0.3333,0.5,1.0,80.211,1.0,1.0,0.5,0.747,False,No accident as pleaded; long.
+darien-167,lay_language,judgment,2025_SGHC_124-0054,1.0,1.0,1.0,1.0,1.0,117.488,1.0,1.0,0.5,0.7743,False,No; sentiment is not the compass; long.
+darien-168,case_law,judgment,2026_SGHC_189-0052,0.0,0.0,0.0625,0.0,1.0,100.329,1.0,1.0,0.5,0.4204,False,Claims dismissed with costs; gold ranked 16th.
+darien-169,case_law,judgment,2017_SGHC_102-0122,1.0,1.0,0.3333,0.5,1.0,63.739,1.0,1.0,0.5,0.5973,False,"US$15,960,654.65 with the calculation."
+darien-170,multi_hop,judgment,2017_SGHC_102-0122,1.0,1.0,0.3333,0.5,1.0,76.629,1.0,1.0,1.0,0.3333,False,"S$39,208.38."
+darien-171,multi_hop,mixed,2017_SGHC_102-0074|sale-of-goods-act-1979,1.0,1.0,0.3333,0.5,1.0,83.249,1.0,1.0,1.0,0.2778,False,"s 14(3), reasonably fit for the purpose made known."
+darien-172,multi_hop,mixed,2017_SGHC_102-0072|sale-of-goods-act-1979,1.0,1.0,0.3333,0.5,1.0,75.09,1.0,1.0,1.0,0.486,False,Free from defects not apparent on examination of the sample.
+darien-173,multi_hop,mixed,2022_SGHC_39-0094|sale-of-goods-act-1979,1.0,0.5,0.3333,0.3066,0.5,53.464,1.0,1.0,1.0,0.3333,False,Satisfactory quality under s 14(2).
+darien-174,multi_hop,mixed,2018_SGHC_264-0031|unfair-contract-terms-act-1977,1.0,1.0,0.3333,0.525,1.0,51.429,1.0,1.0,1.0,0.2937,False,"Reasonableness requirement under s 2(2), with s 11 explained."
+darien-175,multi_hop,mixed,2022_SGHC_179-0012|unfair-contract-terms-act-1977,1.0,0.5,0.3333,0.3066,0.5,83.486,1.0,1.0,0.5,0.7148,False,International supply contract under s 26; long.
+darien-176,multi_hop,mixed,2022_SGHC_39-0050|unfair-contract-terms-act-1977,1.0,1.0,0.3333,0.525,1.0,76.941,1.0,1.0,1.0,0.545,False,Dealing as consumer; s 3(2)(a) bars excluding liability for breach.
+darien-177,multi_hop,mixed,2024_SGHCI_32-0086|misrepresentation-act-1967,1.0,1.0,0.3333,0.5,1.0,89.87,1.0,1.0,1.0,0.3117,False,Damages in lieu of rescission under s 2(2).
+darien-178,multi_hop,mixed,2022_SGHC_296-0002|employment-act-1968,1.0,1.0,1.0,0.8316,1.0,71.91,1.0,1.0,1.0,0.6667,False,"Four weeks, for 5 years or more."
+darien-179,multi_hop,mixed,2018_SGHC_264-0031|contracts-rights-of-third-parties-act-2001,1.0,0.5,0.3333,0.3066,1.0,61.32,1.0,1.0,1.0,0.2458,False,Express provision or a purported benefit.
+darien-180,multi_hop,mixed,2017_SGHC_109-0016|employment-of-foreign-manpower-act-1990,1.0,0.5,0.25,0.2641,0.5,117.331,0.5,1.0,1.0,0.9167,False,"Gives EFMA s 5 correctly, but describes the defendants' argument as a work-permit point rather than a bar on moonlighting; that passage was not retrieved."
+darien-181,multi_hop,act,misrepresentation-act-1967|unfair-contract-terms-act-1977,1.0,1.0,1.0,1.0,1.0,86.777,1.0,1.0,1.0,1.0,False,s 11(1) fair and reasonable test.
+darien-182,multi_hop,act,holidays-act-1998|employment-act-1968,1.0,1.0,1.0,1.0,1.0,66.535,1.0,1.0,1.0,1.0,False,Next day is a holiday; next working day after the rest day is paid.
+darien-183,multi_hop,act,employment-act-1968|employment-claims-act-2016,1.0,1.0,0.1667,0.4228,1.0,109.219,0.0,0.0,0.0,0.2262,False,Empty answer: generation returned no text.
+darien-184,multi_hop,act,income-tax-act-1947|inland-revenue-authority-of-singapore-act-1992,1.0,0.5,1.0,0.6131,0.5,62.207,1.0,1.0,1.0,0.6,False,IRAS.
+darien-185,multi_hop,act,property-tax-act-1960|inland-revenue-authority-of-singapore-act-1992,1.0,1.0,1.0,0.9197,1.0,60.899,1.0,1.0,1.0,0.8333,False,36%; IRAS collects.
+darien-186,multi_hop,act,copyright-act-2021|patents-act-1994,1.0,1.0,1.0,1.0,1.0,140.602,1.0,1.0,0.5,0.9667,False,"Employer owns both, with the statutory conditions; long."
+darien-187,multi_hop,act,trade-marks-act-1998|geographical-indications-act-2014,1.0,1.0,0.2,0.4416,1.0,84.269,1.0,1.0,0.5,0.2379,False,"Both 10 years, renewable; extra material."
+darien-188,multi_hop,act,registered-designs-act-2000|patents-act-1994,1.0,1.0,1.0,0.7977,1.0,96.215,1.0,1.0,0.5,0.5894,False,15 years against 20 years; long.
+darien-189,multi_hop,judgment,2017_SGHC_109-0021|2006_SGCA_43-0023,1.0,1.0,0.25,0.4486,1.0,75.726,1.0,1.0,1.0,0.3826,False,Fell through an unfenced opening; 60% blame.
+darien-190,multi_hop,judgment,2017_SGHC_109-0025|2006_SGCA_43-0023,1.0,0.5,0.1,0.1772,0.5,80.589,1.0,1.0,1.0,0.1625,False,Successful party despite the apportionment.
+darien-191,multi_hop,judgment,2017_SGHC_109-0022|2012_SGHC_99-0055,1.0,1.0,0.125,0.378,1.0,100.137,1.0,1.0,0.5,0.4385,False,"One-third, foot in the wrong place; TEE liable in negligence and as occupier; long."
+darien-192,multi_hop,judgment,2018_SGHC_22-0018|2014_SGHC_177-0069,1.0,1.0,0.2,0.4416,1.0,67.7,1.0,1.0,1.0,0.2873,False,Improperly rigged rebar cage collapsed; 50% reduction.
+darien-193,multi_hop,judgment,2017_SGHC_235-0012|2024_SGHC_36-0010,1.0,1.0,1.0,0.8066,1.0,75.824,1.0,1.0,1.0,0.5635,False,Four-fold test; Spandeck two-stage approach.
+darien-194,multi_hop,judgment,2024_SGHC_36-0040|2013_SGHC_93-0017,1.0,1.0,0.1667,0.4228,1.0,74.93,1.0,1.0,1.0,0.2758,False,30%; first defendant under a Bullock order.
+darien-195,multi_hop,judgment,2024_SGHC_36-0041|2024_SGHC_36-0045,1.0,0.5,0.2,0.2372,0.5,117.699,0.5,1.0,1.0,0.4196,False,Distinguishes Neo correctly but says the appellant's final percentage (10%) is not disclosed; the gold 10% passage was not retrieved.
+darien-196,multi_hop,judgment,2012_SGHC_99-0048|2009_SGHC_172-0015,1.0,0.5,0.2,0.2372,0.5,104.107,0.5,1.0,1.0,0.6865,False,Explains why reliance was misplaced but says the Ma HongFei costs order is not disclosed; that passage was not retrieved.
+darien-197,multi_hop,judgment,2016_SGHC_271-0002|2018_SGCA_22-0002,1.0,0.5,0.1111,0.1846,1.0,87.324,1.0,1.0,1.0,0.4008,False,Double recovery; the Court of Appeal allowed the appeal.
+darien-198,multi_hop,judgment,2016_SGHC_271-0012|2018_SGCA_22-0026,1.0,0.5,0.1429,0.2044,1.0,97.26,1.0,1.0,1.0,0.2642,False,No sanction of secret loans; Sun Delong only partly accepted.
+darien-199,multi_hop,judgment,2018_SGHC_264-0054|2019_SGCA_51-0001,1.0,0.5,1.0,0.6131,1.0,93.098,1.0,1.0,0.5,0.7609,False,Breach of sub-cl (a) only with nominal damages; appeal dismissed; long.
+darien-200,multi_hop,judgment,2021_SGHC_123-0068|2022_SGHCA_8-0001,1.0,0.5,1.0,0.6131,0.5,79.726,1.0,1.0,0.5,0.5989,False,"Mutual trust accepted, good faith not; appeal dismissed; long."

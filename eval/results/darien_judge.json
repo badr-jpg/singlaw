@@ -1,0 +1,75 @@
+{
+  "overall": {
+    "n": 200,
+    "faithfulness": 0.9822,
+    "answer_correctness": 0.94,
+    "answer_relevancy": 0.8575,
+    "context_precision": 0.6685,
+    "context_recall": 0.925,
+    "refused": 0.03
+  },
+  "source=act": {
+    "n": 108,
+    "faithfulness": 0.9745,
+    "answer_correctness": 0.9398,
+    "answer_relevancy": 0.8611,
+    "context_precision": 0.7948,
+    "context_recall": 0.9676,
+    "refused": 0.0278
+  },
+  "source=judgment": {
+    "n": 82,
+    "faithfulness": 0.99,
+    "answer_correctness": 0.939,
+    "answer_relevancy": 0.8415,
+    "context_precision": 0.5254,
+    "context_recall": 0.878,
+    "refused": 0.0366
+  },
+  "source=mixed": {
+    "n": 10,
+    "faithfulness": 1.0,
+    "answer_correctness": 0.95,
+    "answer_relevancy": 0.95,
+    "context_precision": 0.4791,
+    "context_recall": 0.85,
+    "refused": 0.0
+  },
+  "type=case_law": {
+    "n": 40,
+    "faithfulness": 0.9796,
+    "answer_correctness": 0.975,
+    "answer_relevancy": 0.875,
+    "context_precision": 0.4943,
+    "context_recall": 0.925,
+    "refused": 0.0
+  },
+  "type=lay_language": {
+    "n": 60,
+    "faithfulness": 0.9833,
+    "answer_correctness": 0.925,
+    "answer_relevancy": 0.8167,
+    "context_precision": 0.6828,
+    "context_recall": 0.9167,
+    "refused": 0.05
+  },
+  "type=multi_hop": {
+    "n": 40,
+    "faithfulness": 0.9563,
+    "answer_correctness": 0.8875,
+    "answer_relevancy": 0.8625,
+    "context_precision": 0.5455,
+    "context_recall": 0.875,
+    "refused": 0.025
+  },
+  "type=provision_lookup": {
+    "n": 60,
+    "faithfulness": 1.0,
+    "answer_correctness": 0.9667,
+    "answer_relevancy": 0.8833,
+    "context_precision": 0.8525,
+    "context_recall": 0.9667,
+    "refused": 0.0333
+  },
+  "method": "Judged by Claude (claude-opus-5-5) in a chat session using the eval/judge_claude.py rubric: correctness and relevancy scored 1/0.5/0, the answer's claims counted with unsupported ones listed, refusals flagged. relevant_sources = sources containing a gold evidence quote plus cited sources the judge did not mark irrelevant."
+}

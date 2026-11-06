@@ -1,0 +1,9 @@
+question_id,question_type,source_type,gold_doc_ids,Hit@10,R@10,MRR,nDCG@10,context_recall,latency_answer_s,answer_correctness,faithfulness,answer_relevancy,context_precision,refused,judge_reason
+darien-033,lay_language,act,unfair-contract-terms-act-1977,1.0,1.0,0.5,0.6309,1.0,41.302,1.0,1.0,1.0,0.3547,False,Fixed on rerun: UCTA s 2(1) retrieved; negligence exclusions for personal injury are void.
+darien-034,provision_lookup,act,unfair-contract-terms-act-1977,0.0,0.0,0.0,0.0,0.0,1.511,0.0,1.0,0.0,0.0,True,Still refused as out of scope (UCTA treated as UK law).
+darien-040,provision_lookup,act,patents-act-1994,1.0,1.0,1.0,1.0,1.0,50.108,1.0,1.0,1.0,0.5436,False,Fixed on rerun: scope check passed; the s 14 novelty test is stated.
+darien-069,multi_hop,act,trade-unions-act-1940,1.0,1.0,1.0,1.0,1.0,57.945,1.0,0.6667,1.0,0.6429,False,Fixed on rerun: 6 months in the aggregate.
+darien-113,case_law,judgment,2012_SGHC_99-0055,0.0,0.0,0.0,0.0,0.0,86.725,0.5,1.0,1.0,0.6099,False,Bases right; the costs order is still missing; the gold passage was not retrieved.
+darien-118,lay_language,judgment,2014_SGHC_136-0001,0.0,0.0,0.0,0.0,0.0,46.218,0.0,1.0,0.5,1.0,True,Still retrieved an unrelated case and declined.
+darien-132,lay_language,judgment,2017_SGHC_235-0001,0.0,0.0,0.0,0.0,0.0,64.734,0.0,1.0,0.5,0.3472,True,Still could not find the Paya Lebar case.
+darien-135,multi_hop,judgment,2018_SGHC_22-0020,0.0,0.0,0.0,0.0,0.0,128.694,0.0,1.0,0.5,0.7335,True,Still missed the 65% passage; no figure given.
