@@ -1,4 +1,4 @@
-.PHONY: setup dev frontend-dev build test eval benchmark seed index sync clean
+.PHONY: setup dev frontend-dev build test eval seed index sync clean
 
 # Pinned so everyone runs the same index. Update it when a new one is published.
 INDEX_REPO := badlaldh/singlaw-vdb
@@ -23,11 +23,6 @@ test:             ## backend test suite (stub models, offline)
 # NOTE: stop `make dev` before `make eval` — embedded Qdrant is single-process
 eval:             ## retrieval + grounding evaluation
 	cd backend && uv run python ../eval/run_eval.py
-
-# e.g. make benchmark NAME=sumo — needs the published index (make index).
-# Judge is Claude: the Anthropic SDK if ANTHROPIC_API_KEY is set, else the claude CLI.
-benchmark:        ## run SingLaw on data/export/benchmark/$(NAME).csv, graded by Claude
-	cd backend && uv run --with anthropic python ../eval/run_benchmark.py --csv ../data/export/benchmark/$(NAME).csv
 
 seed:             ## load the bundled archive into Qdrant (no crawling)
 	cd backend && uv run python -m app.crawler seed --archive ../data/archive
