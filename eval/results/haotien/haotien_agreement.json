@@ -1,0 +1,306 @@
+{
+ "n": 200,
+ "items_reannotated": 4,
+ "reannotated_ids": [
+  "haotien-018",
+  "haotien-039",
+  "haotien-071",
+  "haotien-098"
+ ],
+ "final": {
+  "reference_label": {
+   "pairwise": {
+    "AB": {
+     "agreement": 0.97,
+     "cohen_kappa": 0.6842
+    },
+    "AC": {
+     "agreement": 0.965,
+     "cohen_kappa": 0.5706
+    },
+    "BC": {
+     "agreement": 0.975,
+     "cohen_kappa": 0.6933
+    }
+   },
+   "mean_pairwise_agreement": 0.97,
+   "all_three_agree": 0.955,
+   "fleiss_kappa": 0.651,
+   "counts": {
+    "A": {
+     "correct": 190,
+     "partial": 10
+    },
+    "B": {
+     "correct": 190,
+     "partial": 10
+    },
+    "C": {
+     "correct": 193,
+     "partial": 7
+    }
+   }
+  },
+  "answerable": {
+   "pairwise": {
+    "AB": {
+     "agreement": 0.995,
+     "cohen_kappa": 0.8547
+    },
+    "AC": {
+     "agreement": 0.99,
+     "cohen_kappa": 0.6616
+    },
+    "BC": {
+     "agreement": 0.995,
+     "cohen_kappa": 0.8547
+    }
+   },
+   "mean_pairwise_agreement": 0.9933,
+   "all_three_agree": 0.99,
+   "fleiss_kappa": 0.7966,
+   "counts": {
+    "A": {
+     "yes": 197,
+     "no": 3
+    },
+    "B": {
+     "yes": 196,
+     "no": 4
+    },
+    "C": {
+     "yes": 197,
+     "no": 3
+    }
+   }
+  },
+  "standalone": {
+   "pairwise": {
+    "AB": {
+     "agreement": 1.0,
+     "cohen_kappa": 1.0
+    },
+    "AC": {
+     "agreement": 1.0,
+     "cohen_kappa": 1.0
+    },
+    "BC": {
+     "agreement": 1.0,
+     "cohen_kappa": 1.0
+    }
+   },
+   "mean_pairwise_agreement": 1.0,
+   "all_three_agree": 1.0,
+   "fleiss_kappa": 1.0,
+   "counts": {
+    "A": {
+     "yes": 200
+    },
+    "B": {
+     "yes": 200
+    },
+    "C": {
+     "yes": 200
+    }
+   }
+  }
+ },
+ "first_pass": {
+  "reference_label": {
+   "pairwise": {
+    "AB": {
+     "agreement": 0.975,
+     "cohen_kappa": 0.8044
+    },
+    "AC": {
+     "agreement": 0.97,
+     "cohen_kappa": 0.7379
+    },
+    "BC": {
+     "agreement": 0.975,
+     "cohen_kappa": 0.7899
+    }
+   },
+   "mean_pairwise_agreement": 0.9733,
+   "all_three_agree": 0.96,
+   "fleiss_kappa": 0.7785,
+   "counts": {
+    "A": {
+     "correct": 187,
+     "incorrect": 4,
+     "partial": 9
+    },
+    "B": {
+     "correct": 186,
+     "incorrect": 4,
+     "partial": 10
+    },
+    "C": {
+     "correct": 189,
+     "incorrect": 4,
+     "partial": 7
+    }
+   }
+  },
+  "answerable": {
+   "pairwise": {
+    "AB": {
+     "agreement": 0.995,
+     "cohen_kappa": 0.9307
+    },
+    "AC": {
+     "agreement": 0.99,
+     "cohen_kappa": 0.852
+    },
+    "BC": {
+     "agreement": 0.995,
+     "cohen_kappa": 0.9307
+    }
+   },
+   "mean_pairwise_agreement": 0.9933,
+   "all_three_agree": 0.99,
+   "fleiss_kappa": 0.9056,
+   "counts": {
+    "A": {
+     "yes": 193,
+     "no": 7
+    },
+    "B": {
+     "yes": 192,
+     "no": 8
+    },
+    "C": {
+     "yes": 193,
+     "no": 7
+    }
+   }
+  },
+  "standalone": {
+   "pairwise": {
+    "AB": {
+     "agreement": 1.0,
+     "cohen_kappa": 1.0
+    },
+    "AC": {
+     "agreement": 1.0,
+     "cohen_kappa": 1.0
+    },
+    "BC": {
+     "agreement": 1.0,
+     "cohen_kappa": 1.0
+    }
+   },
+   "mean_pairwise_agreement": 1.0,
+   "all_three_agree": 1.0,
+   "fleiss_kappa": 1.0,
+   "counts": {
+    "A": {
+     "yes": 200
+    },
+    "B": {
+     "yes": 200
+    },
+    "C": {
+     "yes": 200
+    }
+   }
+  }
+ },
+ "majority": {
+  "reference_label": {
+   "correct": 192,
+   "partial": 8
+  },
+  "answerable": {
+   "yes": 196,
+   "no": 4
+  },
+  "standalone": {
+   "yes": 200
+  }
+ },
+ "clean_items": 192,
+ "singlaw_correctness": {
+  "all_200": 0.9475,
+  "clean_items": 0.9453,
+  "label_correct": [
+   0.9453,
+   192
+  ],
+  "label_partial": [
+   1.0,
+   8
+  ]
+ },
+ "by_question_type": {
+  "case_law": {
+   "reference_label": {
+    "correct": 39,
+    "partial": 1
+   },
+   "answerable": {
+    "yes": 40
+   },
+   "standalone": {
+    "yes": 40
+   }
+  },
+  "lay_language": {
+   "reference_label": {
+    "correct": 55,
+    "partial": 5
+   },
+   "answerable": {
+    "yes": 57,
+    "no": 3
+   },
+   "standalone": {
+    "yes": 60
+   }
+  },
+  "multi_hop": {
+   "reference_label": {
+    "correct": 38,
+    "partial": 2
+   },
+   "answerable": {
+    "yes": 39,
+    "no": 1
+   },
+   "standalone": {
+    "yes": 40
+   }
+  },
+  "provision_lookup": {
+   "reference_label": {
+    "correct": 60
+   },
+   "answerable": {
+    "yes": 60
+   },
+   "standalone": {
+    "yes": 60
+   }
+  }
+ },
+ "flagged_incorrect": [],
+ "flagged_partial": [
+  "haotien-030",
+  "haotien-085",
+  "haotien-100",
+  "haotien-109",
+  "haotien-162",
+  "haotien-164",
+  "haotien-166",
+  "haotien-175"
+ ],
+ "flagged_not_standalone": [],
+ "flagged_not_answerable": [
+  "haotien-030",
+  "haotien-100",
+  "haotien-109",
+  "haotien-164"
+ ],
+ "disputed": [],
+ "partial_unanimous": 5
+}

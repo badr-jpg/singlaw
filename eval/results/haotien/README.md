@@ -10,6 +10,7 @@ pipeline, then graded against the gold answers.
 | `haotien.results.jsonl` | Per question: generated answer, retrieved sources, recall@1/5/10/20, timing (from `eval/run_benchmark.py`) |
 | `haotien.judged.jsonl` | Per question: `correctness` (correct/partial/incorrect), `faithful`, `cites_right_source`, rationale |
 | `haotien.gold_index_keys.json` | How each gold source is matched in the index (see "Recall scoring") |
+| `haotien_agreement.json`, `haotien_annotation_labels.csv`, `annotation/` | Three-annotator cross-check of the benchmark (see "Annotator cross-check") |
 
 ## Results
 
@@ -92,6 +93,56 @@ The benchmark's judgment gold IDs are passage IDs (e.g. `2004_SGHC_95-0005`), so
 `haotien.gold_index_keys.json` maps each one to the chunk citation the index uses
 (e.g. `[2004] SGHC 95 at [11]–[14]`). Comparing retrieved `doc_id`s with `gold_doc_ids` directly
 would score every judgment question as 0.
+
+## Annotator cross-check of the benchmark
+
+The benchmark itself was checked the same way as the other five partitions
+(`eval/scripts/annotation_instructions.md`, `build_sets.py` and `final_agreement.py` in the report
+pack): three independent annotators (A, B, C; separate Claude agents) each labelled all 200
+questions blind, from their own shuffled batches of 80 (seeds 101/202/303). Each item showed the
+question, reference answer, and evidence (quote plus up to 3,000 characters of the index chunk
+holding it); no SingLaw answers or judge scores. Labels: is the reference answer correct, is the
+question answerable from the evidence, is it standalone. Majority vote decides each label.
+
+**Correction pass.** For 4 items (018, 039, 071, 098) the first batches showed text from the
+wrong section, because a generic penalty phrase in the quote also appears in another section.
+Annotators B and C flagged this. Those 4 were rebuilt with the cited section and re-labelled by
+three fresh annotators; their labels replace the first pass (as the team did for its 135 items).
+
+| Label | Mean pairwise agreement | All three agree | Fleiss' kappa |
+|---|---|---|---|
+| Reference answer correct | 0.970 | 0.955 | 0.651 |
+| Answerable | 0.993 | 0.990 | 0.797 |
+| Standalone | 1.000 | 1.000 | 1.000 |
+
+(First pass, before the correction: 0.973 / 0.960 / 0.779 for the reference label. Kappa was
+higher only because all three agreed on the 4 wrong-section items as "incorrect".)
+
+**Majority labels:** 192 correct, 8 partial, 0 incorrect; 196 answerable; 200 standalone;
+none disputed. **192 questions are clean** (correct, answerable and standalone).
+`provision_lookup` questions were all clean.
+
+**SingLaw on clean questions: 0.945**, against 0.948 on all 200, so the flagged questions do not
+distort the results (SingLaw scored 1.0 on the 8 partial ones).
+
+Flagged questions (notes in `haotien_annotation_labels.csv`):
+
+| Question | Votes (ref; answerable) | Issue |
+|---|---|---|
+| 030 | 3 partial; 3 no | Evidence doesn't show that following someone is a contravention of ss 3–7 |
+| 164 | 3 partial; 3 no | Reference gives only the defendants' arguments, not what the court held |
+| 166 | 3 partial | Leaves out the stated ground (claim legally and factually unsustainable) |
+| 175 | 3 partial | 100% judgment and 65/35 split are not in this item's evidence |
+| 085 | 3 partial | One condition comes from s 4, but only s 3 is in the evidence |
+| 109 | 2 partial; 2 no | Evidence doesn't show the will was invalid because of the signing |
+| 162 | 2 partial | Doesn't say what legal consequences follow |
+| 100 | 2 partial; 2 no | Evidence covers the s 378 definition, not the s 379 penalty |
+| 098 | 1 partial (fix pass) | Omits the up-to-6-strokes caning for a first offence (majority: correct) |
+
+Files: `haotien_agreement.json` (all statistics), `haotien_annotation_labels.csv` (majority
+label, votes and notes per question), and `annotation/` (raw labels, correction pass, manifests,
+the batch builders, checker, and `haotien_agreement.py`, which reproduces the numbers:
+`cd annotation && python haotien_agreement.py ../haotien.judged.jsonl ..`).
 
 ## Judging
 
