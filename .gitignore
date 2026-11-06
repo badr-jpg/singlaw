@@ -33,6 +33,8 @@ data/*.log
 
 # generated
 eval/results.json
+eval/results_*.json
+eval/results_*.jsonl
 
 # env
 .env
