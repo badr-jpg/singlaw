@@ -1,0 +1,30 @@
+{
+ "documents": {
+  "act": 512,
+  "judgment": 214
+ },
+ "documents_total": 726,
+ "chunks": {
+  "act": 33160,
+  "judgment": 10000
+ },
+ "chunks_total": 43160,
+ "words": {
+  "act": 8536101,
+  "judgment": 2993908
+ },
+ "words_total": 11530009,
+ "types_unique_words": 56803,
+ "chunk_words_p10_p50_p90": [
+  49,
+  257,
+  586
+ ],
+ "tokenizer": "lowercase regex [a-z0-9]+(?:['\u2019-][a-z0-9]+)*",
+ "source_passages_judgments": 10000,
+ "source": {
+  "acts": "Kaidon-Ng/singapore-statutes @ 8b81a0c",
+  "judgments": "badlaldh/singapore-judgments @ 290e968",
+  "index": "badlaldh/singlaw-vdb @ aecbff9"
+ }
+}

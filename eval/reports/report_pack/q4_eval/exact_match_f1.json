@@ -1,0 +1,86 @@
+{
+ "overall": {
+  "n": 1000,
+  "exact_match": 0.001,
+  "token_precision": 0.1983,
+  "token_recall": 0.7788,
+  "token_f1": 0.2823
+ },
+ "by_person": {
+  "badr": {
+   "n": 200,
+   "exact_match": 0.0,
+   "token_precision": 0.1557,
+   "token_recall": 0.8307,
+   "token_f1": 0.2408
+  },
+  "binyao": {
+   "n": 200,
+   "exact_match": 0.0,
+   "token_precision": 0.1973,
+   "token_recall": 0.7446,
+   "token_f1": 0.2829
+  },
+  "darien": {
+   "n": 200,
+   "exact_match": 0.0,
+   "token_precision": 0.191,
+   "token_recall": 0.7772,
+   "token_f1": 0.2746
+  },
+  "huang": {
+   "n": 200,
+   "exact_match": 0.0,
+   "token_precision": 0.2543,
+   "token_recall": 0.7857,
+   "token_f1": 0.3372
+  },
+  "sumo": {
+   "n": 200,
+   "exact_match": 0.005,
+   "token_precision": 0.1931,
+   "token_recall": 0.7558,
+   "token_f1": 0.2761
+  }
+ },
+ "by_type": {
+  "provision_lookup": {
+   "n": 300,
+   "exact_match": 0.0033,
+   "token_precision": 0.2804,
+   "token_recall": 0.8092,
+   "token_f1": 0.3775
+  },
+  "lay_language": {
+   "n": 300,
+   "exact_match": 0.0,
+   "token_precision": 0.1249,
+   "token_recall": 0.7518,
+   "token_f1": 0.1984
+  },
+  "case_law": {
+   "n": 200,
+   "exact_match": 0.0,
+   "token_precision": 0.1782,
+   "token_recall": 0.8015,
+   "token_f1": 0.2585
+  },
+  "multi_hop": {
+   "n": 200,
+   "exact_match": 0.0,
+   "token_precision": 0.2052,
+   "token_recall": 0.7509,
+   "token_f1": 0.2894
+  }
+ },
+ "clean_908": {
+  "n": 908,
+  "exact_match": 0.0011,
+  "token_precision": 0.2056,
+  "token_recall": 0.783,
+  "token_f1": 0.2913
+ },
+ "note": "Answers are long, cited explanations (median chars below); reference answers are 1-3 sentences. Token precision is structurally low, so these read lower than judged correctness.",
+ "median_answer_chars": 1031.0,
+ "median_reference_chars": 181.5
+}

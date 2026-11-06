@@ -37,27 +37,44 @@ See [docs/CORPUS.md](docs/CORPUS.md) for how the index is built and what it does
 | Ingestion | Window-guarded SSO crawler (05:00–07:00 SGT, per SSO terms), structure-aware legislation/judgment parsers, section-level chunking with derived context |
 | Frontend | React 19 · TypeScript · Vite · TanStack Router/Query · shadcn/ui · Tailwind v4 · streamdown |
 | Billing | Plan catalogue in code; Stripe Checkout optional (waitlist fallback) |
-| Tests | 93 backend (pytest, offline stub models) · 44 frontend (vitest) |
+| Tests | 139 backend (pytest, offline stub models) · 44 frontend (vitest) |
 
 Everything except the LLM call runs on your machine.
 
-## Quick start
+## Run it
 
-Requires [uv](https://docs.astral.sh/uv/) (Python ≥ 3.11) and Node ≥ 20.
+Requires [uv](https://docs.astral.sh/uv/) (Python ≥ 3.11) and Node ≥ 20. Nothing needs compiling beyond the frontend build below.
 
-```bash
-make setup                 # backend deps (uv sync) + frontend deps (npm install)
-cp .env.example .env       # set MINIMAX_API_KEY for generated answers
-make seed                  # index the bundled dev corpus into Qdrant
-make build                 # build the frontend
-make dev                   # → http://localhost:8000
-```
+1. **Install the dependencies.** Exact versions are pinned in `backend/uv.lock` and `frontend/package-lock.json`.
 
-The first `make seed` / `make dev` on the default `full` profile downloads the embedder and reranker (~2.2 GB) from Hugging Face. For quick iteration use small models: `MODEL_PROFILE=dev make seed && MODEL_PROFILE=dev make dev` (changing profile requires `make clean && make seed` — vector sizes differ).
+   ```bash
+   make setup
+   make build
+   ```
 
-Without an API key the system still works: retrieval is unaffected and answers fall back to a cited extractive listing.
+2. **Put the knowledge base in place.** Unzip the data archive, then copy its `index/` folders into `data/` so you have `data/qdrant`, `data/db` and `data/cache`. Team members with access to the private dataset can run `HF_TOKEN=... make index` instead.
+
+3. **Add an LLM key.** Copy `.env.example` to `.env` and set `MINIMAX_API_KEY`. Without a key, retrieval still works and answers fall back to a cited extractive listing.
+
+4. **Start the app.** The first run downloads the embedding and reranker models (about 2.2 GB) from Hugging Face.
+
+   ```bash
+   FUSION_TOP=50 RERANKER_MODEL=Qwen/Qwen3-Reranker-0.6B make dev
+   ```
+
+   Open http://localhost:8000. `FUSION_TOP=50` is the rerank depth used in the evaluation; the code default is 150, which is slower.
+
+Embedded Qdrant allows one process at a time, so stop the server before running anything else that opens the index.
+
+To try the app without the full index, use small models and the bundled test data instead: `MODEL_PROFILE=dev make seed && MODEL_PROFILE=dev make dev`.
+
+To rebuild the index from source, see [docs/CORPUS.md](docs/CORPUS.md).
 
 Routes: `/` chat · `/sources` corpus explorer · `/welcome` landing · `/billing` plans · `/terms`.
+
+## Reproduce the evaluation
+
+See [eval/README.md](eval/README.md).
 
 ## Development
 
